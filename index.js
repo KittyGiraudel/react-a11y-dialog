@@ -3,7 +3,7 @@ var A11yDialog = require('a11y-dialog')
 
 var Dialog = React.createClass({
   propTypes: {
-    // The HTML `id` attribute of the dialog element, internally used by 
+    // The HTML `id` attribute of the dialog element, internally used by
     // a11y-dialog to manipulate the dialog.
     id: React.PropTypes.string.isRequired,
 
@@ -95,24 +95,28 @@ var Dialog = React.createClass({
     const titleId = this.props.titleId || (id + '-title')
 
     return (
-      <div id={id}
-           className={classNames.base}
-           aria-hidden={!this.isDialogShown()}
-           ref={(node) => this.node = node}>
+      <div
+        id={id}
+        className={classNames.base}
+        aria-hidden={!this.isDialogShown()}
+        ref={(node) => (this.node = node)}>
 
-        <div tabIndex='-1'
-             className={classNames.overlay}
-             onClick={this.close} />
+        <div
+          tabIndex='-1'
+          className={classNames.overlay}
+          onClick={this.close} />
 
-        <div role='dialog'
-             className={classNames.element}
-             aria-labelledby={titleId}>
+        <div
+          role='dialog'
+          className={classNames.element}
+          aria-labelledby={titleId}>
 
           <div role='document'>
 
-            <h1 id={titleId}
-                tabIndex='0'
-                className={classNames.title}>
+            <h1
+              id={titleId}
+              tabIndex='0'
+              className={classNames.title}>
               {title}
             </h1>
 
