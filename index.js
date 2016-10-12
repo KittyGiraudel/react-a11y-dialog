@@ -1,5 +1,4 @@
 var React = require('react')
-var ReactDOM = require('react-dom')
 var A11yDialog = require('a11y-dialog')
 
 var Dialog = React.createClass({
@@ -34,7 +33,7 @@ var Dialog = React.createClass({
   },
 
   initDialog: function () {
-    const node = ReactDOM.findDOMNode(this)
+    const node = this.node
     const root = document.querySelector(this.props.rootSelector)
 
     // The dialog element should not live in the application main container but
@@ -61,7 +60,9 @@ var Dialog = React.createClass({
     const titleId = this.props.titleId || (id + '-title')
 
     return (
-      <div id={id} aria-hidden={!this.isDialogShown()}>
+      <div id={id}
+           aria-hidden={!this.isDialogShown()}
+           ref={(node) => this.node = node}>
         <div tabIndex='-1' onClick={this.close} />
 
         <div role='dialog' aria-labelledby={titleId}>
