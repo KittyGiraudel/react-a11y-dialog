@@ -30,6 +30,11 @@ var Dialog = React.createClass({
   },
 
   initDialog: function () {
+    // The dialog element should not live in the application main container but
+    // next to it so that the focus can be correctly toggled between these two.
+    // Because of the componentised approach in React, it is quite unpractical
+    // to render a root next to the top level element. Thus we move the dialog
+    // with the DOM API once the component has been successfully mounted.
     const node = ReactDOM.findDOMNode(this)
     node.parentNode.removeChild(node)
     document.body.appendChild(node)
