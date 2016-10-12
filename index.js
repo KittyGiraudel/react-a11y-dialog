@@ -21,10 +21,6 @@ var Dialog = React.createClass({
     };
   },
 
-  getInitialState: function () {
-    return { isOpen: false }
-  },
-
   componentDidMount: function () {
     this.dialog = this.initDialog()
     this.props.exposeDialog(this.dialog)
