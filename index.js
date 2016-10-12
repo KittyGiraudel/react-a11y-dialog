@@ -9,13 +9,15 @@ var Dialog = React.createClass({
     exposeDialog: React.PropTypes.func.isRequired,
     titleId: React.PropTypes.string,
     closeButtonLabel: React.PropTypes.string,
-    rootSelector: React.PropTypes.string
+    rootSelector: React.PropTypes.string,
+    initiallyHidden: React.PropTypes.bool,
   },
 
   getDefaultProps: function () {
     return {
       closeButtonLabel: 'Close this dialog window',
-      rootSelector: '#main'
+      rootSelector: '#main',
+      initiallyHidden: true
       // Default properties cannot be based on other properties, so the default
       // value for the `titleId` prop is defined in the `render(..)` method.
     };
@@ -50,12 +52,16 @@ var Dialog = React.createClass({
     this.dialog.hide()
   },
 
+  isDialogShown: function () {
+    return this.dialog ? this.dialog.shown : !this.props.initiallyHidden
+  },
+
   render: function () {
     const { children, closeButtonLabel, id, title } = this.props
     const titleId = this.props.titleId || (id + '-title')
 
     return (
-      <div id={id} aria-hidden>
+      <div id={id} aria-hidden={!this.isDialogShown()}>
         <div tabIndex='-1' onClick={this.close} />
 
         <div role='dialog' aria-labelledby={titleId}>
