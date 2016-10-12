@@ -6,7 +6,14 @@ var Dialog = React.createClass({
   propTypes: {
     id: React.PropTypes.string.isRequired,
     title: React.PropTypes.string.isRequired,
-    exposeDialog: React.PropTypes.func.isRequired
+    exposeDialog: React.PropTypes.func.isRequired,
+    closeButtonLabel: React.PropTypes.string
+  },
+
+  getDefaultProps: function () {
+    return {
+      closeButtonLabel: 'Close this dialog window'
+    };
   },
 
   getInitialState: function () {
@@ -35,7 +42,7 @@ var Dialog = React.createClass({
   },
 
   render: function () {
-    const { children, id, title } = this.props
+    const { children, closeButtonLabel, id, title } = this.props
     const titleId = id + '-title'
 
     return (
@@ -52,7 +59,7 @@ var Dialog = React.createClass({
 
             <button
               type='button'
-              aria-label='Close this dialog window'
+              aria-label={closeButtonLabel}
               onClick={this.close}>
               &times;
             </button>
