@@ -7,8 +7,7 @@
   },
   "dependencies": {
     "a11y-dialog": "^2.5.0",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react": "^15.3.2"
   },
   "devDependencies": {
     "standard": "^8.4.0"
