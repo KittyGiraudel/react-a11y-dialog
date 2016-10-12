@@ -35,7 +35,16 @@ var Dialog = React.createClass({
     // initialised yet and there is no way to figure whether the dialog should
     // be open or closed on load. This sets the initial value for the
     // `aria-hidden` attribute and defaults to `true` when omitted.
-    initiallyHidden: React.PropTypes.bool
+    initiallyHidden: React.PropTypes.bool,
+
+    // Object of classes for each HTML element of the dialog element. Keys are:
+    // - base
+    // - overlay
+    // - element
+    // - title
+    // - closeButton
+    // See for reference: https://github.com/edenspiekermann/a11y-dialog#html
+    classNames: React.PropTypes.objectOf(React.PropTypes.string)
   },
 
   getDefaultProps: function () {
@@ -82,18 +91,28 @@ var Dialog = React.createClass({
   },
 
   render: function () {
-    const { children, closeButtonLabel, id, title } = this.props
+    const { children, classNames, closeButtonLabel, id, title } = this.props
     const titleId = this.props.titleId || (id + '-title')
 
     return (
       <div id={id}
+           className={classNames.base}
            aria-hidden={!this.isDialogShown()}
            ref={(node) => this.node = node}>
-        <div tabIndex='-1' onClick={this.close} />
 
-        <div role='dialog' aria-labelledby={titleId}>
+        <div tabIndex='-1'
+             className={classNames.overlay}
+             onClick={this.close} />
+
+        <div role='dialog'
+             className={classNames.element}
+             aria-labelledby={titleId}>
+
           <div role='document'>
-            <h1 id={titleId} tabIndex='0'>
+
+            <h1 id={titleId}
+                tabIndex='0'
+                className={classNames.title}>
               {title}
             </h1>
 
@@ -102,11 +121,15 @@ var Dialog = React.createClass({
             <button
               type='button'
               aria-label={closeButtonLabel}
-              onClick={this.close}>
+              onClick={this.close}
+              className={classNames.closeButton}>
               &times;
             </button>
+
           </div>
+
         </div>
+
       </div>
     )
   }
