@@ -90,6 +90,10 @@ var Dialog = React.createClass({
     return this.dialog ? this.dialog.shown : !this.props.initiallyHidden
   },
 
+  handleRef: function (node) {
+    this.node = node
+  },
+
   render: function () {
     const { children, classNames, closeButtonLabel, id, title } = this.props
     const titleId = this.props.titleId || (id + '-title')
@@ -99,7 +103,7 @@ var Dialog = React.createClass({
         id={id}
         className={classNames.base}
         aria-hidden={!this.isDialogShown()}
-        ref={(node) => (this.node = node)}>
+        ref={this.handleRef}>
 
         <div
           tabIndex='-1'
