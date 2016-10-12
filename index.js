@@ -14,7 +14,7 @@ var Dialog = React.createClass({
   },
 
   componentDidMount: function () {
-    this.initDialog()
+    this.dialog = this.initDialog()
     this.props.exposeDialog(this.dialog)
   },
 
@@ -23,7 +23,7 @@ var Dialog = React.createClass({
     node.parentNode.removeChild(node)
     document.body.appendChild(node)
 
-    this.dialog = new A11yDialog(node)
+    return new A11yDialog(node)
   },
 
   close: function () {
