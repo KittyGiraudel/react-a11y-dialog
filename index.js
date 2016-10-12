@@ -36,19 +36,20 @@ var Dialog = React.createClass({
 
     return (
       <div id={id} aria-hidden={true}>
-        <div tabIndex="-1" onClick={this.close} />
+        <div tabIndex='-1' onClick={this.close} />
 
-        <div role="dialog" aria-labelledby={titleId}>
-          <div role="document">
-            <h1 id={titleId} tabIndex="0">
+        <div role='dialog' aria-labelledby={titleId}>
+          <div role='document'>
+            <h1 id={titleId} tabIndex='0'>
               {title}
             </h1>
 
             {children}
 
-            <button type="button"
-                    aria-label="Close this dialog window"
-                    onClick={this.close}>
+            <button
+              type='button'
+              aria-label='Close this dialog window'
+              onClick={this.close}>
               &times;
             </button>
           </div>
