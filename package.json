@@ -1,0 +1,8 @@
+{
+  "name": "react-a11y-dialog",
+  "version": "0.1.0",
+  "author": "Hugo Giraudel",
+  "dependencies": {
+    "a11y-dialog": "^2.4.1"
+  }
+}
