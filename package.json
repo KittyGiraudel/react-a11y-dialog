@@ -6,7 +6,9 @@
     "lint": "standard"
   },
   "dependencies": {
-    "a11y-dialog": "^2.4.1"
+    "a11y-dialog": "^2.4.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
   },
   "devDependencies": {
     "standard": "^8.4.0"

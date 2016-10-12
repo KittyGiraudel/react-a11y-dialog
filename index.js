@@ -1,3 +1,5 @@
+var React = require('react')
+var ReactDOM = require('react-dom')
 var A11yDialog = require('a11y-dialog')
 
 var Dialog = React.createClass({
