@@ -18,6 +18,10 @@ var Dialog = React.createClass({
     this.props.exposeDialog(this.dialog)
   },
 
+  componentWillUnmount: function () {
+    this.dialog.destroy()
+  },
+
   initDialog: function () {
     const node = ReactDOM.findDOMNode(this)
     node.parentNode.removeChild(node)
