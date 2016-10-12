@@ -28,6 +28,7 @@ var Dialog = React.createClass({
 
   componentWillUnmount: function () {
     this.dialog.destroy()
+    this.props.exposeDialog()
   },
 
   initDialog: function () {
