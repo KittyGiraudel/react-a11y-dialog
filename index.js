@@ -8,12 +8,14 @@ var Dialog = React.createClass({
     title: React.PropTypes.string.isRequired,
     exposeDialog: React.PropTypes.func.isRequired,
     titleId: React.PropTypes.string,
-    closeButtonLabel: React.PropTypes.string
+    closeButtonLabel: React.PropTypes.string,
+    rootSelector: React.PropTypes.string
   },
 
   getDefaultProps: function () {
     return {
-      closeButtonLabel: 'Close this dialog window'
+      closeButtonLabel: 'Close this dialog window',
+      rootSelector: '#main'
       // Default properties cannot be based on other properties, so the default
       // value for the `titleId` prop is defined in the `render(..)` method.
     };
@@ -33,16 +35,18 @@ var Dialog = React.createClass({
   },
 
   initDialog: function () {
+    const node = ReactDOM.findDOMNode(this)
+    const root = document.querySelector(this.props.rootSelector)
+
     // The dialog element should not live in the application main container but
     // next to it so that the focus can be correctly toggled between these two.
     // Because of the componentised approach in React, it is quite unpractical
     // to render a root next to the top level element. Thus we move the dialog
     // with the DOM API once the component has been successfully mounted.
-    const node = ReactDOM.findDOMNode(this)
     node.parentNode.removeChild(node)
-    document.body.appendChild(node)
+    root.parentNode.appendChild(node)
 
-    return new A11yDialog(node)
+    return new A11yDialog(node, root)
   },
 
   close: function () {
