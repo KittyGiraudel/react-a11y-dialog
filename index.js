@@ -35,7 +35,7 @@ var Dialog = React.createClass({
     const titleId = id + '-title'
 
     return (
-      <div id={id} aria-hidden={true}>
+      <div id={id} aria-hidden>
         <div tabIndex='-1' onClick={this.close} />
 
         <div role='dialog' aria-labelledby={titleId}>
