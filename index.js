@@ -10,7 +10,7 @@ var Dialog = React.createClass({
     titleId: React.PropTypes.string,
     closeButtonLabel: React.PropTypes.string,
     rootSelector: React.PropTypes.string,
-    initiallyHidden: React.PropTypes.bool,
+    initiallyHidden: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
@@ -20,7 +20,7 @@ var Dialog = React.createClass({
       initiallyHidden: true
       // Default properties cannot be based on other properties, so the default
       // value for the `titleId` prop is defined in the `render(..)` method.
-    };
+    }
   },
 
   componentDidMount: function () {
