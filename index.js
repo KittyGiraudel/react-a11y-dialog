@@ -51,7 +51,8 @@ var Dialog = React.createClass({
     return {
       closeButtonLabel: 'Close this dialog window',
       rootSelector: '#main',
-      initiallyHidden: true
+      initiallyHidden: true,
+      classNames: {}
       // Default properties cannot be based on other properties, so the default
       // value for the `titleId` prop is defined in the `render(..)` method.
     }
