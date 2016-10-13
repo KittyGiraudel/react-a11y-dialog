@@ -14,7 +14,8 @@ var Dialog = React.createClass({
 
     // A function called when the component has mounted, receiving the instance
     // of A11yDialog so that it can be programmatically accessed later on.
-    exposeDialog: React.PropTypes.func.isRequired,
+    // E.g.: dialogRef={(dialog) => (this.dialog = dialog)}
+    dialogRef: React.PropTypes.func.isRequired,
 
     // The HTML `id` attribute of the dialog’s title element, used by assistive
     // technologies to provide context and meaning to the dialog window. Falls

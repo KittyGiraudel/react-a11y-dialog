@@ -14,7 +14,7 @@ There are 3 required properties for the dialog component:
 
 - `id`: the `id` attribute used internally by a11y-dialog to control the element.
 - `title`: the text content for the title of the dialog.
-- `exposeDialog`: a function that receive the [A11yDialog instance](https://github.com/edenspiekermann/a11y-dialog#toggling-the-dialog-window) so it can be interacted with.
+- `dialogRef`: a function that receive the [A11yDialog instance](https://github.com/edenspiekermann/a11y-dialog#toggling-the-dialog-window) so it can be interacted with.
 
 ```jsx
 const Dialog = require('react-a11y-dialog')
@@ -22,10 +22,6 @@ const Dialog = require('react-a11y-dialog')
 const MyComponent = React.createClass({
   handleClick: function () {
     this.dialog.show()
-  },
-
-  bindDialog: function (dialog) {
-    this.dialog = dialog
   },
 
   render: function () {
@@ -36,7 +32,7 @@ const MyComponent = React.createClass({
         </button>
 
         <Dialog id="my-accessible-dialog"
-                exposeDialog={this.bindDialog}
+                dialogRef={(dialog) => (this.dialog = dialog)}
                 title="The dialog title">
           <p>Some content for the dialog.</p>
         </Dialog>
