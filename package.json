@@ -1,7 +1,22 @@
 {
   "name": "react-a11y-dialog",
   "version": "0.1.0",
-  "author": "Hugo Giraudel",
+  "description": "A React component wrapper around a11y-dialog.",
+  "homepage": "https://github.com/HugoGiraudel/react-a11y-dialog",
+  "main": "index.js",
+  "keywords": [
+    "modal",
+    "dialog",
+    "accessibility",
+    "a11y",
+    "focus",
+    "react",
+    "component"
+  ],
+  "author": "Hugo Giraudel (http://hugogiraudel.com)",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
     "lint": "standard"
   },
