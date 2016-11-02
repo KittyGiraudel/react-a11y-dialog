@@ -24,7 +24,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "a11y-dialog": "^2.5.0",
+    "a11y-dialog": "^2.5.3",
     "react": "^15.3.2"
   },
   "devDependencies": {
