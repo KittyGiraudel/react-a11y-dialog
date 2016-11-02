@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "A React component wrapper around a11y-dialog.",
   "homepage": "https://github.com/HugoGiraudel/react-a11y-dialog",
-  "main": "index.js",
+  "main": "dist/index.js",
   "keywords": [
     "modal",
     "dialog",
@@ -15,16 +15,20 @@
   ],
   "author": "Hugo Giraudel (http://hugogiraudel.com)",
   "files": [
-    "index.js"
+    "index.js",
+    "dist/index.js"
   ],
   "scripts": {
-    "lint": "standard"
+    "lint": "standard",
+    "build": "jsx index.js > dist/index.js",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "a11y-dialog": "^2.5.0",
     "react": "^15.3.2"
   },
   "devDependencies": {
+    "react-tools": "^0.13.3",
     "standard": "^8.4.0"
   }
 }
