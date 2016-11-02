@@ -61,12 +61,12 @@ var Dialog = React.createClass({displayName: "Dialog",
 
   componentDidMount: function () {
     this.dialog = this.initDialog()
-    this.props.exposeDialog(this.dialog)
+    this.props.dialogRef(this.dialog)
   },
 
   componentWillUnmount: function () {
     this.dialog.destroy()
-    this.props.exposeDialog()
+    this.props.dialogRef()
   },
 
   initDialog: function () {
