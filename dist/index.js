@@ -78,8 +78,10 @@ var Dialog = React.createClass({displayName: "Dialog",
     // Because of the componentised approach in React, it is quite unpractical
     // to render a root next to the top level element. Thus we move the dialog
     // with the DOM API once the component has been successfully mounted.
-    node.parentNode.removeChild(node)
-    root && root.parentNode.appendChild(node)
+    if (root) {
+      node.parentNode.removeChild(node)
+      root.parentNode.appendChild(node)
+    }
 
     return new A11yDialog(node, root)
   },
