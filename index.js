@@ -99,7 +99,8 @@ var Dialog = React.createClass({
   },
 
   render: function () {
-    const { children, classNames, closeButtonLabel, id, title } = this.props
+    const id = this.props.id
+    const classNames = this.props.classNames
     const titleId = this.props.titleId || (id + '-title')
 
     return (
@@ -125,14 +126,14 @@ var Dialog = React.createClass({
               id={titleId}
               tabIndex='0'
               className={classNames.title}>
-              {title}
+              {this.props.title}
             </h1>
 
-            {children}
+            {this.props.children}
 
             <button
               type='button'
-              aria-label={closeButtonLabel}
+              aria-label={this.props.closeButtonLabel}
               onClick={this.close}
               className={classNames.closeButton}>
               &times;
