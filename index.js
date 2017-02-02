@@ -60,30 +60,42 @@ var Dialog = React.createClass({
   },
 
   componentDidMount: function () {
-    this.dialog = this.initDialog()
+    this.dialog = this.dialog || this.initDialog()
     this.props.dialogRef(this.dialog)
   },
 
   componentWillUnmount: function () {
     this.dialog.destroy()
-    this.props.dialogRef()
+    this.moveNodeBack()
+    this.props.dialogRef(undefined)
   },
 
-  initDialog: function () {
-    const node = this.node
-    const root = document.querySelector(this.props.rootSelector)
+  moveNodeBack: function () {
+    if (this.mainContainer) {
+      this.mainContainer.parentNode.removeChild(this.node)
+      this.ancestor.appendChild(this.node)
+    }
+  },
 
+  moveNode: function () {
     // The dialog element should not live in the application main container but
     // next to it so that the focus can be correctly toggled between these two.
     // Because of the componentised approach in React, it is quite unpractical
     // to render a root next to the top level element. Thus we move the dialog
     // with the DOM API once the component has been successfully mounted.
-    if (root) {
-      node.parentNode.removeChild(node)
-      root.parentNode.appendChild(node)
+    if (this.mainContainer) {
+      this.ancestor.removeChild(this.node)
+      this.mainContainer.parentNode.appendChild(this.node)
     }
+  },
 
-    return new A11yDialog(node, root)
+  initDialog: function () {
+    this.mainContainer = document.querySelector(this.props.rootSelector)
+    this.ancestor = this.node.parentNode
+
+    this.moveNode()
+
+    return new A11yDialog(this.node, this.mainContainer)
   },
 
   close: function () {
