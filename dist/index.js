@@ -102,10 +102,6 @@ var Dialog = React.createClass({displayName: "Dialog",
     this.dialog.hide()
   },
 
-  isDialogShown: function () {
-    return this.dialog ? this.dialog.shown : !this.props.initiallyHidden
-  },
-
   handleRef: function (node) {
     this.node = node
   },
@@ -119,7 +115,6 @@ var Dialog = React.createClass({displayName: "Dialog",
       React.createElement("div", {
         id: id, 
         className: classNames.base, 
-        "aria-hidden": !this.isDialogShown(), 
         ref: this.handleRef}, 
 
         React.createElement("div", {
