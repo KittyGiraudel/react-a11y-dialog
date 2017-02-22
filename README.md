@@ -49,4 +49,4 @@ ReactDOM.render(
 
 ## Notes
 
-Note that the actual dialog element will be moved on `componentDidMount` so it lives outside of your application main container. For more information about why this is necessary, refer to [a11y-dialog documentation](https://github.com/edenspiekermann/a11y-dialog#html).
+Note that the actual dialog element will be moved on `componentDidMount` so it lives outside of your application main container. For more information about why this is necessary, refer to [a11y-dialog documentation](http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure).
