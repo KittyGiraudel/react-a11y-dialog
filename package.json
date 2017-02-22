@@ -30,5 +30,8 @@
   "devDependencies": {
     "react-tools": "^0.13.3",
     "standard": "^8.4.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HugoGiraudel/react-a11y-dialog/"
 }
