@@ -42,9 +42,10 @@ var Dialog = React.createClass({
     // - base
     // - overlay
     // - element
+    // - document
     // - title
     // - closeButton
-    // See for reference: https://github.com/edenspiekermann/a11y-dialog#html
+    // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
     classNames: React.PropTypes.objectOf(React.PropTypes.string)
   },
 
@@ -127,7 +128,9 @@ var Dialog = React.createClass({
           className={classNames.element}
           aria-labelledby={titleId}>
 
-          <div role='document'>
+          <div
+            role='document'
+            className={classNames.document}>
 
             <h1
               id={titleId}
