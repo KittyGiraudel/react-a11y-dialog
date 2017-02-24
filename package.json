@@ -1,6 +1,6 @@
 {
   "name": "react-a11y-dialog",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A React component wrapper around a11y-dialog.",
   "homepage": "https://github.com/HugoGiraudel/react-a11y-dialog",
   "main": "dist/index.js",
