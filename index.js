@@ -1,42 +1,44 @@
 var React = require('react')
 var A11yDialog = require('a11y-dialog')
+var createReactClass = require('create-react-class')
+var PropTypes = require('prop-types')
 
-var Dialog = React.createClass({
+var Dialog = createReactClass({
   propTypes: {
     // The HTML `id` attribute of the dialog element, internally used by
     // a11y-dialog to manipulate the dialog.
-    id: React.PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
 
     // The title of the dialog, mandatory in the document to provide context to
     // assistive technology. Could be hidden (while remaining accessible) with
     // CSS though.
-    title: React.PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
 
     // A function called when the component has mounted, receiving the instance
     // of A11yDialog so that it can be programmatically accessed later on.
     // E.g.: dialogRef={(dialog) => (this.dialog = dialog)}
-    dialogRef: React.PropTypes.func.isRequired,
+    dialogRef: PropTypes.func.isRequired,
 
     // The HTML `id` attribute of the dialog’s title element, used by assistive
     // technologies to provide context and meaning to the dialog window. Falls
     // back to the `${this.props.id}-title` if not provided.
-    titleId: React.PropTypes.string,
+    titleId: PropTypes.string,
 
     // The HTML `aria-label` attribute of the close button, used by assistive
     // technologies to provide extra meaning to the usual cross-mark. Defaults
     // to a generic English explanation.
-    closeButtonLabel: React.PropTypes.string,
+    closeButtonLabel: PropTypes.string,
 
     // a11y-dialog relies on the fact that the application main container has
     // its HTML `id` attribute set to `main`. This assumption can be defied by
     // passing a selector used to access the main container.
-    rootSelector: React.PropTypes.string,
+    rootSelector: PropTypes.string,
 
     // When rendering the component for the first time, the dialog has not been
     // initialised yet and there is no way to figure whether the dialog should
     // be open or closed on load. This sets the initial value for the
     // `aria-hidden` attribute and defaults to `true` when omitted.
-    initiallyHidden: React.PropTypes.bool,
+    initiallyHidden: PropTypes.bool,
 
     // Object of classes for each HTML element of the dialog element. Keys are:
     // - base
@@ -46,7 +48,7 @@ var Dialog = React.createClass({
     // - title
     // - closeButton
     // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
-    classNames: React.PropTypes.objectOf(React.PropTypes.string)
+    classNames: PropTypes.objectOf(PropTypes.string)
   },
 
   getDefaultProps: function () {
