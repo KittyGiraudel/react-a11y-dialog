@@ -29,6 +29,9 @@ var Dialog = createReactClass({
     // to a generic English explanation.
     closeButtonLabel: PropTypes.string,
 
+    // The string that is the innerHTML of the close button.
+    closeButtonContent: PropTypes.string,
+
     // a11y-dialog relies on the fact that the application main container has
     // its HTML `id` attribute set to `main`. This assumption can be defied by
     // passing a selector used to access the main container.
@@ -54,6 +57,7 @@ var Dialog = createReactClass({
   getDefaultProps: function () {
     return {
       closeButtonLabel: 'Close this dialog window',
+      closeButtonContent: '\u00D7',
       rootSelector: '#main',
       initiallyHidden: true,
       classNames: {}
@@ -148,7 +152,7 @@ var Dialog = createReactClass({
               "aria-label": this.props.closeButtonLabel, 
               onClick: this.close, 
               className: classNames.closeButton}, 
-              "×"
+              this.props.closeButtonContent
             )
 
           )
