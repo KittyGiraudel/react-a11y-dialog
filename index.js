@@ -138,15 +138,6 @@ var Dialog = createReactClass({
             role='document'
             className={classNames.document}>
 
-            <h1
-              id={titleId}
-              tabIndex='0'
-              className={classNames.title}>
-              {this.props.title}
-            </h1>
-
-            {this.props.children}
-
             <button
               type='button'
               aria-label={this.props.closeButtonLabel}
@@ -154,6 +145,14 @@ var Dialog = createReactClass({
               className={classNames.closeButton}>
               {this.props.closeButtonContent}
             </button>
+
+            <h1
+              id={titleId}
+              className={classNames.title}>
+              {this.props.title}
+            </h1>
+
+            {this.props.children}
 
           </div>
 

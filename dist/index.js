@@ -138,22 +138,21 @@ var Dialog = createReactClass({
             role: "document", 
             className: classNames.document}, 
 
-            React.createElement("h1", {
-              id: titleId, 
-              tabIndex: "0", 
-              className: classNames.title}, 
-              this.props.title
-            ), 
-
-            this.props.children, 
-
             React.createElement("button", {
               type: "button", 
               "aria-label": this.props.closeButtonLabel, 
               onClick: this.close, 
               className: classNames.closeButton}, 
               this.props.closeButtonContent
-            )
+            ), 
+
+            React.createElement("h1", {
+              id: titleId, 
+              className: classNames.title}, 
+              this.props.title
+            ), 
+
+            this.props.children
 
           )
 
