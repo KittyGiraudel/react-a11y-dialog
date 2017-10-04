@@ -24,7 +24,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "a11y-dialog": "^3.1.0",
+    "a11y-dialog": "^4.0.0",
     "create-react-class": "^15.5.2",
     "prop-types": "^15.5.8",
     "react": "^15.3.2"
