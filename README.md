@@ -2,6 +2,8 @@
 
 react-a11y-dialog is a React component for [a11y-dialog](https://github.com/edenspiekermann/a11y-dialog) meant to ease the use of accessible dialog windows in React applications.
 
+*Note: for React versions **before** 16, use `react-a11y-dialog@2.0.0`. For React 16+, `react-a11y-dialog@latest` can be used.*
+
 ## Install
 
 ```
@@ -10,8 +12,9 @@ npm install --save react-a11y-dialog
 
 ## Example
 
-There are 3 required properties for the dialog component:
+There are 4 required properties for the dialog component:
 
+- `dialogContainer`: the selector for a valid existing DOM node in which to render the React portal for the dialog.
 - `id`: the `id` attribute used internally by a11y-dialog to control the element.
 - `title`: the text content for the title of the dialog.
 - `dialogRef`: a function that receive the [A11yDialog instance](https://github.com/edenspiekermann/a11y-dialog#toggling-the-dialog-window) so it can be interacted with.
@@ -32,6 +35,7 @@ const MyComponent = React.createClass({
         </button>
 
         <Dialog id="my-accessible-dialog"
+                dialogContainer="#dialog-root"
                 dialogRef={(dialog) => (this.dialog = dialog)}
                 title="The dialog title">
           <p>Some content for the dialog.</p>
