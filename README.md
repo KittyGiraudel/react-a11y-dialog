@@ -30,8 +30,8 @@ npm install --save react-a11y-dialog
 
 * **Property name**: `dialogRef`
 * **Type**: function
-* **Mandatory**: true
-* **Default value**: —
+* **Mandatory**: false
+* **Default value**: no-op
 * **Description**: A function called when the component has mounted, receiving the instance of A11yDialog so that it can be programmatically accessed later on.
 
 ---

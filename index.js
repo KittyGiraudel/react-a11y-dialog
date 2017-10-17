@@ -103,7 +103,8 @@ Dialog.defaultProps = {
   closeButtonLabel: 'Close this dialog window',
   closeButtonContent: '\u00D7',
   initiallyHidden: true,
-  classNames: {}
+  classNames: {},
+  dialogRef: () => void 0
   // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 }
@@ -121,7 +122,7 @@ Dialog.propTypes = {
   // A function called when the component has mounted, receiving the instance
   // of A11yDialog so that it can be programmatically accessed later on.
   // E.g.: dialogRef={(dialog) => (this.dialog = dialog)}
-  dialogRef: PropTypes.func.isRequired,
+  dialogRef: PropTypes.func,
 
   // The HTML `id` attribute of the dialog’s title element, used by assistive
   // technologies to provide context and meaning to the dialog window. Falls
