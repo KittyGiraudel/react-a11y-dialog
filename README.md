@@ -24,7 +24,7 @@ npm install --save react-a11y-dialog
 * **Type**: string
 * **Mandatory**: true
 * **Default value**: —
-* **Description**: The title of the dialog, mandatory in the document to provide context to assistive technology. Could be hidden (while remaining accessible) with CSS though.
+* **Description**: The title of the dialog, mandatory in the document to provide context to assistive technology. Could be [hidden with CSS](https://hugogiraudel.com/2016/10/13/css-hide-and-seek/) (while remaining accessible).
 
 ---
 
@@ -32,7 +32,7 @@ npm install --save react-a11y-dialog
 * **Type**: function
 * **Mandatory**: false
 * **Default value**: no-op
-* **Description**: A function called when the component has mounted, receiving the instance of A11yDialog so that it can be programmatically accessed later on.
+* **Description**: A function called when the component has mounted, receiving the [instance of A11yDialog](http://edenspiekermann.github.io/a11y-dialog/#js-api) so that it can be programmatically accessed later on.
 
 ---
 
@@ -48,7 +48,7 @@ npm install --save react-a11y-dialog
 * **Type**: string
 * **Mandatory**: true
 * **Default value**: —
-* **Description**: The container for the dialog to be rendered into (React portal’s root).
+* **Description**: The container for the dialog to be rendered into ([React portal](https://reactjs.org/docs/portals.html)’s root).
 
 ---
 
