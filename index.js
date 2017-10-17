@@ -139,7 +139,7 @@ Dialog.propTypes = {
   // a11y-dialog needs one or more “targets” to disable when the dialog is open.
   // This prop can be one or more selector which will be passed to a11y-dialog
   // constructor.
-  appRoot: PropTypes.oneOf([
+  appRoot: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
   ]).isRequired,

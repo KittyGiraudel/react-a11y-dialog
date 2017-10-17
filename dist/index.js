@@ -168,7 +168,7 @@ Dialog.propTypes = {
   // a11y-dialog needs one or more “targets” to disable when the dialog is open.
   // This prop can be one or more selector which will be passed to a11y-dialog
   // constructor.
-  appRoot: PropTypes.oneOf([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
+  appRoot: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
 
   // React 16 requires a container for the portal’s content to be rendered
   // into; this is required and needs to be an existing valid DOM node,
