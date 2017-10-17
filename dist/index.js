@@ -25,6 +25,10 @@ var Dialog = function (_React$Component) {
       isMounted: false,
       node: null
     };
+
+    _this.initDialog = _this.initDialog.bind(_this);
+    _this.close = _this.close.bind(_this);
+    _this.handleRef = _this.handleRef.bind(_this);
     return _this;
   }
 
@@ -50,7 +54,7 @@ var Dialog = function (_React$Component) {
   }, {
     key: 'initDialog',
     value: function initDialog() {
-      return new A11yDialog(this.state.node, document.querySelector(this.props.rootSelector));
+      return new A11yDialog(this.state.node, this.props.appRoot);
     }
   }, {
     key: 'close',
@@ -115,7 +119,7 @@ var Dialog = function (_React$Component) {
             this.props.children
           )
         )
-      ), document.querySelector(this.props.dialogContainer));
+      ), document.querySelector(this.props.dialogRoot));
     }
   }]);
 
@@ -159,10 +163,15 @@ Dialog.propTypes = {
   // The string that is the innerHTML of the close button.
   closeButtonContent: PropTypes.string,
 
+  // a11y-dialog needs one or more “targets” to disable when the dialog is open.
+  // This prop can be one or more selector which will be passed to a11y-dialog
+  // constructor.
+  appRoot: PropTypes.oneOf([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
+
   // React 16 requires a container for the portal’s content to be rendered
   // into; this is required and needs to be an existing valid DOM node,
   // adjacent to the React root container of the application.
-  dialogContainer: PropTypes.string.isRequired,
+  dialogRoot: PropTypes.string.isRequired,
 
   // When rendering the component for the first time, the dialog has not been
   // initialised yet and there is no way to figure whether the dialog should
