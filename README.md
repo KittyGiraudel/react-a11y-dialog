@@ -72,15 +72,7 @@ npm install --save react-a11y-dialog
 * **Type**: string
 * **Mandatory**: false
 * **Default value**: `\u00D7` (×)
-* **Description**: The string that is the innerHTML of the close button.
-
----
-
-* **Property name**: `initialHidden`
-* **Type**: boolean
-* **Mandatory**: false
-* **Default value**: true
-* **Description**: When rendering the component for the first time, the dialog has not been initialised yet and there is no way to figure whether the dialog should be open or closed on load. This sets the initial value for the `aria-hidden` attribute.
+* **Description**: The string that is the inner HTML of the close button.
 
 ---
 

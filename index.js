@@ -102,7 +102,6 @@ class Dialog extends React.Component {
 Dialog.defaultProps = {
   closeButtonLabel: 'Close this dialog window',
   closeButtonContent: '\u00D7',
-  initiallyHidden: true,
   classNames: {},
   dialogRef: () => void 0
   // Default properties cannot be based on other properties, so the default
@@ -149,12 +148,6 @@ Dialog.propTypes = {
   // into; this is required and needs to be an existing valid DOM node,
   // adjacent to the React root container of the application.
   dialogRoot: PropTypes.string.isRequired,
-
-  // When rendering the component for the first time, the dialog has not been
-  // initialised yet and there is no way to figure whether the dialog should
-  // be open or closed on load. This sets the initial value for the
-  // `aria-hidden` attribute and defaults to `true` when omitted.
-  initiallyHidden: PropTypes.bool,
 
   // Object of classes for each HTML element of the dialog element. Keys are:
   // - base
