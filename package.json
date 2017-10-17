@@ -15,7 +15,6 @@
   ],
   "author": "Hugo Giraudel (http://hugogiraudel.com)",
   "files": [
-    "index.js",
     "dist/index.js"
   ],
   "scripts": {
@@ -26,7 +25,7 @@
   },
   "dependencies": {
     "a11y-dialog": "^4.0.0",
-    "prop-types": "^15.5.8",
+    "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
@@ -34,7 +33,7 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.0",
-    "standard": "^8.4.0"
+    "standard": "^10.0.3"
   },
   "repository": {
     "type": "git",
