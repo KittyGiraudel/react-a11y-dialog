@@ -1,6 +1,6 @@
 {
   "name": "react-a11y-dialog",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A React component wrapper around a11y-dialog.",
   "homepage": "https://github.com/HugoGiraudel/react-a11y-dialog",
   "main": "dist/index.js",
@@ -15,23 +15,25 @@
   ],
   "author": "Hugo Giraudel (http://hugogiraudel.com)",
   "files": [
-    "index.js",
     "dist/index.js"
   ],
   "scripts": {
     "lint": "standard index.js",
-    "build": "jsx index.js > dist/index.js",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "start": "babel index.js -o dist/index.js -w",
+    "build": "babel index.js -o dist/index.js"
   },
   "dependencies": {
     "a11y-dialog": "^4.0.0",
-    "create-react-class": "^15.5.2",
-    "prop-types": "^15.5.8",
-    "react": "^15.3.2"
+    "prop-types": "^15.6.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "react-tools": "^0.13.3",
-    "standard": "^8.4.0"
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "standard": "^10.0.3"
   },
   "repository": {
     "type": "git",
