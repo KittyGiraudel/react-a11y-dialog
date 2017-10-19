@@ -69,7 +69,7 @@ npm install --save react-a11y-dialog
 ---
 
 * **Property name**: `closeButtonContent`
-* **Type**: string
+* **Type**: string | element
 * **Mandatory**: false
 * **Default value**: `\u00D7` (×)
 * **Description**: The string that is the inner HTML of the close button.

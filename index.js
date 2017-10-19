@@ -134,7 +134,10 @@ Dialog.propTypes = {
   closeButtonLabel: PropTypes.string,
 
   // The string that is the innerHTML of the close button.
-  closeButtonContent: PropTypes.string,
+  closeButtonContent: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
 
   // a11y-dialog needs one or more “targets” to disable when the dialog is open.
   // This prop can be one or more selector which will be passed to a11y-dialog
