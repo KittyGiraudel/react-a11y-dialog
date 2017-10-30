@@ -25,15 +25,17 @@
   },
   "dependencies": {
     "a11y-dialog": "^4.0.0",
-    "prop-types": "^15.6.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "standard": "^10.0.3"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.6.0",
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
   },
   "repository": {
     "type": "git",
