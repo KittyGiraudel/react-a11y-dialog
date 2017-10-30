@@ -24,7 +24,7 @@
     "build": "babel index.js -o dist/index.js"
   },
   "dependencies": {
-    "a11y-dialog": "^4.0.0",
+    "a11y-dialog": "^4.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
