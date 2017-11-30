@@ -3,6 +3,7 @@
   "version": "3.0.3",
   "description": "A React component wrapper around a11y-dialog.",
   "homepage": "https://github.com/HugoGiraudel/react-a11y-dialog",
+  "license": "MIT",
   "main": "dist/index.js",
   "keywords": [
     "modal",
@@ -14,9 +15,7 @@
     "component"
   ],
   "author": "Hugo Giraudel (http://hugogiraudel.com)",
-  "files": [
-    "dist/index.js"
-  ],
+  "files": ["dist/index.js"],
   "scripts": {
     "lint": "standard index.js",
     "prepublish": "npm run build",
