@@ -145,7 +145,7 @@ Dialog.propTypes = {
   // The title of the dialog, mandatory in the document to provide context to
   // assistive technology. Could be hidden (while remaining accessible) with
   // CSS though.
-  title: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
 
   // A function called when the component has mounted, receiving the instance
   // of A11yDialog so that it can be programmatically accessed later on.
