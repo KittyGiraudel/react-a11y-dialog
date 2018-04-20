@@ -21,7 +21,7 @@ npm install --save react-a11y-dialog
 ---
 
 * **Property name**: `title`
-* **Type**: string
+* **Type**: string | element
 * **Mandatory**: true
 * **Default value**: —
 * **Description**: The title of the dialog, mandatory in the document to provide context to assistive technology. Could be [hidden with CSS](https://hugogiraudel.com/2016/10/13/css-hide-and-seek/) (while remaining accessible).
