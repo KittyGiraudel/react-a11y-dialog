@@ -2,7 +2,7 @@
 
 react-a11y-dialog is a React component for [a11y-dialog](https://github.com/edenspiekermann/a11y-dialog) relying on [React portals](https://reactjs.org/docs/portals.html) to ease the use of accessible dialog windows in React applications.
 
-*Note: for React versions **before** 16, use `react-a11y-dialog@2.0.0`.*
+_Note: for React versions **before** 16, use `react-a11y-dialog@2.0.0`._
 
 ## Install
 
@@ -64,7 +64,7 @@ npm install --save react-a11y-dialog
 * **Type**: string
 * **Mandatory**: false
 * **Default value**: “Close this dialog window”
-* **Description**:  The HTML `aria-label` attribute of the close button, used by assistive technologies to provide extra meaning to the usual cross-mark.
+* **Description**: The HTML `aria-label` attribute of the close button, used by assistive technologies to provide extra meaning to the usual cross-mark.
 
 ---
 
@@ -96,18 +96,20 @@ class MyComponent extends React.Component {
     this.dialog.show()
   }
 
-  render () {
+  render() {
     return (
       <div>
         <button type="button" onClick={this.handleClick}>
           Open the dialog
         </button>
 
-        <Dialog id="my-accessible-dialog"
-                appRoot="#main"
-                dialogRoot="#dialog-root"
-                dialogRef={(dialog) => (this.dialog = dialog)}
-                title="The dialog title">
+        <Dialog
+          id="my-accessible-dialog"
+          appRoot="#main"
+          dialogRoot="#dialog-root"
+          dialogRef={dialog => (this.dialog = dialog)}
+          title="The dialog title"
+        >
           <p>Some content for the dialog.</p>
         </Dialog>
       </div>
@@ -115,10 +117,7 @@ class MyComponent extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <MyComponent />,
-  document.getElementById('main')
-)
+ReactDOM.render(<MyComponent />, document.getElementById('main'))
 ```
 
 ```html
