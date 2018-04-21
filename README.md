@@ -80,7 +80,7 @@ npm install --save react-a11y-dialog
 * **Type**: object
 * **Mandatory**: false
 * **Default value**: {}
-* **Description**: Object of classes for each HTML element of the dialog element. Keys are: `base`, `overlay`, `element`, `document`, `title`, `closeButton`. See [a11y-dialog docs](http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure) for reference.
+* **Description**: Object of classes for each HTML element of the dialog element. Keys are: `base`, `overlay`, `element`, `title`, `closeButton`. See [a11y-dialog docs](http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure) for reference.
 
 ## Server-side rendering
 

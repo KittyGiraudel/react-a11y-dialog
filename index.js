@@ -9,7 +9,7 @@ class Dialog extends React.Component {
 
     this.state = {
       isMounted: false,
-      node: null
+      container: null
     }
 
     this.initDialog = this.initDialog.bind(this)
@@ -22,7 +22,7 @@ class Dialog extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.node !== this.state.node && this.state.node) {
+    if (prevState.container !== this.state.container && this.state.container) {
       this.dialog = this.dialog || this.initDialog()
       this.props.dialogRef(this.dialog)
     }
@@ -34,15 +34,15 @@ class Dialog extends React.Component {
   }
 
   initDialog() {
-    return new A11yDialog(this.state.node, this.props.appRoot)
+    return new A11yDialog(this.state.container, this.props.appRoot)
   }
 
   close() {
     this.dialog.hide()
   }
 
-  handleRef(node) {
-    this.setState({ node: node })
+  handleRef(container) {
+    this.setState({ container: container })
   }
 
   render() {
@@ -61,28 +61,22 @@ class Dialog extends React.Component {
           onClick={this.close}
         />
 
-        <div
-          role="dialog"
-          className={classNames.element}
-          aria-labelledby={titleId}
-        >
-          <div role="document" className={classNames.document}>
-            <button
-              type="button"
-              aria-label={this.props.closeButtonLabel}
-              onClick={this.close}
-              className={classNames.closeButton}
-            >
-              {this.props.closeButtonContent}
-            </button>
+        <dialog className={classNames.element} aria-labelledby={titleId}>
+          <button
+            type="button"
+            aria-label={this.props.closeButtonLabel}
+            onClick={this.close}
+            className={classNames.closeButton}
+          >
+            {this.props.closeButtonContent}
+          </button>
 
-            <h1 id={titleId} className={classNames.title}>
-              {this.props.title}
-            </h1>
+          <h1 id={titleId} className={classNames.title}>
+            {this.props.title}
+          </h1>
 
-            {this.props.children}
-          </div>
-        </div>
+          {this.props.children}
+        </dialog>
       </div>,
       document.querySelector(this.props.dialogRoot)
     )
@@ -146,7 +140,6 @@ Dialog.propTypes = {
   // - base
   // - overlay
   // - element
-  // - document
   // - title
   // - closeButton
   // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
