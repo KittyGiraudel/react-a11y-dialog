@@ -1,6 +1,6 @@
 {
   "name": "react-a11y-dialog",
-  "version": "3.0.5",
+  "version": "4.0.0",
   "description": "A React component wrapper around a11y-dialog.",
   "homepage": "https://github.com/HugoGiraudel/react-a11y-dialog",
   "license": "MIT",
@@ -15,9 +15,7 @@
     "component"
   ],
   "author": "Hugo Giraudel (http://hugogiraudel.com)",
-  "files": [
-    "dist/index.js"
-  ],
+  "files": ["dist/index.js"],
   "scripts": {
     "lint": "standard index.js",
     "prepublish": "npm run build",
