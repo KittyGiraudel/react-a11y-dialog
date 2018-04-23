@@ -4,12 +4,12 @@ const A11yDialog = require('a11y-dialog')
 const PropTypes = require('prop-types')
 
 class Dialog extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       isMounted: false,
-      node: null
+      container: null
     }
 
     this.initDialog = this.initDialog.bind(this)
@@ -17,82 +17,66 @@ class Dialog extends React.Component {
     this.handleRef = this.handleRef.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({ isMounted: true })
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    if (prevState.node !== this.state.node && this.state.node) {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.container !== this.state.container && this.state.container) {
       this.dialog = this.dialog || this.initDialog()
       this.props.dialogRef(this.dialog)
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.dialog.destroy()
     this.props.dialogRef(undefined)
   }
 
-  initDialog () {
-    return new A11yDialog(this.state.node, this.props.appRoot)
+  initDialog() {
+    return new A11yDialog(this.state.container, this.props.appRoot)
   }
 
-  close () {
+  close() {
     this.dialog.hide()
   }
 
-  handleRef (node) {
-    this.setState({ node: node })
+  handleRef(container) {
+    this.setState({ container: container })
   }
 
-  render () {
+  render() {
     if (!this.state.isMounted) {
       return null
     }
 
     const { id, classNames } = this.props
-    const titleId = this.props.titleId || (id + '-title')
+    const titleId = this.props.titleId || id + '-title'
 
     return ReactDOM.createPortal(
-      <div
-        id={id}
-        className={classNames.base}
-        ref={this.handleRef}>
-
+      <div id={id} className={classNames.base} ref={this.handleRef}>
         <div
-          tabIndex='-1'
+          tabIndex="-1"
           className={classNames.overlay}
-          onClick={this.close} />
+          onClick={this.close}
+        />
 
-        <div
-          role='dialog'
-          className={classNames.element}
-          aria-labelledby={titleId}>
+        <dialog className={classNames.element} aria-labelledby={titleId}>
+          <button
+            type="button"
+            aria-label={this.props.closeButtonLabel}
+            onClick={this.close}
+            className={classNames.closeButton}
+          >
+            {this.props.closeButtonContent}
+          </button>
 
-          <div
-            role='document'
-            className={classNames.document}>
+          <h1 id={titleId} className={classNames.title}>
+            {this.props.title}
+          </h1>
 
-            <button
-              type='button'
-              aria-label={this.props.closeButtonLabel}
-              onClick={this.close}
-              className={classNames.closeButton}>
-              {this.props.closeButtonContent}
-            </button>
-
-            <h1
-              id={titleId}
-              className={classNames.title}>
-              {this.props.title}
-            </h1>
-
-            {this.props.children}
-
-          </div>
-
-        </div>
-
+          {this.props.children}
+        </dialog>
       </div>,
       document.querySelector(this.props.dialogRoot)
     )
@@ -116,10 +100,7 @@ Dialog.propTypes = {
   // The title of the dialog, mandatory in the document to provide context to
   // assistive technology. Could be hidden (while remaining accessible) with
   // CSS though.
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
 
   // A function called when the component has mounted, receiving the instance
   // of A11yDialog so that it can be programmatically accessed later on.
@@ -159,7 +140,6 @@ Dialog.propTypes = {
   // - base
   // - overlay
   // - element
-  // - document
   // - title
   // - closeButton
   // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure

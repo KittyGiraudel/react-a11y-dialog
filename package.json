@@ -1,6 +1,6 @@
 {
   "name": "react-a11y-dialog",
-  "version": "3.0.5",
+  "version": "4.0.0",
   "description": "A React component wrapper around a11y-dialog.",
   "homepage": "https://github.com/HugoGiraudel/react-a11y-dialog",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "build": "babel index.js -o dist/index.js"
   },
   "dependencies": {
-    "a11y-dialog": "^4.0.0"
+    "a11y-dialog": "^5.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
