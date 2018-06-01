@@ -4,7 +4,7 @@ const A11yDialog = require('a11y-dialog')
 const PropTypes = require('prop-types')
 
 class Dialog extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -17,82 +17,75 @@ class Dialog extends React.Component {
     this.handleRef = this.handleRef.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({ isMounted: true })
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.node !== this.state.node && this.state.node) {
       this.dialog = this.dialog || this.initDialog()
       this.props.dialogRef(this.dialog)
     }
   }
 
-  componentWillUnmount () {
-    this.dialog.destroy()
+  componentWillUnmount() {
+    if (this.dialog) {
+      this.dialog.destroy()
+    }
+
     this.props.dialogRef(undefined)
   }
 
-  initDialog () {
+  initDialog() {
     return new A11yDialog(this.state.node, this.props.appRoot)
   }
 
-  close () {
+  close() {
     this.dialog.hide()
   }
 
-  handleRef (node) {
+  handleRef(node) {
     this.setState({ node: node })
   }
 
-  render () {
+  render() {
     if (!this.state.isMounted) {
       return null
     }
 
     const { id, classNames } = this.props
-    const titleId = this.props.titleId || (id + '-title')
+    const titleId = this.props.titleId || id + '-title'
 
     return ReactDOM.createPortal(
-      <div
-        id={id}
-        className={classNames.base}
-        ref={this.handleRef}>
-
+      <div id={id} className={classNames.base} ref={this.handleRef}>
         <div
-          tabIndex='-1'
+          tabIndex="-1"
           className={classNames.overlay}
-          onClick={this.close} />
+          onClick={this.close}
+        />
 
         <div
-          role='dialog'
+          role="dialog"
           className={classNames.element}
-          aria-labelledby={titleId}>
-
-          <div
-            role='document'
-            className={classNames.document}>
-
+          aria-labelledby={titleId}
+        >
+          <div role="document" className={classNames.document}>
             <button
-              type='button'
+              type="button"
               aria-label={this.props.closeButtonLabel}
               onClick={this.close}
-              className={classNames.closeButton}>
+              className={classNames.closeButton}
+            >
               {this.props.closeButtonContent}
             </button>
 
-            <h1
-              id={titleId}
-              className={classNames.title}>
+            <h1 id={titleId} className={classNames.title}>
               {this.props.title}
             </h1>
 
             {this.props.children}
-
           </div>
-
         </div>
-
       </div>,
       document.querySelector(this.props.dialogRoot)
     )
@@ -116,10 +109,7 @@ Dialog.propTypes = {
   // The title of the dialog, mandatory in the document to provide context to
   // assistive technology. Could be hidden (while remaining accessible) with
   // CSS though.
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
 
   // A function called when the component has mounted, receiving the instance
   // of A11yDialog so that it can be programmatically accessed later on.

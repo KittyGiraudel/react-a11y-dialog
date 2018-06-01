@@ -48,7 +48,10 @@ var Dialog = function (_React$Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.dialog.destroy();
+      if (this.dialog) {
+        this.dialog.destroy();
+      }
+
       this.props.dialogRef(undefined);
     }
   }, {
@@ -81,39 +84,35 @@ var Dialog = function (_React$Component) {
 
       return ReactDOM.createPortal(React.createElement(
         'div',
-        {
-          id: id,
-          className: classNames.base,
-          ref: this.handleRef },
+        { id: id, className: classNames.base, ref: this.handleRef },
         React.createElement('div', {
           tabIndex: '-1',
           className: classNames.overlay,
-          onClick: this.close }),
+          onClick: this.close
+        }),
         React.createElement(
           'div',
           {
             role: 'dialog',
             className: classNames.element,
-            'aria-labelledby': titleId },
+            'aria-labelledby': titleId
+          },
           React.createElement(
             'div',
-            {
-              role: 'document',
-              className: classNames.document },
+            { role: 'document', className: classNames.document },
             React.createElement(
               'button',
               {
                 type: 'button',
                 'aria-label': this.props.closeButtonLabel,
                 onClick: this.close,
-                className: classNames.closeButton },
+                className: classNames.closeButton
+              },
               this.props.closeButtonContent
             ),
             React.createElement(
               'h1',
-              {
-                id: titleId,
-                className: classNames.title },
+              { id: titleId, className: classNames.title },
               this.props.title
             ),
             this.props.children
