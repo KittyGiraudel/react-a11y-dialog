@@ -82,6 +82,14 @@ npm install --save react-a11y-dialog
 * **Default value**: {}
 * **Description**: Object of classes for each HTML element of the dialog element. Keys are: `base`, `overlay`, `element`, `document`, `title`, `closeButton`. See [a11y-dialog docs](http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure) for reference.
 
+---
+
+* **Property name**: `useDialog`
+* **Type**: boolean
+* **Mandatory**: false
+* **Default value**: `true`
+* **Description**: Whether to render a `<dialog>` element or a `<div>` element.
+
 ## Server-side rendering
 
 react-a11y-dialog does not render anything on the server, and waits for the client bundle to kick in to render the dialog through the React portal.

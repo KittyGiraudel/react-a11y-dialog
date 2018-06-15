@@ -23,7 +23,7 @@ var Dialog = function (_React$Component) {
 
     _this.state = {
       isMounted: false,
-      node: null
+      container: null
     };
 
     _this.initDialog = _this.initDialog.bind(_this);
@@ -40,7 +40,7 @@ var Dialog = function (_React$Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
-      if (prevState.node !== this.state.node && this.state.node) {
+      if (prevState.container !== this.state.container && this.state.container) {
         this.dialog = this.dialog || this.initDialog();
         this.props.dialogRef(this.dialog);
       }
@@ -57,7 +57,7 @@ var Dialog = function (_React$Component) {
   }, {
     key: 'initDialog',
     value: function initDialog() {
-      return new A11yDialog(this.state.node, this.props.appRoot);
+      return new A11yDialog(this.state.container, this.props.appRoot);
     }
   }, {
     key: 'close',
@@ -66,8 +66,8 @@ var Dialog = function (_React$Component) {
     }
   }, {
     key: 'handleRef',
-    value: function handleRef(node) {
-      this.setState({ node: node });
+    value: function handleRef(element) {
+      this.setState({ container: element });
     }
   }, {
     key: 'render',
@@ -81,6 +81,7 @@ var Dialog = function (_React$Component) {
           classNames = _props.classNames;
 
       var titleId = this.props.titleId || id + '-title';
+      var Element = this.props.useDialog ? 'dialog' : 'div';
 
       return ReactDOM.createPortal(React.createElement(
         'div',
@@ -91,7 +92,7 @@ var Dialog = function (_React$Component) {
           onClick: this.close
         }),
         React.createElement(
-          'div',
+          Element,
           {
             role: 'dialog',
             className: classNames.element,
@@ -99,7 +100,7 @@ var Dialog = function (_React$Component) {
           },
           React.createElement(
             'div',
-            { role: 'document', className: classNames.document },
+            { className: classNames.document },
             React.createElement(
               'button',
               {
@@ -131,7 +132,8 @@ Dialog.defaultProps = {
   classNames: {},
   dialogRef: function dialogRef() {
     return void 0;
-  }
+  },
+  useDialog: true
   // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 };
@@ -182,7 +184,10 @@ Dialog.propTypes = {
   // - title
   // - closeButton
   // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
-  classNames: PropTypes.objectOf(PropTypes.string)
+  classNames: PropTypes.objectOf(PropTypes.string),
+
+  // Whether to render a `<dialog>` element or a `<div>` element.
+  useDialog: PropTypes.bool
 };
 
 module.exports = Dialog;

@@ -9,7 +9,7 @@ class Dialog extends React.Component {
 
     this.state = {
       isMounted: false,
-      node: null
+      container: null
     }
 
     this.initDialog = this.initDialog.bind(this)
@@ -22,7 +22,7 @@ class Dialog extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.node !== this.state.node && this.state.node) {
+    if (prevState.container !== this.state.container && this.state.container) {
       this.dialog = this.dialog || this.initDialog()
       this.props.dialogRef(this.dialog)
     }
@@ -37,15 +37,15 @@ class Dialog extends React.Component {
   }
 
   initDialog() {
-    return new A11yDialog(this.state.node, this.props.appRoot)
+    return new A11yDialog(this.state.container, this.props.appRoot)
   }
 
   close() {
     this.dialog.hide()
   }
 
-  handleRef(node) {
-    this.setState({ node: node })
+  handleRef(element) {
+    this.setState({ container: element })
   }
 
   render() {
@@ -55,6 +55,7 @@ class Dialog extends React.Component {
 
     const { id, classNames } = this.props
     const titleId = this.props.titleId || id + '-title'
+    const Element = this.props.useDialog ? 'dialog' : 'div'
 
     return ReactDOM.createPortal(
       <div id={id} className={classNames.base} ref={this.handleRef}>
@@ -64,12 +65,12 @@ class Dialog extends React.Component {
           onClick={this.close}
         />
 
-        <div
+        <Element
           role="dialog"
           className={classNames.element}
           aria-labelledby={titleId}
         >
-          <div role="document" className={classNames.document}>
+          <div className={classNames.document}>
             <button
               type="button"
               aria-label={this.props.closeButtonLabel}
@@ -85,7 +86,7 @@ class Dialog extends React.Component {
 
             {this.props.children}
           </div>
-        </div>
+        </Element>
       </div>,
       document.querySelector(this.props.dialogRoot)
     )
@@ -96,7 +97,8 @@ Dialog.defaultProps = {
   closeButtonLabel: 'Close this dialog window',
   closeButtonContent: '\u00D7',
   classNames: {},
-  dialogRef: () => void 0
+  dialogRef: () => void 0,
+  useDialog: true
   // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 }
@@ -153,7 +155,10 @@ Dialog.propTypes = {
   // - title
   // - closeButton
   // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
-  classNames: PropTypes.objectOf(PropTypes.string)
+  classNames: PropTypes.objectOf(PropTypes.string),
+
+  // Whether to render a `<dialog>` element or a `<div>` element.
+  useDialog: PropTypes.bool
 }
 
 module.exports = Dialog
