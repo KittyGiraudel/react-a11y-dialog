@@ -89,12 +89,12 @@ var Dialog = function (_React$Component) {
         React.createElement('div', {
           tabIndex: '-1',
           className: classNames.overlay,
-          onClick: this.close
+          onClick: this.props.role === 'alertdialog' ? undefined : this.close
         }),
         React.createElement(
           Element,
           {
-            role: 'dialog',
+            role: this.props.role,
             className: classNames.element,
             'aria-labelledby': titleId
           },
@@ -127,6 +127,7 @@ var Dialog = function (_React$Component) {
 }(React.Component);
 
 Dialog.defaultProps = {
+  role: 'dialog',
   closeButtonLabel: 'Close this dialog window',
   closeButtonContent: '\xD7',
   classNames: {},
@@ -139,6 +140,11 @@ Dialog.defaultProps = {
 };
 
 Dialog.propTypes = {
+  // The `role` attribute of the dialog element, either `dialog` (default) or
+  // `alertdialog` to make it a modal (preventing closing on click outside of
+  // ESC key).
+  role: PropTypes.oneOf(['dialog', 'alertdialog']),
+
   // The HTML `id` attribute of the dialog element, internally used by
   // a11y-dialog to manipulate the dialog.
   id: PropTypes.string.isRequired,
