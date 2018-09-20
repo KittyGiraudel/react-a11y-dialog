@@ -90,6 +90,14 @@ npm install --save react-a11y-dialog
 * **Default value**: `true`
 * **Description**: Whether to render a `<dialog>` element or a `<div>` element.
 
+---
+
+* **Property name**: `role`
+* **Type**: string
+* **Mandatory**: false
+* **Default value**: `dialog`
+* **Description**: The `role` attribute of the dialog element, either `dialog` (default) or `alertdialog` to make it a modal (preventing closing on click outside of <kbd>ESC</kbd> key).
+
 ## Server-side rendering
 
 react-a11y-dialog does not render anything on the server, and waits for the client bundle to kick in to render the dialog through the React portal.
