@@ -60,6 +60,14 @@ npm install --save react-a11y-dialog
 
 ---
 
+* **Property name**: `onClose`
+* **Type**: function
+* **Mandatory**: false
+* **Default value**: no-op
+* **Description**: A callback function that is called when the dialog is closed.
+
+---
+
 * **Property name**: `closeButtonLabel`
 * **Type**: string
 * **Mandatory**: false

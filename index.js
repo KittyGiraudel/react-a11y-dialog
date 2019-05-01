@@ -42,6 +42,8 @@ class Dialog extends React.Component {
 
   close() {
     this.dialog.hide()
+
+    this.props.onClose()
   }
 
   handleRef(element) {
@@ -95,6 +97,7 @@ class Dialog extends React.Component {
 
 Dialog.defaultProps = {
   role: 'dialog',
+  onClose: () => void 0,
   closeButtonLabel: 'Close this dialog window',
   closeButtonContent: '\u00D7',
   classNames: {},
@@ -128,6 +131,9 @@ Dialog.propTypes = {
   // technologies to provide context and meaning to the dialog window. Falls
   // back to the `${this.props.id}-title` if not provided.
   titleId: PropTypes.string,
+
+  // A callback function that is called when the dialog is closed.
+  onClose: PropTypes.func,
 
   // The HTML `aria-label` attribute of the close button, used by assistive
   // technologies to provide extra meaning to the usual cross-mark. Defaults
