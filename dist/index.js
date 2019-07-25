@@ -100,7 +100,10 @@ var Dialog = function (_React$Component) {
           },
           React.createElement(
             'div',
-            { className: classNames.document },
+            {
+              role: this.props.useDialog ? undefined : 'document',
+              className: classNames.document
+            },
             React.createElement(
               'button',
               {

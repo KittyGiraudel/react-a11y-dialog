@@ -70,7 +70,10 @@ class Dialog extends React.Component {
           className={classNames.element}
           aria-labelledby={titleId}
         >
-          <div className={classNames.document}>
+          <div
+            role={this.props.useDialog ? undefined : 'document'}
+            className={classNames.document}
+          >
             <button
               type="button"
               aria-label={this.props.closeButtonLabel}
