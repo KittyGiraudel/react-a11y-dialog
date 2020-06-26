@@ -60,7 +60,7 @@ class Dialog extends React.Component {
     return ReactDOM.createPortal(
       <div id={id} className={classNames.base} ref={this.handleRef}>
         <div
-          tabIndex="-1"
+          tabIndex='-1'
           className={classNames.overlay}
           onClick={this.props.role === 'alertdialog' ? undefined : this.close}
         />
@@ -75,7 +75,7 @@ class Dialog extends React.Component {
             className={classNames.document}
           >
             <button
-              type="button"
+              type='button'
               aria-label={this.props.closeButtonLabel}
               onClick={this.close}
               className={classNames.closeButton}
@@ -83,9 +83,19 @@ class Dialog extends React.Component {
               {this.props.closeButtonContent}
             </button>
 
-            <h1 id={titleId} className={classNames.title}>
+            {/**
+             * Using a paragraph with accessibility mapping to work around SEO
+             * concerns of having multiple <h1> per page.
+             * See: https://twitter.com/goetsu/status/1261253532315004930
+             */}
+            <p
+              id={titleId}
+              className={classNames.title}
+              role='heading'
+              aria-level='1'
+            >
               {this.props.title}
-            </h1>
+            </p>
 
             {this.props.children}
           </div>
