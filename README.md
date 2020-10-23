@@ -4,9 +4,15 @@ react-a11y-dialog is a React component for [a11y-dialog](https://github.com/eden
 
 *Note: for React versions **before** 16, use `react-a11y-dialog@2.0.0`.*
 
+- [Install](#install)
+- [API](#api)
+- [Server-side Rendering](#server-side-rendering)
+- [Mocking portals in tests](#mocking-portals-in-tests)
+- [Example](#example)
+
 ## Install
 
-```
+```sh
 npm install --save react-a11y-dialog
 ```
 
@@ -100,7 +106,40 @@ npm install --save react-a11y-dialog
 
 ## Server-side rendering
 
-react-a11y-dialog does not render anything on the server, and waits for the client bundle to kick in to render the dialog through the React portal.
+`react-a11y-dialog` does not render anything on the server, and waits for the client bundle to kick in to render the dialog through the React portal.
+
+## Mocking portals in tests
+
+When you're using `react-a11y-dialog` in your unit tests, it is necessary to mock React Portals and inject them to the root DOM before your tests are running. To accomplish that create helper methods that attach all portals before a test and remove them afterwards.
+
+```js
+const ROOT_PORTAL_IDS = ['dialog-root']
+
+export const addPortalRoots = () => {
+  for (const id of ROOT_PORTAL_IDS) {
+    if (!global.document.querySelector('#' + id)) {
+      const rootNode = global.document.createElement('div')
+      rootNode.setAttribute('id', id)
+      global.document.body.appendChild(rootNode)
+    }
+  }
+}
+
+export const removePortalRoots = () => {
+  for (const id of rootPortalIds) {
+    global.document.querySelector('#' + id)?.remove()
+  }
+}
+```
+
+And then use them in your tests.
+
+```js
+describe('Testing MyComponent', () => {
+  beforeAll(() => addPortalRoots())
+  afterAll(() => removePortalRoots())
+})
+```
 
 ## Example
 
