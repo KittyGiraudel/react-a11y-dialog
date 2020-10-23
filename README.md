@@ -110,7 +110,7 @@ npm install --save react-a11y-dialog
 
 ## Mocking portals in tests
 
-When you're using `react-a11y-dialog` in your unit tests, it is necessary to mock React Portals and inject them to the root DOM before your tests are running. To accomplish that create helper methods that attach all portals before a test and remove them afterwards.
+When you’re using `react-a11y-dialog` in your unit tests, it is necessary to mock React Portals and inject them to the root DOM before your tests are running. To accomplish that, create helper functions that attach all portals before a test and remove them afterwards.
 
 ```js
 const ROOT_PORTAL_IDS = ['dialog-root']
