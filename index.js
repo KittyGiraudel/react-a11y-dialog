@@ -3,107 +3,97 @@ const ReactDOM = require('react-dom')
 const A11yDialog = require('a11y-dialog')
 const PropTypes = require('prop-types')
 
-class Dialog extends React.Component {
-  constructor(props) {
-    super(props)
+const useIsMounted = () => {
+  const [isMounted, setIsMounted] = React.useState(false)
 
-    this.state = {
-      isMounted: false,
-      container: null,
+  React.useEffect(() => setIsMounted(true), [])
+
+  return isMounted
+}
+
+const useDialogInstance = ({ dialogRef, appRoot }) => {
+  const instance = React.useRef(null)
+  const container = React.useCallback(
+    node => {
+      if (node !== null) {
+        instance.current = new A11yDialog(node, appRoot)
+        dialogRef(instance.current)
+      }
+    },
+    [dialogRef, appRoot]
+  )
+
+  return { container, instance }
+}
+
+const Dialog = props => {
+  const isMounted = useIsMounted()
+  const { dialogRef } = props
+  const { container, instance } = useDialogInstance(props)
+
+  React.useEffect(() => {
+    const dialogInstance = instance.current
+
+    return () => {
+      if (dialogInstance) dialogInstance.destroy()
+      dialogRef(undefined)
     }
+  }, [dialogRef, instance])
 
-    this.initDialog = this.initDialog.bind(this)
-    this.close = this.close.bind(this)
-    this.handleRef = this.handleRef.bind(this)
-  }
+  const close = React.useCallback(() => instance.current.hide(), [instance])
 
-  componentDidMount() {
-    this.setState({ isMounted: true })
-  }
+  if (!isMounted) return null
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.container !== this.state.container && this.state.container) {
-      this.dialog = this.dialog || this.initDialog()
-      this.props.dialogRef(this.dialog)
-    }
-  }
+  const { id, classNames } = props
+  const titleId = props.titleId || id + '-title'
+  const Element = props.useDialog ? 'dialog' : 'div'
 
-  componentWillUnmount() {
-    if (this.dialog) {
-      this.dialog.destroy()
-    }
+  return ReactDOM.createPortal(
+    <div id={id} className={classNames.base} ref={container}>
+      <div
+        tabIndex='-1'
+        className={classNames.overlay}
+        onClick={props.role === 'alertdialog' ? undefined : close}
+      />
 
-    this.props.dialogRef(undefined)
-  }
-
-  initDialog() {
-    return new A11yDialog(this.state.container, this.props.appRoot)
-  }
-
-  close() {
-    this.dialog.hide()
-  }
-
-  handleRef(element) {
-    this.setState({ container: element })
-  }
-
-  render() {
-    if (!this.state.isMounted) {
-      return null
-    }
-
-    const { id, classNames } = this.props
-    const titleId = this.props.titleId || id + '-title'
-    const Element = this.props.useDialog ? 'dialog' : 'div'
-
-    return ReactDOM.createPortal(
-      <div id={id} className={classNames.base} ref={this.handleRef}>
+      <Element
+        role={props.role}
+        className={classNames.element}
+        aria-labelledby={titleId}
+      >
         <div
-          tabIndex='-1'
-          className={classNames.overlay}
-          onClick={this.props.role === 'alertdialog' ? undefined : this.close}
-        />
-
-        <Element
-          role={this.props.role}
-          className={classNames.element}
-          aria-labelledby={titleId}
+          role={props.useDialog ? undefined : 'document'}
+          className={classNames.document}
         >
-          <div
-            role={this.props.useDialog ? undefined : 'document'}
-            className={classNames.document}
+          <button
+            type='button'
+            aria-label={props.closeButtonLabel}
+            onClick={close}
+            className={classNames.closeButton}
           >
-            <button
-              type='button'
-              aria-label={this.props.closeButtonLabel}
-              onClick={this.close}
-              className={classNames.closeButton}
-            >
-              {this.props.closeButtonContent}
-            </button>
+            {props.closeButtonContent}
+          </button>
 
-            {/**
-             * Using a paragraph with accessibility mapping to work around SEO
-             * concerns of having multiple <h1> per page.
-             * See: https://twitter.com/goetsu/status/1261253532315004930
-             */}
-            <p
-              id={titleId}
-              className={classNames.title}
-              role='heading'
-              aria-level='1'
-            >
-              {this.props.title}
-            </p>
+          {/**
+           * Using a paragraph with accessibility mapping to work around SEO
+           * concerns of having multiple <h1> per page.
+           * See: https://twitter.com/goetsu/status/1261253532315004930
+           */}
+          <p
+            id={titleId}
+            className={classNames.title}
+            role='heading'
+            aria-level='1'
+          >
+            {props.title}
+          </p>
 
-            {this.props.children}
-          </div>
-        </Element>
-      </div>,
-      document.querySelector(this.props.dialogRoot)
-    )
-  }
+          {props.children}
+        </div>
+      </Element>
+    </div>,
+    document.querySelector(props.dialogRoot)
+  )
 }
 
 Dialog.defaultProps = {
