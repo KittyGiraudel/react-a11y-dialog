@@ -19,7 +19,7 @@
     "dist/index.js"
   ],
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "start": "babel index.js -o dist/index.js -w",
     "build": "babel index.js -o dist/index.js",
     "test": "npm run peer && jest",
