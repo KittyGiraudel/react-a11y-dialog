@@ -102,7 +102,7 @@ Dialog.defaultProps = {
   closeButtonContent: '\u00D7',
   classNames: {},
   dialogRef: () => void 0,
-  useDialogElement: true,
+  useDialogElement: false,
   // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 }

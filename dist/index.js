@@ -107,7 +107,7 @@ Dialog.defaultProps = {
   dialogRef: function dialogRef() {
     return void 0;
   },
-  useDialogElement: true // Default properties cannot be based on other properties, so the default
+  useDialogElement: false // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 
 };

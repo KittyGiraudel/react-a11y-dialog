@@ -98,8 +98,8 @@ npm install --save react-a11y-dialog
 - **Property name**: `useDialogElement`
 - **Type**: boolean
 - **Required**: false
-- **Default value**: `true`
-- **Description**: Whether to render a `<dialog>` element or a `<div>` element.
+- **Default value**: `false`
+- **Description**: Whether to render a `<dialog>` element or a `<div>` element and [let `a11y-dialog` polyfill it](http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure). The `<dialog>` element—while native HTML—is harder to style, and causes several browser inconsistencies. Additionally, [it _cannot_ work with `role="alertdialog"`](https://github.com/edenspiekermann/a11y-dialog/issues/115).
 
 ---
 
