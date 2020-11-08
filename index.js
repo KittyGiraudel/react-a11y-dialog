@@ -9,7 +9,7 @@ class Dialog extends React.Component {
 
     this.state = {
       isMounted: false,
-      container: null
+      container: null,
     }
 
     this.initDialog = this.initDialog.bind(this)
@@ -112,7 +112,7 @@ Dialog.defaultProps = {
   closeButtonContent: '\u00D7',
   classNames: {},
   dialogRef: () => void 0,
-  useDialog: true
+  useDialog: true,
   // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 }
@@ -150,7 +150,7 @@ Dialog.propTypes = {
   // The string that is the innerHTML of the close button.
   closeButtonContent: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.element
+    PropTypes.element,
   ]),
 
   // a11y-dialog needs one or more “targets” to disable when the dialog is open.
@@ -158,7 +158,7 @@ Dialog.propTypes = {
   // constructor.
   appRoot: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string)
+    PropTypes.arrayOf(PropTypes.string),
   ]).isRequired,
 
   // React 16 requires a container for the portal’s content to be rendered
@@ -182,7 +182,7 @@ Dialog.propTypes = {
   // Dialog content.
   // Anything that can be rendered: numbers, strings, elements or an array
   // (or fragment) containing these types.
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 module.exports = Dialog
