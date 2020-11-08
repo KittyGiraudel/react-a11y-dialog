@@ -1,8 +1,13 @@
 # React A11yDialog
 
-react-a11y-dialog is a React component for [a11y-dialog](https://github.com/edenspiekermann/a11y-dialog) relying on [React portals](https://reactjs.org/docs/portals.html) to ease the use of accessible dialog windows in React applications.
+react-a11y-dialog is a thin React component for [a11y-dialog](https://github.com/edenspiekermann/a11y-dialog) relying on [React portals](https://reactjs.org/docs/portals.html) to ease the use of accessible dialog windows in React applications.
 
-_Note: for React versions **before** 16, use `react-a11y-dialog@2.0.0`. For React versions **before** 16.8, use `react-a11y-dialog@4.2.0`._
+Version compatibility:
+
+- For React versions **before** 16, use `react-a11y-dialog@2.0.0`.
+- For React versions **before** 16.8, use `react-a11y-dialog@4.2.0`.
+
+_Special thanks to Moritz Kröger (@morkro) for his kind help in making that library better._
 
 - [Install](#install)
 - [API](#api)
@@ -98,11 +103,11 @@ npm install --save react-a11y-dialog
 
 ---
 
-- **Property name**: `useDialog`
+- **Property name**: `useDialogElement`
 - **Type**: boolean
 - **Required**: false
-- **Default value**: `true`
-- **Description**: Whether to render a `<dialog>` element or a `<div>` element.
+- **Default value**: `false`
+- **Description**: Whether to render a `<dialog>` element or a `<div>` element and [let `a11y-dialog` polyfill it](http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure). The `<dialog>` element—while native HTML—is harder to style, and causes several browser inconsistencies. Additionally, [it _cannot_ work with `role="alertdialog"`](https://github.com/edenspiekermann/a11y-dialog/issues/115).
 
 ---
 

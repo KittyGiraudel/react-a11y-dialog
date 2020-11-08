@@ -82,7 +82,7 @@ describe('The A11yDialog component', () => {
   })
 
   it('should make the overlay cosmetic for modals', () => {
-    render(<Test role='alertdialog' useDialog={false} />)
+    render(<Test role='alertdialog' />)
 
     const container = screen.getByTestId('test')
     const overlay = container.firstChild
@@ -97,7 +97,7 @@ describe('The A11yDialog component', () => {
   })
 
   it('should render the dialog', () => {
-    render(<Test useDialog={false} />)
+    render(<Test />)
 
     const dialog = screen.getByRole('dialog', { hidden: true })
 
@@ -106,7 +106,7 @@ describe('The A11yDialog component', () => {
   })
 
   it('should render <dialog> element if instructed so', () => {
-    render(<Test useDialog />)
+    render(<Test useDialogElement />)
 
     const container = screen.getByTestId('test')
     const dialog = container.querySelector('dialog')
@@ -117,7 +117,7 @@ describe('The A11yDialog component', () => {
   })
 
   it('should render inner container', () => {
-    render(<Test useDialog={false} />)
+    render(<Test />)
 
     const dialog = screen.getByRole('dialog', { hidden: true })
     const inner = dialog.firstChild
@@ -127,7 +127,7 @@ describe('The A11yDialog component', () => {
   })
 
   it('should skip role from inner container when <dialog> is used', () => {
-    render(<Test useDialog />)
+    render(<Test useDialogElement />)
 
     const dialog = screen.getByRole('dialog', { hidden: true })
     const inner = dialog.firstChild

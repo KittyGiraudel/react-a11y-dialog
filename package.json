@@ -14,16 +14,16 @@
     "react",
     "component"
   ],
-  "author": "Hugo Giraudel (http://hugogiraudel.com)",
+  "author": "Hugo Giraudel (https://hugogiraudel.com)",
   "files": [
     "dist/index.js"
   ],
   "scripts": {
-    "lint": "standard index.js",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "start": "babel index.js -o dist/index.js -w",
     "build": "babel index.js -o dist/index.js",
-    "test": "jest"
+    "test": "npm run peer && jest",
+    "peer": "npm info . peerDependencies --json  | command sed 's/[\\{\\},]//g ; s/: /@/g' | xargs npm i --no-save"
   },
   "dependencies": {
     "a11y-dialog": "^5.4.2"
@@ -34,10 +34,7 @@
     "@babel/preset-react": "^7.12.5",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
-    "jest": "^26.6.3",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "standard": "^16.0.1"
+    "jest": "^26.6.3"
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",

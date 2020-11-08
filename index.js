@@ -119,7 +119,7 @@ const Dialog = props => {
         aria-labelledby={titleId}
       >
         <div
-          role={props.useDialog ? undefined : 'document'}
+          role={props.useDialogElement ? undefined : 'document'}
           className={classNames.document}
         >
           {getChildOrder()}
@@ -137,7 +137,7 @@ Dialog.defaultProps = {
   closeButtonPosition: 'first',
   classNames: {},
   dialogRef: () => void 0,
-  useDialog: true,
+  useDialogElement: false,
   // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 }
@@ -205,7 +205,7 @@ Dialog.propTypes = {
   classNames: PropTypes.objectOf(PropTypes.string),
 
   // Whether to render a `<dialog>` element or a `<div>` element.
-  useDialog: PropTypes.bool,
+  useDialogElement: PropTypes.bool,
 
   // Dialog content.
   // Anything that can be rendered: numbers, strings, elements or an array
