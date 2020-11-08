@@ -86,7 +86,7 @@ npm install --save react-a11y-dialog
 - **Type**: string
 - **Mandatory**: false
 - **Default value**: `first`
-- **Description**: Whether to render the close button before/after the heading or not at all. Options are: `first`, `last`, `none`
+- **Description**: Whether to render the close button before/after the heading or not at all. Options are: `first`, `last`, `none`. **⚠️ Caution!** If you set it to `none`, you'll have to implement your own close button inside the dialog.
 
 ---
 
