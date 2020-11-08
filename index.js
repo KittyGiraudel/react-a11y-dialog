@@ -26,6 +26,37 @@ const useDialogInstance = ({ dialogRef, appRoot }) => {
   return { container, instance }
 }
 
+const CloseButton = props => {
+  return (
+    <button
+      type='button'
+      aria-label={props.closeButtonLabel}
+      onClick={props.onClose}
+      className={props.classNames.closeButton}
+    >
+      {props.closeButtonContent}
+    </button>
+  )
+}
+
+const Heading = props => {
+  /**
+   * Using a paragraph with accessibility mapping to work around SEO
+   * concerns of having multiple <h1> per page.
+   * See: https://twitter.com/goetsu/status/1261253532315004930
+   */
+  return (
+    <p
+      id={props.titleId}
+      className={props.classNames.title}
+      role='heading'
+      aria-level='1'
+    >
+      {props.title}
+    </p>
+  )
+}
+
 const Dialog = props => {
   const isMounted = useIsMounted()
   const { dialogRef } = props
@@ -47,52 +78,30 @@ const Dialog = props => {
   const { id, classNames } = props
   const titleId = props.titleId || id + '-title'
   const Element = props.useDialog ? 'dialog' : 'div'
-  const CloseButton = () => {
-    return (
-      <button
-        type='button'
-        aria-label={props.closeButtonLabel}
-        onClick={close}
-        className={classNames.closeButton}
-      >
-        {props.closeButtonContent}
-      </button>
-    )
-  }
-  const Heading = () => {
-    /**
-     * Using a paragraph with accessibility mapping to work around SEO
-     * concerns of having multiple <h1> per page.
-     * See: https://twitter.com/goetsu/status/1261253532315004930
-     */
-    return (
-      <p
-        id={titleId}
-        className={classNames.title}
-        role='heading'
-        aria-level='1'
-      >
-        {props.title}
-      </p>
-    )
-  }
   const getChildOrder = () => {
     if (props.closeButtonPosition === 'first') {
       return (
         <React.Fragment>
-          <CloseButton />
-          <Heading />
+          <CloseButton onClose={close} {...props} />
+          <Heading titleId={titleId} {...props} />
+          {props.children}
         </React.Fragment>
       )
     } else if (props.closeButtonPosition === 'last') {
       return (
         <React.Fragment>
-          <Heading />
-          <CloseButton />
+          <Heading titleId={titleId} {...props} />
+          {props.children}
+          <CloseButton onClose={close} {...props} />
         </React.Fragment>
       )
     } else if (props.closeButtonPosition === 'none') {
-      return <Heading />
+      return (
+        <React.Fragment>
+          <Heading titleId={titleId} {...props} />
+          {props.children}
+        </React.Fragment>
+      )
     }
   }
 
@@ -114,7 +123,6 @@ const Dialog = props => {
           className={classNames.document}
         >
           {getChildOrder()}
-          {props.children}
         </div>
       </Element>
     </div>,
@@ -205,4 +213,4 @@ Dialog.propTypes = {
   children: PropTypes.node,
 }
 
-export default Dialog
+module.exports = Dialog
