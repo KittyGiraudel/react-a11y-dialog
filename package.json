@@ -19,7 +19,6 @@
     "dist/index.js"
   ],
   "scripts": {
-    "lint": "standard index.js",
     "prepublish": "npm run build",
     "start": "babel index.js -o dist/index.js -w",
     "build": "babel index.js -o dist/index.js",
@@ -36,8 +35,7 @@
     "@testing-library/react": "^11.1.1",
     "jest": "^26.6.3",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "standard": "^16.0.1"
+    "react-dom": "^17.0.1"
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",
