@@ -1,8 +1,13 @@
 # React A11yDialog
 
-react-a11y-dialog is a React component for [a11y-dialog](https://github.com/edenspiekermann/a11y-dialog) relying on [React portals](https://reactjs.org/docs/portals.html) to ease the use of accessible dialog windows in React applications.
+react-a11y-dialog is a thin React component for [a11y-dialog](https://github.com/edenspiekermann/a11y-dialog) relying on [React portals](https://reactjs.org/docs/portals.html) to ease the use of accessible dialog windows in React applications.
 
-_Note: for React versions **before** 16, use `react-a11y-dialog@2.0.0`. For React versions **before** 16.8, use `react-a11y-dialog@4.2.0`._
+Version compatibility:
+
+- For React versions **before** 16, use `react-a11y-dialog@2.0.0`.
+- For React versions **before** 16.8, use `react-a11y-dialog@4.2.0`.
+
+_Special thanks to Moritz Kröger (@morkro) for his kind help in making that library better._
 
 - [Install](#install)
 - [API](#api)
@@ -20,7 +25,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `id`
 - **Type**: string
-- **Mandatory**: true
+- **Required**: true
 - **Default value**: —
 - **Description**: The HTML `id` attribute of the dialog element, internally used by a11y-dialog to manipulate the dialog.
 
@@ -28,7 +33,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `title`
 - **Type**: string | element
-- **Mandatory**: true
+- **Required**: true
 - **Default value**: —
 - **Description**: The title of the dialog, mandatory in the document to provide context to assistive technology. Could be [hidden with CSS](https://hugogiraudel.com/2016/10/13/css-hide-and-seek/) (while remaining accessible).
 
@@ -36,7 +41,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `dialogRef`
 - **Type**: function
-- **Mandatory**: false
+- **Required**: false
 - **Default value**: no-op
 - **Description**: A function called when the component has mounted, receiving the [instance of A11yDialog](http://edenspiekermann.github.io/a11y-dialog/#js-api) so that it can be programmatically accessed later on.
 
@@ -44,7 +49,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `appRoot`
 - **Type**: string | string[]
-- **Mandatory**: true
+- **Required**: true
 - **Default value**: —
 - **Description**: The [selector(s) a11y-dialog need](http://edenspiekermann.github.io/a11y-dialog/#javascript-instantiation) to disable when the dialog is open.
 
@@ -52,7 +57,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `dialogRoot`
 - **Type**: string
-- **Mandatory**: true
+- **Required**: true
 - **Default value**: —
 - **Description**: The container for the dialog to be rendered into ([React portal](https://reactjs.org/docs/portals.html)’s root).
 
@@ -60,7 +65,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `titleId`
 - **Type**: string
-- **Mandatory**: false
+- **Required**: false
 - **Default value**: `${this.props.id}-title`
 - **Description**: The HTML `id` attribute of the dialog’s title element, used by assistive technologies to provide context and meaning to the dialog window.
 
@@ -68,7 +73,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `closeButtonLabel`
 - **Type**: string
-- **Mandatory**: false
+- **Required**: false
 - **Default value**: “Close this dialog window”
 - **Description**: The HTML `aria-label` attribute of the close button, used by assistive technologies to provide extra meaning to the usual cross-mark.
 
@@ -76,7 +81,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `closeButtonContent`
 - **Type**: string | element
-- **Mandatory**: false
+- **Required**: false
 - **Default value**: `\u00D7` (×)
 - **Description**: The string that is the inner HTML of the close button.
 
@@ -84,7 +89,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `classNames`
 - **Type**: object
-- **Mandatory**: false
+- **Required**: false
 - **Default value**: {}
 - **Description**: Object of classes for each HTML element of the dialog element. Keys are: `base`, `overlay`, `element`, `document`, `title`, `closeButton`. See [a11y-dialog docs](http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure) for reference.
 
@@ -92,7 +97,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `useDialog`
 - **Type**: boolean
-- **Mandatory**: false
+- **Required**: false
 - **Default value**: `true`
 - **Description**: Whether to render a `<dialog>` element or a `<div>` element.
 
@@ -100,7 +105,7 @@ npm install --save react-a11y-dialog
 
 - **Property name**: `role`
 - **Type**: string
-- **Mandatory**: false
+- **Required**: false
 - **Default value**: `dialog`
 - **Description**: The `role` attribute of the dialog element, either `dialog` (default) or `alertdialog` to make it a modal (preventing closing on click outside of <kbd>ESC</kbd> key).
 
