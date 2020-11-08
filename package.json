@@ -28,9 +28,9 @@
     "a11y-dialog": "^5.2.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.6.0",
+    "@babel/cli": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
     "standard": "^11.0.0"
   },
   "peerDependencies": {
