@@ -32,31 +32,45 @@ var useIsMounted = function useIsMounted() {
   return isMounted;
 };
 
-var Dialog = function Dialog(props) {
-  var isMounted = useIsMounted();
-  var container = React.useRef(null);
+var useDialogInstance = function useDialogInstance(_ref) {
+  var dialogRef = _ref.dialogRef,
+      appRoot = _ref.appRoot;
   var instance = React.useRef(null);
-  var dialogRef = props.dialogRef,
-      appRoot = props.appRoot;
-  React.useEffect(function () {
-    if (container.current) {
-      instance.current = new A11yDialog(container.current, appRoot);
+  var container = React.useCallback(function (node) {
+    if (node !== null) {
+      instance.current = new A11yDialog(node, appRoot);
       dialogRef(instance.current);
     }
+  }, [dialogRef, appRoot]);
+  return {
+    container: container,
+    instance: instance
+  };
+};
 
+var Dialog = function Dialog(props) {
+  var isMounted = useIsMounted();
+  var dialogRef = props.dialogRef;
+
+  var _useDialogInstance = useDialogInstance(props),
+      container = _useDialogInstance.container,
+      instance = _useDialogInstance.instance;
+
+  React.useEffect(function () {
+    var dialogInstance = instance.current;
     return function () {
-      if (instance.current) instance.current.destroy();
+      if (dialogInstance) dialogInstance.destroy();
       dialogRef(undefined);
     };
-  }, [container, dialogRef, appRoot]);
+  }, [dialogRef, instance]);
   var close = React.useCallback(function () {
     return instance.current.hide();
-  }, []);
+  }, [instance]);
   if (!isMounted) return null;
   var id = props.id,
       classNames = props.classNames;
   var titleId = props.titleId || id + '-title';
-  var Element = props.useDialog ? 'dialog' : 'div';
+  var Element = props.useDialogElement ? 'dialog' : 'div';
   return ReactDOM.createPortal( /*#__PURE__*/React.createElement("div", {
     id: id,
     className: classNames.base,
@@ -70,7 +84,7 @@ var Dialog = function Dialog(props) {
     className: classNames.element,
     "aria-labelledby": titleId
   }, /*#__PURE__*/React.createElement("div", {
-    role: props.useDialog ? undefined : 'document',
+    role: props.useDialogElement ? undefined : 'document',
     className: classNames.document
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
@@ -93,7 +107,7 @@ Dialog.defaultProps = {
   dialogRef: function dialogRef() {
     return void 0;
   },
-  useDialog: true // Default properties cannot be based on other properties, so the default
+  useDialogElement: true // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 
 };
@@ -141,7 +155,7 @@ Dialog.propTypes = {
   // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
   classNames: PropTypes.objectOf(PropTypes.string),
   // Whether to render a `<dialog>` element or a `<div>` element.
-  useDialog: PropTypes.bool,
+  useDialogElement: PropTypes.bool,
   // Dialog content.
   // Anything that can be rendered: numbers, strings, elements or an array
   // (or fragment) containing these types.

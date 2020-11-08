@@ -95,7 +95,7 @@ npm install --save react-a11y-dialog
 
 ---
 
-- **Property name**: `useDialog`
+- **Property name**: `useDialogElement`
 - **Type**: boolean
 - **Required**: false
 - **Default value**: `true`
