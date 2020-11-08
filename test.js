@@ -1,132 +1,165 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Dialog from "./";
-import TestRenderer from "react-test-renderer";
+import React from 'react'
+import Dialog from './'
+import { render, configure, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
+
+configure({ testIdAttribute: 'id' })
 
 // See: https://github.com/facebook/react/issues/11565#issuecomment-368877149
-jest.mock("react-dom", () => ({
-  ...jest.requireActual("react-dom"),
-  createPortal: (node) => node,
-}));
+jest.mock('react-dom', () => ({
+  ...jest.requireActual('react-dom'),
+  createPortal: node => node,
+}))
 
-const ROOT_PORTAL_IDS = ["dialog-root"];
-
-const addPortalRoots = () => {
-  for (const id of ROOT_PORTAL_IDS) {
-    if (!global.document.querySelector("#" + id)) {
-      const rootNode = global.document.createElement("div");
-      rootNode.setAttribute("id", id);
-      global.document.body.appendChild(rootNode);
-    }
+const Test = props => {
+  const BASE_PROPS = {
+    id: 'test',
+    title: 'Test',
+    appRoot: '#root',
+    dialogRoot: '#dialog-root',
+    classNames: {
+      base: 'base',
+      overlay: 'overlay',
+      element: 'element',
+      document: 'document',
+      title: 'title',
+      closeButton: 'closeButton',
+    },
   }
-};
 
-const removePortalRoots = () => {
-  for (const id of rootPortalIds) {
-    global.document.querySelector("#" + id)?.remove();
-  }
-};
+  const dialog = React.useRef(null)
 
-const getTree = (props) => {
-  const { root: instance } = TestRenderer.create(
-    <Dialog
-      id="dialog-test"
-      appRoot="#root"
-      dialogRoot="#dialog-root"
-      title="Test Dialog Title"
-      {...props}
-    />
-  );
-  const container = instance.children[0];
+  return (
+    <>
+      <Dialog
+        {...BASE_PROPS}
+        {...props}
+        dialogRef={instance => (dialog.current = instance)}
+      />
+      <button
+        type='button'
+        onClick={() => dialog.current && dialog.current.show()}
+        id='opener'
+      >
+        Open dialog
+      </button>
+    </>
+  )
+}
 
-  return {
-    container,
-    overlay: container.children[0],
-    dialog: container.children[1],
-    inner: container.children[1].children[0],
-    closeButton: container.children[1].children[0].children[0],
-    title: container.children[1].children[0].children[1],
-  };
-};
+const openDialog = () => {
+  // Open the dialog
+  fireEvent.click(screen.getByTestId('opener'))
 
-describe("The `react-a11y-dialog` component", () => {
-  beforeAll(() => addPortalRoots());
-  afterAll(() => removePortalRoots());
+  // Ensure it has been open
+  expect(screen.getByTestId('test')).not.toHaveAttribute('aria-hidden')
+}
 
-  it("should render the container", () => {
-    const { container } = getTree({ id: "dialog-test" });
+describe('The A11yDialog component', () => {
+  it('should render the container', () => {
+    render(<Test />)
 
-    expect(container.props.id).toBe("dialog-test");
-  });
+    const container = screen.getByTestId('test')
 
-  it("should render the overlay", () => {
-    const { overlay: overlayA } = getTree({ role: "dialog" });
-    const { overlay: overlayB } = getTree({ role: "alertdialog" });
+    expect(container).toHaveAttribute('id', 'test')
+    expect(container).toHaveAttribute('class', 'base')
+  })
 
-    expect(overlayA.props.tabIndex).toBe("-1");
-    expect(overlayA.props.onClick).toBeDefined();
-    expect(overlayB.props.tabIndex).toBe("-1");
-    expect(overlayB.props.onClick).toBeUndefined();
-  });
+  it('should render the overlay', () => {
+    render(<Test />)
 
-  it("should render the dialog", () => {
-    const { dialog: dialogA } = getTree({ id: "dialog-test", useDialog: true });
-    const { dialog: dialogB } = getTree({
-      id: "dialog-test",
-      useDialog: false,
-    });
-    const { dialog: dialogC } = getTree({
-      id: "dialog-test",
-      useDialog: false,
-      role: "alertdialog",
-    });
+    const container = screen.getByTestId('test')
+    const overlay = container.firstChild
 
-    expect(dialogA.type).toBe("dialog");
-    expect(dialogB.type).toBe("div");
-    expect(dialogC.type).toBe("div");
-    expect(dialogA.props.role).toBe("dialog");
-    expect(dialogB.props.role).toBe("dialog");
-    expect(dialogC.props.role).toBe("alertdialog");
-    expect(dialogA.props["aria-labelledby"]).toBe("dialog-test-title");
-    expect(dialogB.props["aria-labelledby"]).toBe("dialog-test-title");
-    expect(dialogC.props["aria-labelledby"]).toBe("dialog-test-title");
-  });
+    expect(overlay).toHaveAttribute('tabindex', '-1')
+    expect(overlay).toHaveAttribute('class', 'overlay')
 
-  it("should render the inner container", () => {
-    const { inner: innerA } = getTree({ useDialog: true });
-    const { inner: innerB } = getTree({ useDialog: false });
+    // Open the dialog, close it by clicking the overlay, and ensure it has been
+    // properly closed
+    openDialog()
+    fireEvent.click(overlay)
+    expect(container).toHaveAttribute('aria-hidden', 'true')
+  })
 
-    expect(innerA.type).toBe("div");
-    expect(innerA.props.role).toBeUndefined();
-    expect(innerB.props.role).toBe("document");
-  });
+  it('should make the overlay cosmetic for modals', () => {
+    render(<Test role='alertdialog' useDialog={false} />)
 
-  it("should render the close button", () => {
-    const { closeButton } = getTree({
-      closeButtonLabel: "close button label",
-      closeButtonContent: "close button content",
-    });
+    const container = screen.getByTestId('test')
+    const overlay = container.firstChild
 
-    expect(closeButton.type).toBe("button");
-    expect(closeButton.props.type).toBe("button");
-    expect(closeButton.props["aria-label"]).toBe("close button label");
-    expect(closeButton.props.onClick).toBeDefined();
-    expect(closeButton.props.children).toBe("close button content");
-  });
+    expect(overlay).toHaveAttribute('tabindex', '-1')
+    expect(overlay).toHaveAttribute('class', 'overlay')
 
-  it("should render the title", () => {
-    const { title } = getTree({ title: "Hello" });
+    // Open the dialog, try clicking the overlay, and ensure it is still open
+    openDialog()
+    fireEvent.click(overlay)
+    expect(container).not.toHaveAttribute('aria-hidden')
+  })
 
-    expect(title.type).toBe("p");
-    expect(title.props.role).toBe("heading");
-    expect(title.props["aria-level"]).toBe("1");
-    expect(title.props.children).toBe("Hello");
-  });
+  it('should render the dialog', () => {
+    render(<Test useDialog={false} />)
 
-  it("should render children", () => {
-    const { inner } = getTree({ children: "Children!" });
-    expect(inner.props.children[inner.props.children.length - 1]).toBe(
-      "Children!"
-    );
-  });
-});
+    const dialog = screen.getByRole('dialog', { hidden: true })
+
+    expect(dialog).toHaveAttribute('aria-labelledby', 'test-title')
+    expect(dialog).toHaveAttribute('class', 'element')
+  })
+
+  it('should render <dialog> element if instructed so', () => {
+    render(<Test useDialog />)
+
+    const container = screen.getByTestId('test')
+    const dialog = container.querySelector('dialog')
+
+    expect(dialog).toHaveAttribute('role', 'dialog')
+    expect(dialog).toHaveAttribute('aria-labelledby', 'test-title')
+    expect(dialog).toHaveAttribute('class', 'element')
+  })
+
+  it('should render inner container', () => {
+    render(<Test useDialog={false} />)
+
+    const dialog = screen.getByRole('dialog', { hidden: true })
+    const inner = dialog.firstChild
+
+    expect(inner).toHaveAttribute('role', 'document')
+    expect(inner).toHaveAttribute('class', 'document')
+  })
+
+  it('should skip role from inner container when <dialog> is used', () => {
+    render(<Test useDialog />)
+
+    const dialog = screen.getByRole('dialog', { hidden: true })
+    const inner = dialog.firstChild
+
+    expect(inner).not.toHaveAttribute('role')
+  })
+
+  it('should render the title', () => {
+    render(<Test />)
+
+    const title = screen.getByText('Test')
+
+    expect(title).toHaveAttribute('role', 'heading')
+    expect(title).toHaveAttribute('aria-level', '1')
+    expect(title).toHaveAttribute('id', 'test-title')
+    expect(title).toHaveAttribute('class', 'title')
+  })
+
+  it('should render the close button', () => {
+    render(<Test closeButtonContent='×' closeButtonLabel='Close the dialog' />)
+
+    const container = screen.getByTestId('test')
+    const button = screen.getByText('×')
+
+    expect(button).toHaveAttribute('type', 'button')
+    expect(button).toHaveAttribute('aria-label', 'Close the dialog')
+    expect(button).toHaveAttribute('class', 'closeButton')
+
+    // Open the dialog, close it by clicking the close button, and ensure it has
+    // been properly closed
+    openDialog()
+    fireEvent.click(button)
+    expect(container).toHaveAttribute('aria-hidden', 'true')
+  })
+})
