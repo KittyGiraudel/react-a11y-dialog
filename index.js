@@ -1,7 +1,7 @@
-const React = require('react')
-const ReactDOM = require('react-dom')
-const A11yDialog = require('a11y-dialog')
-const PropTypes = require('prop-types')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import A11yDialog from 'a11y-dialog'
+import PropTypes from 'prop-types'
 
 const useIsMounted = () => {
   const [isMounted, setIsMounted] = React.useState(false)
@@ -47,6 +47,54 @@ const Dialog = props => {
   const { id, classNames } = props
   const titleId = props.titleId || id + '-title'
   const Element = props.useDialog ? 'dialog' : 'div'
+  const CloseButton = () => {
+    return (
+      <button
+        type='button'
+        aria-label={props.closeButtonLabel}
+        onClick={close}
+        className={classNames.closeButton}
+      >
+        {props.closeButtonContent}
+      </button>
+    )
+  }
+  const Heading = () => {
+    /**
+     * Using a paragraph with accessibility mapping to work around SEO
+     * concerns of having multiple <h1> per page.
+     * See: https://twitter.com/goetsu/status/1261253532315004930
+     */
+    return (
+      <p
+        id={titleId}
+        className={classNames.title}
+        role='heading'
+        aria-level='1'
+      >
+        {props.title}
+      </p>
+    )
+  }
+  const getChildOrder = () => {
+    if (props.closeButtonPosition === 'first') {
+      return (
+        <React.Fragment>
+          <CloseButton />
+          <Heading />
+        </React.Fragment>
+      )
+    } else if (props.closeButtonPosition === 'last') {
+      return (
+        <React.Fragment>
+          <Heading />
+          <CloseButton />
+        </React.Fragment>
+      )
+    } else if (props.closeButtonPosition === 'none') {
+      return <Heading />
+    }
+  }
 
   return ReactDOM.createPortal(
     <div id={id} className={classNames.base} ref={container}>
@@ -65,29 +113,7 @@ const Dialog = props => {
           role={props.useDialog ? undefined : 'document'}
           className={classNames.document}
         >
-          <button
-            type='button'
-            aria-label={props.closeButtonLabel}
-            onClick={close}
-            className={classNames.closeButton}
-          >
-            {props.closeButtonContent}
-          </button>
-
-          {/**
-           * Using a paragraph with accessibility mapping to work around SEO
-           * concerns of having multiple <h1> per page.
-           * See: https://twitter.com/goetsu/status/1261253532315004930
-           */}
-          <p
-            id={titleId}
-            className={classNames.title}
-            role='heading'
-            aria-level='1'
-          >
-            {props.title}
-          </p>
-
+          {getChildOrder()}
           {props.children}
         </div>
       </Element>
@@ -100,6 +126,7 @@ Dialog.defaultProps = {
   role: 'dialog',
   closeButtonLabel: 'Close this dialog window',
   closeButtonContent: '\u00D7',
+  closeButtonPosition: 'first',
   classNames: {},
   dialogRef: () => void 0,
   useDialog: true,
@@ -143,6 +170,9 @@ Dialog.propTypes = {
     PropTypes.element,
   ]),
 
+  // Whether the close button should be rendered as first/last children or not at all.
+  closeButtonPosition: PropTypes.oneOf(['first', 'last', 'none']),
+
   // a11y-dialog needs one or more “targets” to disable when the dialog is open.
   // This prop can be one or more selector which will be passed to a11y-dialog
   // constructor.
@@ -175,4 +205,4 @@ Dialog.propTypes = {
   children: PropTypes.node,
 }
 
-module.exports = Dialog
+export default Dialog

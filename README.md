@@ -82,6 +82,14 @@ npm install --save react-a11y-dialog
 
 ---
 
+- **Property name**: `closeButtonPosition`
+- **Type**: string
+- **Mandatory**: false
+- **Default value**: `first`
+- **Description**: Whether to render the close button before/after the heading or not at all. Options are: `first`, `last`, `none`
+
+---
+
 - **Property name**: `classNames`
 - **Type**: object
 - **Mandatory**: false

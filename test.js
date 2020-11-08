@@ -162,4 +162,37 @@ describe('The A11yDialog component', () => {
     fireEvent.click(button)
     expect(container).toHaveAttribute('aria-hidden', 'true')
   })
+
+  it('should render close button as first element', () => {
+    render(<Test closeButtonContent='×' closeButtonLabel='Close the dialog' />)
+
+    const inner = screen.getByRole('dialog', { hidden: true }).firstChild
+    const button = screen.getByText('×')
+
+    expect(inner.firstElementChild).toEqual(button)
+  })
+
+  it('should render close button as second element', () => {
+    render(
+      <Test
+        closeButtonContent='×'
+        closeButtonLabel='Close the dialog'
+        closeButtonPosition='last'
+      />
+    )
+
+    const inner = screen.getByRole('dialog', { hidden: true }).firstChild
+    const button = screen.getByText('×')
+    const title = screen.getByText('Test')
+
+    expect(inner.firstElementChild).toEqual(title)
+    expect(inner.firstElementChild).not.toEqual(button)
+  })
+
+  it('should not render close button', () => {
+    render(<Test closeButtonPosition='none' />)
+
+    const button = screen.queryByText('×')
+    expect(button).not.toBeInTheDocument()
+  })
 })
