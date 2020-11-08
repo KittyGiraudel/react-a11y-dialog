@@ -26,7 +26,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "a11y-dialog": "^5.2.0"
+    "a11y-dialog": "^5.4.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
@@ -36,7 +36,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-test-renderer": "^17.0.1",
-    "standard": "^11.0.0"
+    "standard": "^16.0.1"
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",
