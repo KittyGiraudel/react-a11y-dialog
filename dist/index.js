@@ -1,20 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _reactDom = _interopRequireDefault(require("react-dom"));
-
-var _a11yDialog = _interopRequireDefault(require("a11y-dialog"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -27,32 +12,36 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+var React = require('react');
+
+var ReactDOM = require('react-dom');
+
+var A11yDialog = require('a11y-dialog');
+
+var PropTypes = require('prop-types');
+
 var useIsMounted = function useIsMounted() {
-  var _React$useState = _react["default"].useState(false),
+  var _React$useState = React.useState(false),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       isMounted = _React$useState2[0],
       setIsMounted = _React$useState2[1];
 
-  _react["default"].useEffect(function () {
+  React.useEffect(function () {
     return setIsMounted(true);
   }, []);
-
   return isMounted;
 };
 
 var useDialogInstance = function useDialogInstance(_ref) {
   var dialogRef = _ref.dialogRef,
       appRoot = _ref.appRoot;
-
-  var instance = _react["default"].useRef(null);
-
-  var container = _react["default"].useCallback(function (node) {
+  var instance = React.useRef(null);
+  var container = React.useCallback(function (node) {
     if (node !== null) {
-      instance.current = new _a11yDialog["default"](node, appRoot);
+      instance.current = new A11yDialog(node, appRoot);
       dialogRef(instance.current);
     }
   }, [dialogRef, appRoot]);
-
   return {
     container: container,
     instance: instance
@@ -67,72 +56,55 @@ var Dialog = function Dialog(props) {
       container = _useDialogInstance.container,
       instance = _useDialogInstance.instance;
 
-  _react["default"].useEffect(function () {
+  React.useEffect(function () {
     var dialogInstance = instance.current;
     return function () {
       if (dialogInstance) dialogInstance.destroy();
       dialogRef(undefined);
     };
   }, [dialogRef, instance]);
-
-  var close = _react["default"].useCallback(function () {
+  var close = React.useCallback(function () {
     return instance.current.hide();
   }, [instance]);
-
   if (!isMounted) return null;
   var id = props.id,
       classNames = props.classNames;
   var titleId = props.titleId || id + '-title';
   var Element = props.useDialog ? 'dialog' : 'div';
-
-  var CloseButton = function CloseButton() {
-    if (props.closeButtonPosition === 'none') return null;
-    return /*#__PURE__*/_react["default"].createElement("button", {
-      type: "button",
-      "aria-label": props.closeButtonLabel,
-      onClick: close,
-      className: classNames.closeButton
-    }, props.closeButtonContent);
-  };
-
-  var Heading = function Heading() {
-    /**
-     * Using a paragraph with accessibility mapping to work around SEO
-     * concerns of having multiple <h1> per page.
-     * See: https://twitter.com/goetsu/status/1261253532315004930
-     */
-    return /*#__PURE__*/_react["default"].createElement("p", {
-      id: titleId,
-      className: classNames.title,
-      role: "heading",
-      "aria-level": "1"
-    }, props.title);
-  };
-
-  var getChildOrder = function getChildOrder() {
-    if (props.closeButtonPosition === 'first') {
-      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(CloseButton, null), /*#__PURE__*/_react["default"].createElement(Heading, null));
-    } else if (props.closeButtonPosition === 'last') {
-      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(Heading, null), /*#__PURE__*/_react["default"].createElement(CloseButton, null));
-    }
-  };
-
-  return /*#__PURE__*/_reactDom["default"].createPortal( /*#__PURE__*/_react["default"].createElement("div", {
+  var title =
+  /*#__PURE__*/
+  // Using a paragraph with accessibility mapping to work around SEO
+  // concerns of having multiple <h1> per page.
+  // See: https://twitter.com/goetsu/status/1261253532315004930
+  React.createElement("p", {
+    role: "heading",
+    "aria-level": "1",
+    id: titleId,
+    className: classNames.title
+  }, props.title);
+  var button = /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: close,
+    className: classNames.closeButton,
+    "aria-label": props.closeButtonLabel
+  }, props.closeButtonContent);
+  var children = [props.closeButtonPosition === 'first' && button, title, props.children, props.closeButtonPosition === 'last' && button].filter(Boolean);
+  return ReactDOM.createPortal( /*#__PURE__*/React.createElement("div", {
     id: id,
     className: classNames.base,
     ref: container
-  }, /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     tabIndex: "-1",
     className: classNames.overlay,
     onClick: props.role === 'alertdialog' ? undefined : close
-  }), /*#__PURE__*/_react["default"].createElement(Element, {
+  }), /*#__PURE__*/React.createElement(Element, {
     role: props.role,
     className: classNames.element,
     "aria-labelledby": titleId
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    role: props.useDialog ? undefined : 'document',
+  }, /*#__PURE__*/React.createElement("div", {
+    role: props.useDialogElement ? undefined : 'document',
     className: classNames.document
-  }, getChildOrder(), props.children))), document.querySelector(props.dialogRoot));
+  }, children))), document.querySelector(props.dialogRoot));
 };
 
 Dialog.defaultProps = {
@@ -152,38 +124,38 @@ Dialog.propTypes = {
   // The `role` attribute of the dialog element, either `dialog` (default) or
   // `alertdialog` to make it a modal (preventing closing on click outside of
   // ESC key).
-  role: _propTypes["default"].oneOf(['dialog', 'alertdialog']),
+  role: PropTypes.oneOf(['dialog', 'alertdialog']),
   // The HTML `id` attribute of the dialog element, internally used by
   // a11y-dialog to manipulate the dialog.
-  id: _propTypes["default"].string.isRequired,
+  id: PropTypes.string.isRequired,
   // The title of the dialog, mandatory in the document to provide context to
   // assistive technology. Could be hidden (while remaining accessible) with
   // CSS though.
-  title: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].element]).isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   // A function called when the component has mounted, receiving the instance
   // of A11yDialog so that it can be programmatically accessed later on.
   // E.g.: dialogRef={(dialog) => (this.dialog = dialog)}
-  dialogRef: _propTypes["default"].func,
+  dialogRef: PropTypes.func,
   // The HTML `id` attribute of the dialog’s title element, used by assistive
   // technologies to provide context and meaning to the dialog window. Falls
   // back to the `${this.props.id}-title` if not provided.
-  titleId: _propTypes["default"].string,
+  titleId: PropTypes.string,
   // The HTML `aria-label` attribute of the close button, used by assistive
   // technologies to provide extra meaning to the usual cross-mark. Defaults
   // to a generic English explanation.
-  closeButtonLabel: _propTypes["default"].string,
+  closeButtonLabel: PropTypes.string,
   // The string that is the innerHTML of the close button.
-  closeButtonContent: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].element]),
+  closeButtonContent: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   // Whether the close button should be rendered as first/last children or not at all.
-  closeButtonPosition: _propTypes["default"].oneOf(['first', 'last', 'none']),
+  closeButtonPosition: PropTypes.oneOf(['first', 'last', 'none']),
   // a11y-dialog needs one or more “targets” to disable when the dialog is open.
   // This prop can be one or more selector which will be passed to a11y-dialog
   // constructor.
-  appRoot: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].arrayOf(_propTypes["default"].string)]).isRequired,
+  appRoot: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
   // React 16 requires a container for the portal’s content to be rendered
   // into; this is required and needs to be an existing valid DOM node,
   // adjacent to the React root container of the application.
-  dialogRoot: _propTypes["default"].string.isRequired,
+  dialogRoot: PropTypes.string.isRequired,
   // Object of classes for each HTML element of the dialog element. Keys are:
   // - base
   // - overlay
@@ -192,13 +164,12 @@ Dialog.propTypes = {
   // - title
   // - closeButton
   // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
-  classNames: _propTypes["default"].objectOf(_propTypes["default"].string),
+  classNames: PropTypes.objectOf(PropTypes.string),
   // Whether to render a `<dialog>` element or a `<div>` element.
-  useDialog: _propTypes["default"].bool,
+  useDialogElement: PropTypes.bool,
   // Dialog content.
   // Anything that can be rendered: numbers, strings, elements or an array
   // (or fragment) containing these types.
-  children: _propTypes["default"].node
+  children: PropTypes.node
 };
-var _default = Dialog;
-exports["default"] = _default;
+module.exports = Dialog;

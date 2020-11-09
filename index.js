@@ -26,37 +26,6 @@ const useDialogInstance = ({ dialogRef, appRoot }) => {
   return { container, instance }
 }
 
-const CloseButton = props => {
-  return (
-    <button
-      type='button'
-      aria-label={props.closeButtonLabel}
-      onClick={props.onClose}
-      className={props.classNames.closeButton}
-    >
-      {props.closeButtonContent}
-    </button>
-  )
-}
-
-const Heading = props => {
-  /**
-   * Using a paragraph with accessibility mapping to work around SEO
-   * concerns of having multiple <h1> per page.
-   * See: https://twitter.com/goetsu/status/1261253532315004930
-   */
-  return (
-    <p
-      id={props.titleId}
-      className={props.classNames.title}
-      role='heading'
-      aria-level='1'
-    >
-      {props.title}
-    </p>
-  )
-}
-
 const Dialog = props => {
   const isMounted = useIsMounted()
   const { dialogRef } = props
@@ -78,32 +47,30 @@ const Dialog = props => {
   const { id, classNames } = props
   const titleId = props.titleId || id + '-title'
   const Element = props.useDialog ? 'dialog' : 'div'
-  const getChildOrder = () => {
-    if (props.closeButtonPosition === 'first') {
-      return (
-        <React.Fragment>
-          <CloseButton onClose={close} {...props} />
-          <Heading titleId={titleId} {...props} />
-          {props.children}
-        </React.Fragment>
-      )
-    } else if (props.closeButtonPosition === 'last') {
-      return (
-        <React.Fragment>
-          <Heading titleId={titleId} {...props} />
-          {props.children}
-          <CloseButton onClose={close} {...props} />
-        </React.Fragment>
-      )
-    } else if (props.closeButtonPosition === 'none') {
-      return (
-        <React.Fragment>
-          <Heading titleId={titleId} {...props} />
-          {props.children}
-        </React.Fragment>
-      )
-    }
-  }
+  const title = (
+    // Using a paragraph with accessibility mapping to work around SEO
+    // concerns of having multiple <h1> per page.
+    // See: https://twitter.com/goetsu/status/1261253532315004930
+    <p role='heading' aria-level='1' id={titleId} className={classNames.title}>
+      {props.title}
+    </p>
+  )
+  const button = (
+    <button
+      type='button'
+      onClick={close}
+      className={classNames.closeButton}
+      aria-label={props.closeButtonLabel}
+    >
+      {props.closeButtonContent}
+    </button>
+  )
+  const children = [
+    props.closeButtonPosition === 'first' && button,
+    title,
+    props.children,
+    props.closeButtonPosition === 'last' && button,
+  ].filter(Boolean)
 
   return ReactDOM.createPortal(
     <div id={id} className={classNames.base} ref={container}>
@@ -122,7 +89,7 @@ const Dialog = props => {
           role={props.useDialogElement ? undefined : 'document'}
           className={classNames.document}
         >
-          {getChildOrder()}
+          {children}
         </div>
       </Element>
     </div>,
