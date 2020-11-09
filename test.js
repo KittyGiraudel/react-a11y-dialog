@@ -163,7 +163,7 @@ describe('The A11yDialog component', () => {
     expect(container).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('should render close button as first element', () => {
+  it('should render close button as first element by default', () => {
     render(<Test closeButtonContent='×' closeButtonLabel='Close the dialog' />)
 
     const inner = screen.getByRole('dialog', { hidden: true }).firstChild
@@ -172,7 +172,7 @@ describe('The A11yDialog component', () => {
     expect(inner.firstElementChild).toEqual(button)
   })
 
-  it('should render close button as second element', () => {
+  it('should render close button as last element if instructed so', () => {
     render(
       <Test
         closeButtonContent='×'
@@ -189,7 +189,7 @@ describe('The A11yDialog component', () => {
     expect(inner.firstElementChild).not.toEqual(button)
   })
 
-  it('should not render close button', () => {
+  it('should not render close button if instructed so', () => {
     render(<Test closeButtonPosition='none' />)
 
     const button = screen.queryByText('×')
