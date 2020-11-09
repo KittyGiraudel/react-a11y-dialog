@@ -21,7 +21,6 @@ const Test = props => {
       base: 'base',
       overlay: 'overlay',
       element: 'element',
-      document: 'document',
       title: 'title',
       closeButton: 'closeButton',
     },
@@ -114,25 +113,6 @@ describe('The A11yDialog component', () => {
     expect(dialog).toHaveAttribute('role', 'dialog')
     expect(dialog).toHaveAttribute('aria-labelledby', 'test-title')
     expect(dialog).toHaveAttribute('class', 'element')
-  })
-
-  it('should render inner container', () => {
-    render(<Test />)
-
-    const dialog = screen.getByRole('dialog', { hidden: true })
-    const inner = dialog.firstChild
-
-    expect(inner).toHaveAttribute('role', 'document')
-    expect(inner).toHaveAttribute('class', 'document')
-  })
-
-  it('should skip role from inner container when <dialog> is used', () => {
-    render(<Test useDialogElement />)
-
-    const dialog = screen.getByRole('dialog', { hidden: true })
-    const inner = dialog.firstChild
-
-    expect(inner).not.toHaveAttribute('role')
   })
 
   it('should render the title', () => {

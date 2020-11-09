@@ -92,12 +92,7 @@ const Dialog = props => {
         className={classNames.element}
         aria-labelledby={titleId}
       >
-        <div
-          role={props.useDialogElement ? undefined : 'document'}
-          className={classNames.document}
-        >
-          {children}
-        </div>
+        {children}
       </Element>
     </div>,
     document.querySelector(props.dialogRoot)

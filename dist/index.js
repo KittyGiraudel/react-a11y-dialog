@@ -103,10 +103,7 @@ var Dialog = function Dialog(props) {
     role: props.role,
     className: classNames.element,
     "aria-labelledby": titleId
-  }, /*#__PURE__*/React.createElement("div", {
-    role: props.useDialogElement ? undefined : 'document',
-    className: classNames.document
-  }, children))), document.querySelector(props.dialogRoot));
+  }, children)), document.querySelector(props.dialogRoot));
 };
 
 Dialog.defaultProps = {
