@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import A11yDialog from 'a11y-dialog'
+import A11yDialogLib from 'a11y-dialog'
 import PropTypes from 'prop-types'
 
 const useIsMounted = () => {
@@ -11,61 +11,73 @@ const useIsMounted = () => {
   return isMounted
 }
 
-const useDialogInstance = ({ dialogRef, appRoot }) => {
+const useA11yDialogInstance = appRoot => {
   const instance = React.useRef(null)
   const container = React.useCallback(
     node => {
-      if (node !== null) {
-        instance.current = new A11yDialog(node, appRoot)
-        dialogRef(instance.current)
-      }
+      if (node === null) return
+      if (instance.current) instance.current.destroy()
+      instance.current = new A11yDialogLib(node, appRoot)
     },
-    [dialogRef, appRoot]
+    [appRoot]
   )
 
-  return { container, instance }
+  return [instance, container]
 }
 
-const Dialog = props => {
-  const isMounted = useIsMounted()
-  const { dialogRef } = props
-  const { container, instance } = useDialogInstance(props)
+export const useA11yDialog = props => {
+  const [instance, ref] = useA11yDialogInstance(props.appRoot)
+  const close = React.useCallback(() => instance.current.hide(), [instance])
+  const role = props.role || 'dialog'
+  const isModal = role === 'alertdialog'
+  const titleId = props.titleId || props.id + '-title'
 
   React.useEffect(() => {
     const dialogInstance = instance.current
+    return () => dialogInstance && dialogInstance.destroy()
+  }, [instance])
 
-    return () => {
-      if (dialogInstance) dialogInstance.destroy()
-      dialogRef(undefined)
-    }
+  // Destroy the `a11y-dialog` instance when unmounting the component.
+  React.useEffect(() => () => instance.current.destroy(), [])
+
+  return [
+    instance,
+    {
+      container: { id: props.id, ref, 'aria-hidden': true },
+      overlay: { tabIndex: -1, onClick: isModal ? undefined : close },
+      dialog: { role, 'aria-labelledby': titleId },
+      inner: { role: isModal ? undefined : 'document' },
+      closeButton: { type: 'button', onClick: close },
+      // Using a paragraph with accessibility mapping can be useful to work
+      // around SEO concerns of having multiple <h1> per page.
+      // See: https://twitter.com/goetsu/status/1261253532315004930
+      title: { role: 'heading', 'aria-level': 1, id: titleId },
+    },
+  ]
+}
+
+export const A11yDialog = props => {
+  const isMounted = useIsMounted()
+  const [instance, attributes] = useA11yDialog(props)
+  const { dialogRef } = props
+
+  React.useEffect(() => {
+    if (instance.current) dialogRef(instance.current)
+    return () => dialogRef(undefined)
   }, [dialogRef, instance])
-
-  const close = React.useCallback(() => instance.current.hide(), [instance])
 
   if (!isMounted) return null
 
-  const { id, classNames } = props
-  const titleId = props.titleId || id + '-title'
   const Element = props.useDialogElement ? 'dialog' : 'div'
   const title = (
-    // Using a paragraph with accessibility mapping to work around SEO
-    // concerns of having multiple <h1> per page.
-    // See: https://twitter.com/goetsu/status/1261253532315004930
-    <p
-      role='heading'
-      aria-level='1'
-      id={titleId}
-      className={classNames.title}
-      key='title'
-    >
+    <p {...attributes.title} className={props.classNames.title} key='title'>
       {props.title}
     </p>
   )
   const button = (
     <button
-      type='button'
-      onClick={close}
-      className={classNames.closeButton}
+      {...attributes.closeButton}
+      className={props.classNames.closeButton}
       aria-label={props.closeButtonLabel}
       key='button'
     >
@@ -80,27 +92,10 @@ const Dialog = props => {
   ].filter(Boolean)
 
   return ReactDOM.createPortal(
-    <div
-      id={id}
-      className={classNames.container}
-      ref={container}
-      aria-hidden='true'
-    >
-      <div
-        tabIndex='-1'
-        className={classNames.overlay}
-        onClick={props.role === 'alertdialog' ? undefined : close}
-      />
-
-      <Element
-        role={props.role}
-        className={classNames.dialog}
-        aria-labelledby={titleId}
-      >
-        <div
-          role={props.useDialogElement ? undefined : 'document'}
-          className={classNames.inner}
-        >
+    <div {...attributes.container} className={props.classNames.container}>
+      <div {...attributes.overlay} className={props.classNames.overlay} />
+      <Element {...attributes.dialog} className={props.classNames.dialog}>
+        <div {...attributes.inner} className={props.classNames.inner}>
           {children}
         </div>
       </Element>
@@ -109,7 +104,7 @@ const Dialog = props => {
   )
 }
 
-Dialog.defaultProps = {
+A11yDialog.defaultProps = {
   role: 'dialog',
   closeButtonLabel: 'Close this dialog window',
   closeButtonContent: '\u00D7',
@@ -121,7 +116,7 @@ Dialog.defaultProps = {
   // value for the `titleId` prop is defined in the `render(..)` method.
 }
 
-Dialog.propTypes = {
+A11yDialog.propTypes = {
   // The `role` attribute of the dialog element, either `dialog` (default) or
   // `alertdialog` to make it a modal (preventing closing on click outside of
   // ESC key).
@@ -191,5 +186,3 @@ Dialog.propTypes = {
   // (or fragment) containing these types.
   children: PropTypes.node,
 }
-
-export default Dialog

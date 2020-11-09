@@ -157,7 +157,7 @@ describe('Testing MyComponent', () => {
 ## Example
 
 ```jsx
-const Dialog = require('react-a11y-dialog')
+const { A11yDialog } = require('react-a11y-dialog')
 
 class MyComponent extends React.Component {
   handleClick = () => {
@@ -171,7 +171,7 @@ class MyComponent extends React.Component {
           Open the dialog
         </button>
 
-        <Dialog
+        <A11yDialog
           id='my-accessible-dialog'
           appRoot='#main'
           dialogRoot='#dialog-root'
@@ -179,7 +179,7 @@ class MyComponent extends React.Component {
           title='The dialog title'
         >
           <p>Some content for the dialog.</p>
-        </Dialog>
+        </A11yDialog>
       </div>
     )
   }
