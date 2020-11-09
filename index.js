@@ -47,6 +47,37 @@ const Dialog = props => {
   const { id, classNames } = props
   const titleId = props.titleId || id + '-title'
   const Element = props.useDialogElement ? 'dialog' : 'div'
+  const title = (
+    // Using a paragraph with accessibility mapping to work around SEO
+    // concerns of having multiple <h1> per page.
+    // See: https://twitter.com/goetsu/status/1261253532315004930
+    <p
+      role='heading'
+      aria-level='1'
+      id={titleId}
+      className={classNames.title}
+      key='title'
+    >
+      {props.title}
+    </p>
+  )
+  const button = (
+    <button
+      type='button'
+      onClick={close}
+      className={classNames.closeButton}
+      aria-label={props.closeButtonLabel}
+      key='button'
+    >
+      {props.closeButtonContent}
+    </button>
+  )
+  const children = [
+    props.closeButtonPosition === 'first' && button,
+    title,
+    props.children,
+    props.closeButtonPosition === 'last' && button,
+  ].filter(Boolean)
 
   return ReactDOM.createPortal(
     <div id={id} className={classNames.base} ref={container}>
@@ -65,30 +96,7 @@ const Dialog = props => {
           role={props.useDialogElement ? undefined : 'document'}
           className={classNames.document}
         >
-          <button
-            type='button'
-            aria-label={props.closeButtonLabel}
-            onClick={close}
-            className={classNames.closeButton}
-          >
-            {props.closeButtonContent}
-          </button>
-
-          {/**
-           * Using a paragraph with accessibility mapping to work around SEO
-           * concerns of having multiple <h1> per page.
-           * See: https://twitter.com/goetsu/status/1261253532315004930
-           */}
-          <p
-            id={titleId}
-            className={classNames.title}
-            role='heading'
-            aria-level='1'
-          >
-            {props.title}
-          </p>
-
-          {props.children}
+          {children}
         </div>
       </Element>
     </div>,
@@ -100,6 +108,7 @@ Dialog.defaultProps = {
   role: 'dialog',
   closeButtonLabel: 'Close this dialog window',
   closeButtonContent: '\u00D7',
+  closeButtonPosition: 'first',
   classNames: {},
   dialogRef: () => void 0,
   useDialogElement: false,
@@ -142,6 +151,9 @@ Dialog.propTypes = {
     PropTypes.string,
     PropTypes.element,
   ]),
+
+  // Whether the close button should be rendered as first/last children or not at all.
+  closeButtonPosition: PropTypes.oneOf(['first', 'last', 'none']),
 
   // a11y-dialog needs one or more “targets” to disable when the dialog is open.
   // This prop can be one or more selector which will be passed to a11y-dialog

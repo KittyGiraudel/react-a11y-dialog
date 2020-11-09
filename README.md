@@ -87,6 +87,14 @@ npm install --save react-a11y-dialog
 
 ---
 
+- **Property name**: `closeButtonPosition`
+- **Type**: string
+- **Required**: false
+- **Default value**: `first`
+- **Description**: Whether to render the close button as first element, last element or not at all. Options are: `first`, `last` and `none`. ⚠️ **Caution!** Setting it to `none` without providing a close button manually will be a critical accessibility issue.
+
+---
+
 - **Property name**: `classNames`
 - **Type**: object
 - **Required**: false

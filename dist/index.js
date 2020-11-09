@@ -71,6 +71,26 @@ var Dialog = function Dialog(props) {
       classNames = props.classNames;
   var titleId = props.titleId || id + '-title';
   var Element = props.useDialogElement ? 'dialog' : 'div';
+  var title =
+  /*#__PURE__*/
+  // Using a paragraph with accessibility mapping to work around SEO
+  // concerns of having multiple <h1> per page.
+  // See: https://twitter.com/goetsu/status/1261253532315004930
+  React.createElement("p", {
+    role: "heading",
+    "aria-level": "1",
+    id: titleId,
+    className: classNames.title,
+    key: "title"
+  }, props.title);
+  var button = /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: close,
+    className: classNames.closeButton,
+    "aria-label": props.closeButtonLabel,
+    key: "button"
+  }, props.closeButtonContent);
+  var children = [props.closeButtonPosition === 'first' && button, title, props.children, props.closeButtonPosition === 'last' && button].filter(Boolean);
   return ReactDOM.createPortal( /*#__PURE__*/React.createElement("div", {
     id: id,
     className: classNames.base,
@@ -86,23 +106,14 @@ var Dialog = function Dialog(props) {
   }, /*#__PURE__*/React.createElement("div", {
     role: props.useDialogElement ? undefined : 'document',
     className: classNames.document
-  }, /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    "aria-label": props.closeButtonLabel,
-    onClick: close,
-    className: classNames.closeButton
-  }, props.closeButtonContent), /*#__PURE__*/React.createElement("p", {
-    id: titleId,
-    className: classNames.title,
-    role: "heading",
-    "aria-level": "1"
-  }, props.title), props.children))), document.querySelector(props.dialogRoot));
+  }, children))), document.querySelector(props.dialogRoot));
 };
 
 Dialog.defaultProps = {
   role: 'dialog',
   closeButtonLabel: 'Close this dialog window',
   closeButtonContent: "\xD7",
+  closeButtonPosition: 'first',
   classNames: {},
   dialogRef: function dialogRef() {
     return void 0;
@@ -137,6 +148,8 @@ Dialog.propTypes = {
   closeButtonLabel: PropTypes.string,
   // The string that is the innerHTML of the close button.
   closeButtonContent: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  // Whether the close button should be rendered as first/last children or not at all.
+  closeButtonPosition: PropTypes.oneOf(['first', 'last', 'none']),
   // a11y-dialog needs one or more “targets” to disable when the dialog is open.
   // This prop can be one or more selector which will be passed to a11y-dialog
   // constructor.
