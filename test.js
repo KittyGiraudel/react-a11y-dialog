@@ -18,10 +18,10 @@ const Test = props => {
     appRoot: '#root',
     dialogRoot: '#dialog-root',
     classNames: {
-      base: 'base',
+      container: 'container',
       overlay: 'overlay',
-      element: 'element',
-      document: 'document',
+      dialog: 'dialog',
+      inner: 'inner',
       title: 'title',
       closeButton: 'closeButton',
     },
@@ -62,7 +62,7 @@ describe('The A11yDialog component', () => {
     const container = screen.getByTestId('test')
 
     expect(container).toHaveAttribute('id', 'test')
-    expect(container).toHaveAttribute('class', 'base')
+    expect(container).toHaveAttribute('class', 'container')
   })
 
   it('should render the overlay', () => {
@@ -102,7 +102,7 @@ describe('The A11yDialog component', () => {
     const dialog = screen.getByRole('dialog', { hidden: true })
 
     expect(dialog).toHaveAttribute('aria-labelledby', 'test-title')
-    expect(dialog).toHaveAttribute('class', 'element')
+    expect(dialog).toHaveAttribute('class', 'dialog')
   })
 
   it('should render <dialog> element if instructed so', () => {
@@ -113,7 +113,7 @@ describe('The A11yDialog component', () => {
 
     expect(dialog).toHaveAttribute('role', 'dialog')
     expect(dialog).toHaveAttribute('aria-labelledby', 'test-title')
-    expect(dialog).toHaveAttribute('class', 'element')
+    expect(dialog).toHaveAttribute('class', 'dialog')
   })
 
   it('should render inner container', () => {
@@ -123,7 +123,7 @@ describe('The A11yDialog component', () => {
     const inner = dialog.firstChild
 
     expect(inner).toHaveAttribute('role', 'document')
-    expect(inner).toHaveAttribute('class', 'document')
+    expect(inner).toHaveAttribute('class', 'inner')
   })
 
   it('should skip role from inner container when <dialog> is used', () => {

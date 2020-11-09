@@ -159,10 +159,10 @@ Dialog.propTypes = {
   // adjacent to the React root container of the application.
   dialogRoot: PropTypes.string.isRequired,
   // Object of classes for each HTML element of the dialog element. Keys are:
-  // - base
+  // - container
   // - overlay
-  // - element
-  // - document
+  // - dialog
+  // - inner
   // - title
   // - closeButton
   // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
