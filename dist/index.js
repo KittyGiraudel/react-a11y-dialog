@@ -93,7 +93,7 @@ var Dialog = function Dialog(props) {
   var children = [props.closeButtonPosition === 'first' && button, title, props.children, props.closeButtonPosition === 'last' && button].filter(Boolean);
   return ReactDOM.createPortal( /*#__PURE__*/React.createElement("div", {
     id: id,
-    className: classNames.base,
+    className: classNames.container,
     ref: container
   }, /*#__PURE__*/React.createElement("div", {
     tabIndex: "-1",
@@ -101,11 +101,11 @@ var Dialog = function Dialog(props) {
     onClick: props.role === 'alertdialog' ? undefined : close
   }), /*#__PURE__*/React.createElement(Element, {
     role: props.role,
-    className: classNames.element,
+    className: classNames.dialog,
     "aria-labelledby": titleId
   }, /*#__PURE__*/React.createElement("div", {
     role: props.useDialogElement ? undefined : 'document',
-    className: classNames.document
+    className: classNames.inner
   }, children))), document.querySelector(props.dialogRoot));
 };
 
@@ -159,10 +159,10 @@ Dialog.propTypes = {
   // adjacent to the React root container of the application.
   dialogRoot: PropTypes.string.isRequired,
   // Object of classes for each HTML element of the dialog element. Keys are:
-  // - base
+  // - container
   // - overlay
-  // - element
-  // - document
+  // - dialog
+  // - inner
   // - title
   // - closeButton
   // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure

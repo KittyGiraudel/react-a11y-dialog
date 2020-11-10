@@ -80,7 +80,7 @@ const Dialog = props => {
   ].filter(Boolean)
 
   return ReactDOM.createPortal(
-    <div id={id} className={classNames.base} ref={container}>
+    <div id={id} className={classNames.container} ref={container}>
       <div
         tabIndex='-1'
         className={classNames.overlay}
@@ -89,12 +89,12 @@ const Dialog = props => {
 
       <Element
         role={props.role}
-        className={classNames.element}
+        className={classNames.dialog}
         aria-labelledby={titleId}
       >
         <div
           role={props.useDialogElement ? undefined : 'document'}
-          className={classNames.document}
+          className={classNames.inner}
         >
           {children}
         </div>
@@ -169,10 +169,10 @@ Dialog.propTypes = {
   dialogRoot: PropTypes.string.isRequired,
 
   // Object of classes for each HTML element of the dialog element. Keys are:
-  // - base
+  // - container
   // - overlay
-  // - element
-  // - document
+  // - dialog
+  // - inner
   // - title
   // - closeButton
   // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
