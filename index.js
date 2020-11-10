@@ -80,7 +80,12 @@ const Dialog = props => {
   ].filter(Boolean)
 
   return ReactDOM.createPortal(
-    <div id={id} className={classNames.container} ref={container}>
+    <div
+      id={id}
+      className={classNames.container}
+      ref={container}
+      aria-hidden='true'
+    >
       <div
         tabIndex='-1'
         className={classNames.overlay}

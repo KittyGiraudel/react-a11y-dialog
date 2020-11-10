@@ -110,7 +110,8 @@ var Dialog = function Dialog(props) {
   return /*#__PURE__*/_reactDom["default"].createPortal( /*#__PURE__*/_react["default"].createElement("div", {
     id: id,
     className: classNames.container,
-    ref: container
+    ref: container,
+    "aria-hidden": "true"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     tabIndex: "-1",
     className: classNames.overlay,
