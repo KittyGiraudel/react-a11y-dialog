@@ -1,7 +1,7 @@
-const React = require('react')
-const ReactDOM = require('react-dom')
-const A11yDialog = require('a11y-dialog')
-const PropTypes = require('prop-types')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import A11yDialog from 'a11y-dialog'
+import PropTypes from 'prop-types'
 
 const useIsMounted = () => {
   const [isMounted, setIsMounted] = React.useState(false)
@@ -187,4 +187,4 @@ Dialog.propTypes = {
   children: PropTypes.node,
 }
 
-module.exports = Dialog
+export default Dialog
