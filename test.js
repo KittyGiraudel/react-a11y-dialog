@@ -1,5 +1,5 @@
 import React from 'react'
-import Dialog from './'
+import { A11yDialog } from './'
 import { render, configure, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
@@ -31,7 +31,7 @@ const Test = props => {
 
   return (
     <>
-      <Dialog
+      <A11yDialog
         {...BASE_PROPS}
         {...props}
         dialogRef={instance => (dialog.current = instance)}
