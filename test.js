@@ -126,10 +126,10 @@ describe('The A11yDialog component', () => {
     expect(inner).toHaveAttribute('class', 'inner')
   })
 
-  it('should skip role from inner container when <dialog> is used', () => {
-    render(<Test useDialogElement />)
+  it('should skip role from inner container when `alertdialog` is used', () => {
+    render(<Test role='alertdialog' />)
 
-    const dialog = screen.getByRole('dialog', { hidden: true })
+    const dialog = screen.getByRole('alertdialog', { hidden: true })
     const inner = dialog.firstChild
 
     expect(inner).not.toHaveAttribute('role')
