@@ -15,6 +15,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -213,7 +215,13 @@ A11yDialog.propTypes = {
     closeButton: _propTypes["default"].string
   }),
   // Whether to render a `<dialog>` element or a `<div>` element.
-  useDialogElement: _propTypes["default"].bool,
+  useDialogElement: function useDialogElement(props, propName, componentName) {
+    if (props[propName] && props.role === 'alertdialog') {
+      return new Error("Invalid props combination `useDialogElement={true}` and `role='alertdialog'`. The native <dialog> HTML element is not compatible with the modal behaviour implied by the `alertdialog` role. If you want a modal, turn off `useDialogElement`. If you insist on using the native <dialog> HTML element, use a regular dialog (with `role='alert'`).");
+    }
+
+    _propTypes["default"].checkPropTypes(_defineProperty({}, propName, _propTypes["default"].bool), _defineProperty({}, propName, props[propName]), propName, componentName);
+  },
   // Dialog content.
   // Anything that can be rendered: numbers, strings, elements or an array
   // (or fragment) containing these types.
