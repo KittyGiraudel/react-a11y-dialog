@@ -134,7 +134,7 @@ Dialog.propTypes = {
   // The title of the dialog, mandatory in the document to provide context to
   // assistive technology. Could be hidden (while remaining accessible) with
   // CSS though.
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  title: PropTypes.node.isRequired,
 
   // A function called when the component has mounted, receiving the instance
   // of A11yDialog so that it can be programmatically accessed later on.
@@ -152,10 +152,7 @@ Dialog.propTypes = {
   closeButtonLabel: PropTypes.string,
 
   // The string that is the innerHTML of the close button.
-  closeButtonContent: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]),
+  closeButtonContent: PropTypes.node,
 
   // Whether the close button should be rendered as first/last children or not at all.
   closeButtonPosition: PropTypes.oneOf(['first', 'last', 'none']),
@@ -173,15 +170,16 @@ Dialog.propTypes = {
   // adjacent to the React root container of the application.
   dialogRoot: PropTypes.string.isRequired,
 
-  // Object of classes for each HTML element of the dialog element. Keys are:
-  // - container
-  // - overlay
-  // - dialog
-  // - inner
-  // - title
-  // - closeButton
-  // See for reference: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
-  classNames: PropTypes.objectOf(PropTypes.string),
+  // Object of classes for each HTML element of the dialog element.
+  // See: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
+  classNames: PropTypes.exact({
+    container: PropTypes.string,
+    overlay: PropTypes.string,
+    dialog: PropTypes.string,
+    inner: PropTypes.string,
+    title: PropTypes.string,
+    closeButton: PropTypes.string,
+  }),
 
   // Whether to render a `<dialog>` element or a `<div>` element.
   useDialogElement: PropTypes.bool,
