@@ -220,7 +220,13 @@ A11yDialog.propTypes = {
     closeButton: _propTypes["default"].string
   }),
   // Whether to render a `<dialog>` element or a `<div>` element.
-  useDialogElement: _propTypes["default"].bool,
+  useDialogElement: function useDialogElement(props, propName, componentName) {
+    if (props[propName] && props.role === 'alertdialog') {
+      return new Error("Invalid props combination `useDialogElement={true}` and `role='alertdialog'`. The native <dialog> HTML element is not compatible with the modal behaviour implied by the `alertdialog` role. If you want a modal, turn off `useDialogElement`. If you insist on using the native <dialog> HTML element, use a regular dialog (with `role='alert'`).");
+    }
+
+    return typeof props[propName] === 'boolean';
+  },
   // Dialog content.
   // Anything that can be rendered: numbers, strings, elements or an array
   // (or fragment) containing these types.
