@@ -11,6 +11,7 @@ _Special thanks to Moritz Kröger (@morkro) for his kind help in making that lib
 
 - [Install](#install)
 - [API](#api)
+- [Hook](#hook)
 - [Server-side Rendering](#server-side-rendering)
 - [Mocking portals in tests](#mocking-portals-in-tests)
 - [Example](#example)
@@ -117,6 +118,69 @@ npm install --save react-a11y-dialog
 - **Default value**: `dialog`
 - **Description**: The `role` attribute of the dialog element, either `dialog` (default) or `alertdialog` to make it a modal (preventing closing on click outside of <kbd>ESC</kbd> key).
 
+## Hook
+
+The library exports both `A11yDialog`, a React component rendering a dialog while performing the `a11y-dialog` bindings under the hood, and a `useA11yDialog` hook providing only the binding logic without any markup.
+
+Using the hook can be handy when building your own dialog. Beware though, **it is an advanced feature**. Make sure to [stick to the expected markup](http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure).
+
+```js
+import { useA11yDialog } from 'react-a11y-dialog'
+
+const MyCustomDialog = props => {
+  // `instance` is a React ref containing the `a11y-dialog` instance.
+  // `attr` is an object with the following keys:
+  // - `container`: the dialog container
+  // - `overlay`: the dialog overlay (sometimes called backdrop)
+  // - `dialog`: the actual dialog box
+  // - `inner`: the inner dialog container
+  // - `title`: the dialog mandatory title
+  // - `closeButton`:  the dialog close button
+  const [instance, attr] = useA11yDialog({
+    // The required HTML `id` attribute of the dialog element, internally used
+    // a11y-dialog to manipulate the dialog.
+    id: 'my-dialog',
+    // The selector(s) a11y-dialog need to “disable” when the dialog is open.
+    // See: http://edenspiekermann.github.io/a11y-dialog/#javascript-instantiation
+    appRoot: '#root',
+    // The optional `role` attribute of the dialog element, either `dialog`
+    // (default) or `alertdialog` to make it a modal (preventing closing on
+    // click outside of ESC key).
+    // Warning: do not use `alertdialog` if you plan on using the <dialog> HTML
+    // element as they are mutually exclusive. A modal (`role="alertdialog"`)
+    // should *not* use the <dialog> HTML element at all.
+    role: 'dialog',
+  })
+
+  const dialog = ReactDOM.createPortal(
+    <div {...attr.container} className='dialog-container'>
+      <div {...attr.overlay} className='dialog-overlay' />
+      <div {...attr.dialog} className='dialog-element'>
+        <div {...attr.inner} className='dialog-inner'>
+          <p {...attr.title} className='dialog-title'>
+            Your dialog title
+          </p>
+          <p>Your dialog content</p>
+          <button {...attr.closeButton} className='dialog-close'>
+            Close dialog
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.querySelector('#dialog-root')
+  )
+
+  return (
+    <React.Fragment>
+      <button type='button' onClick={() => instance.current.show()}>
+        Open dialog
+      </button>
+      {dialog}
+    </React.Fragment>
+  )
+}
+```
+
 ## Server-side rendering
 
 `react-a11y-dialog` does not render anything on the server, and waits for the client bundle to kick in to render the dialog through the React portal.
@@ -157,7 +221,7 @@ describe('Testing MyComponent', () => {
 ## Example
 
 ```jsx
-const Dialog = require('react-a11y-dialog')
+import { A11yDialog } from 'react-a11y-dialog'
 
 class MyComponent extends React.Component {
   handleClick = () => {
@@ -171,7 +235,7 @@ class MyComponent extends React.Component {
           Open the dialog
         </button>
 
-        <Dialog
+        <A11yDialog
           id='my-accessible-dialog'
           appRoot='#main'
           dialogRoot='#dialog-root'
@@ -179,7 +243,7 @@ class MyComponent extends React.Component {
           title='The dialog title'
         >
           <p>Some content for the dialog.</p>
-        </Dialog>
+        </A11yDialog>
       </div>
     )
   }
