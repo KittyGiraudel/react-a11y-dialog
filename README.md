@@ -30,7 +30,7 @@ npm install --save react-a11y-dialog
 | :-- | :-- | :-- | :-- | :-- |
 | `id` | `string` | **true** | — | <details><summary>Expand</summary>The HTML `id` attribute of the dialog element, internally used by a11y-dialog to manipulate the dialog.</details> |
 | `title` | `node` | **true** | — | <details><summary>Expand</summary>The title of the dialog, mandatory in the document to provide context to assistive technology. Could be [hidden with CSS](https://hugogiraudel.com/2016/10/13/css-hide-and-seek/) (while remaining accessible).</details> |
-| `appRoot` | `string | string[]` | **true** | — | <details><summary>Expand</summary>The [selector(s) a11y-dialog need](http://edenspiekermann.github.io/a11y-dialog/#javascript-instantiation) to disable when the dialog is open.</details> |
+| `appRoot` | `string \| string[]` | **true** | — | <details><summary>Expand</summary>The [selector(s) a11y-dialog need](http://edenspiekermann.github.io/a11y-dialog/#javascript-instantiation) to disable when the dialog is open.</details> |
 | `dialogRoot` | `string` | **true** | — | <details><summary>Expand</summary>The container for the dialog to be rendered into ([React portal](https://reactjs.org/docs/portals.html)’s root).</details> |
 | `dialogRef` | `function` | false | `() => {}` | <details><summary>Expand</summary> A function called when the component has mounted, receiving the [instance of A11yDialog](http://edenspiekermann.github.io/a11y-dialog/#js-api) so that it can be programmatically accessed later on.</details> |
 | `titleId` | `string` | false | `${props.id}-title` | <details><summary>Expand</summary>The HTML `id` attribute of the dialog’s title element, used by assistive technologies to provide context and meaning to the dialog window.</details> |
