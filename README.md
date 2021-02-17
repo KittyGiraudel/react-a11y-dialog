@@ -24,8 +24,6 @@ npm install --save react-a11y-dialog
 
 ## API
 
-**Required props:**
-
 | Name | Type | Required | Default | Description |
 | :-- | :-- | :-- | :-- | :-- |
 | `id` | `string` | **true** | — | <details><summary>Expand</summary>The HTML `id` attribute of the dialog element, internally used by a11y-dialog to manipulate the dialog.</details> |
