@@ -1,6 +1,6 @@
 # React A11yDialog
 
-react-a11y-dialog is a thin React component for [a11y-dialog](https://github.com/hugogiraudel/a11y-dialog) relying on [React portals](https://reactjs.org/docs/portals.html) to ease the use of accessible dialog windows in React applications.
+react-a11y-dialog is a thin React component for [a11y-dialog](https://github.com/KittyGiraudel/a11y-dialog) relying on [React portals](https://reactjs.org/docs/portals.html) to ease the use of accessible dialog windows in React applications.
 
 Version compatibility:
 
@@ -27,23 +27,23 @@ npm install --save react-a11y-dialog
 | Name | Type | Required | Default | Description |
 | :-- | :-- | :-- | :-- | :-- |
 | `id` | `string` | **true** | — | <details><summary>Expand</summary>The HTML `id` attribute of the dialog element, internally used by a11y-dialog to manipulate the dialog.</details> |
-| `title` | `node` | **true** | — | <details><summary>Expand</summary>The title of the dialog, mandatory in the document to provide context to assistive technology. Could be [hidden with CSS](https://hugogiraudel.com/2016/10/13/css-hide-and-seek/) (while remaining accessible).</details> |
-| `appRoot` | `string \| string[]` | **true** | — | <details><summary>Expand</summary>The [selector(s) a11y-dialog need](http://hugogiraudel.github.io/a11y-dialog/#instantiation) to disable when the dialog is open.</details> |
+| `title` | `node` | **true** | — | <details><summary>Expand</summary>The title of the dialog, mandatory in the document to provide context to assistive technology. Could be [hidden with CSS](https://kittygiraudel.com/2016/10/13/css-hide-and-seek/) (while remaining accessible).</details> |
+| `appRoot` | `string \| string[]` | **true** | — | <details><summary>Expand</summary>The [selector(s) a11y-dialog need](https://a11y-dialog.netlify.app/usage/instantiation/) to disable when the dialog is open.</details> |
 | `dialogRoot` | `string` | **true** | — | <details><summary>Expand</summary>The container for the dialog to be rendered into ([React portal](https://reactjs.org/docs/portals.html)’s root).</details> |
-| `dialogRef` | `function` | false | `() => {}` | <details><summary>Expand</summary> A function called when the component has mounted, receiving the [instance of A11yDialog](http://hugogiraudel.github.io/a11y-dialog/#js-api) so that it can be programmatically accessed later on.</details> |
+| `dialogRef` | `function` | false | `() => {}` | <details><summary>Expand</summary> A function called when the component has mounted, receiving the [instance of A11yDialog](https://a11y-dialog.netlify.app/usage/instantiation/#js-api) so that it can be programmatically accessed later on.</details> |
 | `titleId` | `string` | false | `${props.id}-title` | <details><summary>Expand</summary>The HTML `id` attribute of the dialog’s title element, used by assistive technologies to provide context and meaning to the dialog window.</details> |
 | `closeButtonLabel` | `string` | false | Close this dialog window | <details><summary>Expand</summary>The HTML `aria-label` attribute of the close button, used by assistive technologies to provide extra meaning to the usual cross-mark.</details> |
 | `closeButtonContent` | `node` | false | `\u00D7` (×) | <details><summary>Expand</summary>The string that is the inner HTML of the close button.</details> |
 | `closeButtonPosition` | `string` | false | first | <details><summary>Expand</summary>Whether to render the close button as first element, last element or not at all. Options are: `first`, `last` and `none`. ⚠️ **Caution!** Setting it to `none` without providing a close button manually will be a critical accessibility issue.</details> |
-| `classNames` | `object` | false | {} | <details><summary>Expand</summary>Object of classes for each HTML element of the dialog element. Keys are: `container`, `overlay`, `dialog`, `inner`, `title`, `closeButton`. See [a11y-dialog docs](http://hugogiraudel.github.io/a11y-dialog/#html-boilerplate) for reference.</details> |
-| `useDialogElement` | `boolean` | false | false | <details><summary>Expand</summary>Whether to render a `<dialog>` element or a `<div>` element and [let `a11y-dialog` polyfill it](http://hugogiraudel.github.io/a11y-dialog/#html-boilerplate). The `<dialog>` element—while native HTML—is harder to style, and causes several browser inconsistencies. Additionally, [it _cannot_ work with `role="alertdialog"`](https://github.com/hugogiraudel/a11y-dialog/issues/115).</details> |
+| `classNames` | `object` | false | {} | <details><summary>Expand</summary>Object of classes for each HTML element of the dialog element. Keys are: `container`, `overlay`, `dialog`, `inner`, `title`, `closeButton`. See [a11y-dialog docs](https://a11y-dialog.netlify.app/usage/markup) for reference.</details> |
+| `useDialogElement` | `boolean` | false | false | <details><summary>Expand</summary>Whether to render a `<dialog>` element or a `<div>` element and [let `a11y-dialog` polyfill it](https://a11y-dialog.netlify.app/usage/markup). The `<dialog>` element—while native HTML—is harder to style, and causes several browser inconsistencies. Additionally, [it _cannot_ work with `role="alertdialog"`](https://github.com/KittyGiraudel/a11y-dialog/issues/115).</details> |
 | `role` | `string` | false | dialog | <details><summary>Expand</summary>The `role` attribute of the dialog element, either `dialog` (default) or `alertdialog` to make it a modal (preventing closing on click outside of <kbd>ESC</kbd> key).</details> |
 
 ## Hook
 
 The library exports both `A11yDialog`, a React component rendering a dialog while performing the `a11y-dialog` bindings under the hood, and a `useA11yDialog` hook providing only the binding logic without any markup.
 
-Using the hook can be handy when building your own dialog. Beware though, **it is an advanced feature**. Make sure to [stick to the expected markup](http://hugogiraudel.github.io/a11y-dialog/#html-boilerplate).
+Using the hook can be handy when building your own dialog. Beware though, **it is an advanced feature**. Make sure to [stick to the expected markup](https://a11y-dialog.netlify.app/usage/markup).
 
 ```js
 import { useA11yDialog } from 'react-a11y-dialog'
@@ -62,7 +62,7 @@ const MyCustomDialog = props => {
     // a11y-dialog to manipulate the dialog.
     id: 'my-dialog',
     // The selector(s) a11y-dialog need to “disable” when the dialog is open.
-    // See: http://hugogiraudel.github.io/a11y-dialog/#instantiation
+    // See: https://a11y-dialog.netlify.app/usage/instantiation/
     appRoot: '#root',
     // The optional `role` attribute of the dialog element, either `dialog`
     // (default) or `alertdialog` to make it a modal (preventing closing on

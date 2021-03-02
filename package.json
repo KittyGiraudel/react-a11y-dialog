@@ -2,7 +2,7 @@
   "name": "react-a11y-dialog",
   "version": "5.1.1",
   "description": "A React component wrapper and React hook around a11y-dialog.",
-  "homepage": "https://github.com/HugoGiraudel/react-a11y-dialog",
+  "homepage": "https://github.com/KittyGiraudel/react-a11y-dialog",
   "license": "MIT",
   "main": "dist/index.js",
   "keywords": [
@@ -14,7 +14,7 @@
     "react",
     "component"
   ],
-  "author": "Hugo Giraudel (https://hugogiraudel.com)",
+  "author": "Hugo Giraudel (https://kittygiraudel.com)",
   "files": [
     "dist/index.js"
   ],
@@ -43,6 +43,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/HugoGiraudel/react-a11y-dialog/"
+    "url": "https://github.com/KittyGiraudel/react-a11y-dialog/"
   }
 }
