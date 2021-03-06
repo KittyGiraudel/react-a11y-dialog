@@ -27,7 +27,7 @@ export const useA11yDialog = props => {
   const [instance, ref] = useA11yDialogInstance(props.appRoot)
   const close = React.useCallback(() => instance.hide(), [instance])
   const role = props.role || 'dialog'
-  const isModal = role === 'alertdialog'
+  const isAlertDialog = role === 'alertdialog'
   const titleId = props.titleId || props.id + '-title'
 
   // Destroy the `a11y-dialog` instance when unmounting the component.
@@ -41,9 +41,9 @@ export const useA11yDialog = props => {
     instance,
     {
       container: { id: props.id, ref, 'aria-hidden': true },
-      overlay: { tabIndex: -1, onClick: isModal ? undefined : close },
+      overlay: { tabIndex: -1, onClick: isAlertDialog ? undefined : close },
       dialog: { role, 'aria-labelledby': titleId },
-      inner: { role: isModal ? undefined : 'document' },
+      inner: { role: isAlertDialog ? undefined : 'document' },
       closeButton: { type: 'button', onClick: close },
       // Using a paragraph with accessibility mapping can be useful to work
       // around SEO concerns of having multiple <h1> per page.
