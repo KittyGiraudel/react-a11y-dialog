@@ -40,10 +40,15 @@ export const useA11yDialog = props => {
   return [
     instance,
     {
-      container: { id: props.id, ref, 'aria-hidden': true },
+      container: {
+        id: props.id,
+        ref,
+        role,
+        'aria-hidden': true,
+        'aria-labelledby': titleId,
+      },
       overlay: { onClick: isAlertDialog ? undefined : close },
-      dialog: { role, 'aria-labelledby': titleId },
-      inner: { role: isAlertDialog ? undefined : 'document' },
+      dialog: { role: 'document' },
       closeButton: { type: 'button', onClick: close },
       // Using a paragraph with accessibility mapping can be useful to work
       // around SEO concerns of having multiple <h1> per page.
