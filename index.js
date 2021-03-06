@@ -67,6 +67,9 @@ export const A11yDialog = props => {
 
   if (!isMounted) return null
 
+  const root = props.dialogRoot
+    ? document.querySelector(props.dialogRoot)
+    : document.body
   const title = (
     <p {...attributes.title} className={props.classNames.title} key='title'>
       {props.title}
@@ -96,7 +99,7 @@ export const A11yDialog = props => {
         {children}
       </div>
     </div>,
-    document.querySelector(props.dialogRoot)
+    root
   )
 }
 
@@ -148,9 +151,9 @@ A11yDialog.propTypes = {
   closeButtonPosition: PropTypes.oneOf(['first', 'last', 'none']),
 
   // React 16 requires a container for the portal’s content to be rendered
-  // into; this is required and needs to be an existing valid DOM node,
-  // adjacent to the React root container of the application.
-  dialogRoot: PropTypes.string.isRequired,
+  // into; this needs to be an existing valid DOM node and defaults to the body
+  // element.
+  dialogRoot: PropTypes.string,
 
   // Object of classes for each HTML element of the dialog element.
   // See: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
