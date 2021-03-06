@@ -15,13 +15,11 @@ const Test = props => {
   const BASE_PROPS = {
     id: 'test',
     title: 'Test',
-    appRoot: '#root',
     dialogRoot: '#dialog-root',
     classNames: {
       container: 'container',
       overlay: 'overlay',
       dialog: 'dialog',
-      inner: 'inner',
       title: 'title',
       closeButton: 'closeButton',
     },
@@ -59,8 +57,10 @@ describe('The A11yDialog component', () => {
   it('should render the container', () => {
     render(<Test />)
 
-    const container = screen.getByTestId('test')
+    const container = screen.getByRole('dialog', { hidden: true })
 
+    expect(container).toHaveAttribute('aria-labelledby', 'test-title')
+    expect(container).toHaveAttribute('aria-modal', 'true')
     expect(container).toHaveAttribute('id', 'test')
     expect(container).toHaveAttribute('class', 'container')
   })
@@ -71,7 +71,6 @@ describe('The A11yDialog component', () => {
     const container = screen.getByTestId('test')
     const overlay = container.firstChild
 
-    expect(overlay).toHaveAttribute('tabindex', '-1')
     expect(overlay).toHaveAttribute('class', 'overlay')
 
     // Open the dialog, close it by clicking the overlay, and ensure it has been
@@ -87,7 +86,6 @@ describe('The A11yDialog component', () => {
     const container = screen.getByTestId('test')
     const overlay = container.firstChild
 
-    expect(overlay).toHaveAttribute('tabindex', '-1')
     expect(overlay).toHaveAttribute('class', 'overlay')
 
     // Open the dialog, try clicking the overlay, and ensure it is still open
@@ -99,40 +97,9 @@ describe('The A11yDialog component', () => {
   it('should render the dialog', () => {
     render(<Test />)
 
-    const dialog = screen.getByRole('dialog', { hidden: true })
+    const dialog = screen.getByRole('document', { hidden: true })
 
-    expect(dialog).toHaveAttribute('aria-labelledby', 'test-title')
     expect(dialog).toHaveAttribute('class', 'dialog')
-  })
-
-  it('should render <dialog> element if instructed so', () => {
-    render(<Test useDialogElement />)
-
-    const container = screen.getByTestId('test')
-    const dialog = container.querySelector('dialog')
-
-    expect(dialog).toHaveAttribute('role', 'dialog')
-    expect(dialog).toHaveAttribute('aria-labelledby', 'test-title')
-    expect(dialog).toHaveAttribute('class', 'dialog')
-  })
-
-  it('should render inner container', () => {
-    render(<Test />)
-
-    const dialog = screen.getByRole('dialog', { hidden: true })
-    const inner = dialog.firstChild
-
-    expect(inner).toHaveAttribute('role', 'document')
-    expect(inner).toHaveAttribute('class', 'inner')
-  })
-
-  it('should skip role from inner container when `alertdialog` is used', () => {
-    render(<Test role='alertdialog' />)
-
-    const dialog = screen.getByRole('alertdialog', { hidden: true })
-    const inner = dialog.firstChild
-
-    expect(inner).not.toHaveAttribute('role')
   })
 
   it('should render the title', () => {
@@ -166,10 +133,10 @@ describe('The A11yDialog component', () => {
   it('should render close button as first element by default', () => {
     render(<Test closeButtonContent='×' closeButtonLabel='Close the dialog' />)
 
-    const inner = screen.getByRole('dialog', { hidden: true }).firstChild
+    const dialog = screen.getByRole('document', { hidden: true })
     const button = screen.getByText('×')
 
-    expect(inner.firstElementChild).toEqual(button)
+    expect(dialog.firstElementChild).toEqual(button)
   })
 
   it('should render close button as last element if instructed so', () => {
@@ -181,12 +148,12 @@ describe('The A11yDialog component', () => {
       />
     )
 
-    const inner = screen.getByRole('dialog', { hidden: true }).firstChild
+    const dialog = screen.getByRole('document', { hidden: true })
     const button = screen.getByText('×')
     const title = screen.getByText('Test')
 
-    expect(inner.firstElementChild).toEqual(title)
-    expect(inner.firstElementChild).not.toEqual(button)
+    expect(dialog.firstElementChild).toEqual(title)
+    expect(dialog.firstElementChild).not.toEqual(button)
   })
 
   it('should not render close button if instructed so', () => {
