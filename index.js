@@ -96,9 +96,7 @@ export const A11yDialog = props => {
     <div {...attributes.container} className={props.classNames.container}>
       <div {...attributes.overlay} className={props.classNames.overlay} />
       <div {...attributes.dialog} className={props.classNames.dialog}>
-        <div {...attributes.inner} className={props.classNames.inner}>
-          {children}
-        </div>
+        {children}
       </div>
     </div>,
     document.querySelector(props.dialogRoot)
@@ -171,7 +169,6 @@ A11yDialog.propTypes = {
     container: PropTypes.string,
     overlay: PropTypes.string,
     dialog: PropTypes.string,
-    inner: PropTypes.string,
     title: PropTypes.string,
     closeButton: PropTypes.string,
   }),
