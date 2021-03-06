@@ -11,20 +11,17 @@ const useIsMounted = () => {
   return isMounted
 }
 
-const useA11yDialogInstance = appRoot => {
+const useA11yDialogInstance = () => {
   const [instance, setInstance] = React.useState(null)
-  const container = React.useCallback(
-    node => {
-      if (node !== null) setInstance(new A11yDialogLib(node, appRoot))
-    },
-    [appRoot]
-  )
+  const container = React.useCallback(node => {
+    if (node !== null) setInstance(new A11yDialogLib(node))
+  }, [])
 
   return [instance, container]
 }
 
 export const useA11yDialog = props => {
-  const [instance, ref] = useA11yDialogInstance(props.appRoot)
+  const [instance, ref] = useA11yDialogInstance()
   const close = React.useCallback(() => instance.hide(), [instance])
   const role = props.role || 'dialog'
   const isAlertDialog = role === 'alertdialog'
@@ -149,14 +146,6 @@ A11yDialog.propTypes = {
 
   // Whether the close button should be rendered as first/last children or not at all.
   closeButtonPosition: PropTypes.oneOf(['first', 'last', 'none']),
-
-  // a11y-dialog needs one or more “targets” to disable when the dialog is open.
-  // This prop can be one or more selector which will be passed to a11y-dialog
-  // constructor.
-  appRoot: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]).isRequired,
 
   // React 16 requires a container for the portal’s content to be rendered
   // into; this is required and needs to be an existing valid DOM node,
