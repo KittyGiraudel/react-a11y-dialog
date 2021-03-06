@@ -70,7 +70,6 @@ export const A11yDialog = props => {
 
   if (!isMounted) return null
 
-  const Element = props.useDialogElement ? 'dialog' : 'div'
   const title = (
     <p {...attributes.title} className={props.classNames.title} key='title'>
       {props.title}
@@ -96,11 +95,11 @@ export const A11yDialog = props => {
   return ReactDOM.createPortal(
     <div {...attributes.container} className={props.classNames.container}>
       <div {...attributes.overlay} className={props.classNames.overlay} />
-      <Element {...attributes.dialog} className={props.classNames.dialog}>
+      <div {...attributes.dialog} className={props.classNames.dialog}>
         <div {...attributes.inner} className={props.classNames.inner}>
           {children}
         </div>
-      </Element>
+      </div>
     </div>,
     document.querySelector(props.dialogRoot)
   )
@@ -113,7 +112,6 @@ A11yDialog.defaultProps = {
   closeButtonPosition: 'first',
   classNames: {},
   dialogRef: () => void 0,
-  useDialogElement: false,
   // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 }
@@ -177,22 +175,6 @@ A11yDialog.propTypes = {
     title: PropTypes.string,
     closeButton: PropTypes.string,
   }),
-
-  // Whether to render a `<dialog>` element or a `<div>` element.
-  useDialogElement: function (props, propName, componentName) {
-    if (props[propName] && props.role === 'alertdialog') {
-      return new Error(
-        "Invalid props combination `useDialogElement={true}` and `role='alertdialog'`. The native <dialog> HTML element is not compatible with the modal behaviour implied by the `alertdialog` role. If you want a modal, turn off `useDialogElement`. If you insist on using the native <dialog> HTML element, use a regular dialog (with `role='alert'`)."
-      )
-    }
-
-    PropTypes.checkPropTypes(
-      { [propName]: PropTypes.bool },
-      { [propName]: props[propName] },
-      propName,
-      componentName
-    )
-  },
 
   // Dialog content.
   // Anything that can be rendered: numbers, strings, elements or an array
