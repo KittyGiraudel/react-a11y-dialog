@@ -156,7 +156,7 @@ A11yDialog.propTypes = {
   dialogRoot: PropTypes.string,
 
   // Object of classes for each HTML element of the dialog element.
-  // See: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
+  // See: https://a11y-dialog.netlify.app/usage/markup
   classNames: PropTypes.exact({
     container: PropTypes.string,
     overlay: PropTypes.string,
