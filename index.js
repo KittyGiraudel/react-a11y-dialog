@@ -41,7 +41,7 @@ export const useA11yDialog = props => {
     instance,
     {
       container: { id: props.id, ref, 'aria-hidden': true },
-      overlay: { tabIndex: -1, onClick: isAlertDialog ? undefined : close },
+      overlay: { onClick: isAlertDialog ? undefined : close },
       dialog: { role, 'aria-labelledby': titleId },
       inner: { role: isAlertDialog ? undefined : 'document' },
       closeButton: { type: 'button', onClick: close },
