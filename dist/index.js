@@ -15,8 +15,6 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -44,21 +42,21 @@ var useIsMounted = function useIsMounted() {
   return isMounted;
 };
 
-var useA11yDialogInstance = function useA11yDialogInstance(appRoot) {
+var useA11yDialogInstance = function useA11yDialogInstance() {
   var _React$useState3 = _react["default"].useState(null),
       _React$useState4 = _slicedToArray(_React$useState3, 2),
       instance = _React$useState4[0],
       setInstance = _React$useState4[1];
 
   var container = _react["default"].useCallback(function (node) {
-    if (node !== null) setInstance(new _a11yDialog["default"](node, appRoot));
-  }, [appRoot]);
+    if (node !== null) setInstance(new _a11yDialog["default"](node));
+  }, []);
 
   return [instance, container];
 };
 
 var useA11yDialog = function useA11yDialog(props) {
-  var _useA11yDialogInstanc = useA11yDialogInstance(props.appRoot),
+  var _useA11yDialogInstanc = useA11yDialogInstance(),
       _useA11yDialogInstanc2 = _slicedToArray(_useA11yDialogInstanc, 2),
       instance = _useA11yDialogInstanc2[0],
       ref = _useA11yDialogInstanc2[1];
@@ -68,7 +66,7 @@ var useA11yDialog = function useA11yDialog(props) {
   }, [instance]);
 
   var role = props.role || 'dialog';
-  var isModal = role === 'alertdialog';
+  var isAlertDialog = role === 'alertdialog';
   var titleId = props.titleId || props.id + '-title'; // Destroy the `a11y-dialog` instance when unmounting the component.
 
   _react["default"].useEffect(function () {
@@ -81,18 +79,16 @@ var useA11yDialog = function useA11yDialog(props) {
     container: {
       id: props.id,
       ref: ref,
-      'aria-hidden': true
-    },
-    overlay: {
-      tabIndex: -1,
-      onClick: isModal ? undefined : close
-    },
-    dialog: {
       role: role,
+      'aria-modal': true,
+      'aria-hidden': true,
       'aria-labelledby': titleId
     },
-    inner: {
-      role: isModal ? undefined : 'document'
+    overlay: {
+      onClick: isAlertDialog ? undefined : close
+    },
+    dialog: {
+      role: 'document'
     },
     closeButton: {
       type: 'button',
@@ -129,7 +125,7 @@ var A11yDialog = function A11yDialog(props) {
   }, [dialogRef, instance]);
 
   if (!isMounted) return null;
-  var Element = props.useDialogElement ? 'dialog' : 'div';
+  var root = props.dialogRoot ? document.querySelector(props.dialogRoot) : document.body;
 
   var title = /*#__PURE__*/_react["default"].createElement("p", _extends({}, attributes.title, {
     className: props.classNames.title,
@@ -147,11 +143,9 @@ var A11yDialog = function A11yDialog(props) {
     className: props.classNames.container
   }), /*#__PURE__*/_react["default"].createElement("div", _extends({}, attributes.overlay, {
     className: props.classNames.overlay
-  })), /*#__PURE__*/_react["default"].createElement(Element, _extends({}, attributes.dialog, {
+  })), /*#__PURE__*/_react["default"].createElement("div", _extends({}, attributes.dialog, {
     className: props.classNames.dialog
-  }), /*#__PURE__*/_react["default"].createElement("div", _extends({}, attributes.inner, {
-    className: props.classNames.inner
-  }), children))), document.querySelector(props.dialogRoot));
+  }), children)), root);
 };
 
 exports.A11yDialog = A11yDialog;
@@ -163,8 +157,7 @@ A11yDialog.defaultProps = {
   classNames: {},
   dialogRef: function dialogRef() {
     return void 0;
-  },
-  useDialogElement: false // Default properties cannot be based on other properties, so the default
+  } // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 
 };
@@ -196,32 +189,19 @@ A11yDialog.propTypes = {
   closeButtonContent: _propTypes["default"].node,
   // Whether the close button should be rendered as first/last children or not at all.
   closeButtonPosition: _propTypes["default"].oneOf(['first', 'last', 'none']),
-  // a11y-dialog needs one or more “targets” to disable when the dialog is open.
-  // This prop can be one or more selector which will be passed to a11y-dialog
-  // constructor.
-  appRoot: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].arrayOf(_propTypes["default"].string)]).isRequired,
   // React 16 requires a container for the portal’s content to be rendered
-  // into; this is required and needs to be an existing valid DOM node,
-  // adjacent to the React root container of the application.
-  dialogRoot: _propTypes["default"].string.isRequired,
+  // into; this needs to be an existing valid DOM node and defaults to the body
+  // element.
+  dialogRoot: _propTypes["default"].string,
   // Object of classes for each HTML element of the dialog element.
-  // See: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
+  // See: https://a11y-dialog.netlify.app/usage/markup
   classNames: _propTypes["default"].exact({
     container: _propTypes["default"].string,
     overlay: _propTypes["default"].string,
     dialog: _propTypes["default"].string,
-    inner: _propTypes["default"].string,
     title: _propTypes["default"].string,
     closeButton: _propTypes["default"].string
   }),
-  // Whether to render a `<dialog>` element or a `<div>` element.
-  useDialogElement: function useDialogElement(props, propName, componentName) {
-    if (props[propName] && props.role === 'alertdialog') {
-      return new Error("Invalid props combination `useDialogElement={true}` and `role='alertdialog'`. The native <dialog> HTML element is not compatible with the modal behaviour implied by the `alertdialog` role. If you want a modal, turn off `useDialogElement`. If you insist on using the native <dialog> HTML element, use a regular dialog (with `role='alert'`).");
-    }
-
-    _propTypes["default"].checkPropTypes(_defineProperty({}, propName, _propTypes["default"].bool), _defineProperty({}, propName, props[propName]), propName, componentName);
-  },
   // Dialog content.
   // Anything that can be rendered: numbers, strings, elements or an array
   // (or fragment) containing these types.

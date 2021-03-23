@@ -11,23 +11,20 @@ const useIsMounted = () => {
   return isMounted
 }
 
-const useA11yDialogInstance = appRoot => {
+const useA11yDialogInstance = () => {
   const [instance, setInstance] = React.useState(null)
-  const container = React.useCallback(
-    node => {
-      if (node !== null) setInstance(new A11yDialogLib(node, appRoot))
-    },
-    [appRoot]
-  )
+  const container = React.useCallback(node => {
+    if (node !== null) setInstance(new A11yDialogLib(node))
+  }, [])
 
   return [instance, container]
 }
 
 export const useA11yDialog = props => {
-  const [instance, ref] = useA11yDialogInstance(props.appRoot)
+  const [instance, ref] = useA11yDialogInstance()
   const close = React.useCallback(() => instance.hide(), [instance])
   const role = props.role || 'dialog'
-  const isModal = role === 'alertdialog'
+  const isAlertDialog = role === 'alertdialog'
   const titleId = props.titleId || props.id + '-title'
 
   // Destroy the `a11y-dialog` instance when unmounting the component.
@@ -40,10 +37,16 @@ export const useA11yDialog = props => {
   return [
     instance,
     {
-      container: { id: props.id, ref, 'aria-hidden': true },
-      overlay: { tabIndex: -1, onClick: isModal ? undefined : close },
-      dialog: { role, 'aria-labelledby': titleId },
-      inner: { role: isModal ? undefined : 'document' },
+      container: {
+        id: props.id,
+        ref,
+        role,
+        'aria-modal': true,
+        'aria-hidden': true,
+        'aria-labelledby': titleId,
+      },
+      overlay: { onClick: isAlertDialog ? undefined : close },
+      dialog: { role: 'document' },
       closeButton: { type: 'button', onClick: close },
       // Using a paragraph with accessibility mapping can be useful to work
       // around SEO concerns of having multiple <h1> per page.
@@ -65,7 +68,9 @@ export const A11yDialog = props => {
 
   if (!isMounted) return null
 
-  const Element = props.useDialogElement ? 'dialog' : 'div'
+  const root = props.dialogRoot
+    ? document.querySelector(props.dialogRoot)
+    : document.body
   const title = (
     <p {...attributes.title} className={props.classNames.title} key='title'>
       {props.title}
@@ -91,13 +96,11 @@ export const A11yDialog = props => {
   return ReactDOM.createPortal(
     <div {...attributes.container} className={props.classNames.container}>
       <div {...attributes.overlay} className={props.classNames.overlay} />
-      <Element {...attributes.dialog} className={props.classNames.dialog}>
-        <div {...attributes.inner} className={props.classNames.inner}>
-          {children}
-        </div>
-      </Element>
+      <div {...attributes.dialog} className={props.classNames.dialog}>
+        {children}
+      </div>
     </div>,
-    document.querySelector(props.dialogRoot)
+    root
   )
 }
 
@@ -108,7 +111,6 @@ A11yDialog.defaultProps = {
   closeButtonPosition: 'first',
   classNames: {},
   dialogRef: () => void 0,
-  useDialogElement: false,
   // Default properties cannot be based on other properties, so the default
   // value for the `titleId` prop is defined in the `render(..)` method.
 }
@@ -149,45 +151,20 @@ A11yDialog.propTypes = {
   // Whether the close button should be rendered as first/last children or not at all.
   closeButtonPosition: PropTypes.oneOf(['first', 'last', 'none']),
 
-  // a11y-dialog needs one or more “targets” to disable when the dialog is open.
-  // This prop can be one or more selector which will be passed to a11y-dialog
-  // constructor.
-  appRoot: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]).isRequired,
-
   // React 16 requires a container for the portal’s content to be rendered
-  // into; this is required and needs to be an existing valid DOM node,
-  // adjacent to the React root container of the application.
-  dialogRoot: PropTypes.string.isRequired,
+  // into; this needs to be an existing valid DOM node and defaults to the body
+  // element.
+  dialogRoot: PropTypes.string,
 
   // Object of classes for each HTML element of the dialog element.
-  // See: http://edenspiekermann.github.io/a11y-dialog/#expected-dom-structure
+  // See: https://a11y-dialog.netlify.app/usage/markup
   classNames: PropTypes.exact({
     container: PropTypes.string,
     overlay: PropTypes.string,
     dialog: PropTypes.string,
-    inner: PropTypes.string,
     title: PropTypes.string,
     closeButton: PropTypes.string,
   }),
-
-  // Whether to render a `<dialog>` element or a `<div>` element.
-  useDialogElement: function (props, propName, componentName) {
-    if (props[propName] && props.role === 'alertdialog') {
-      return new Error(
-        "Invalid props combination `useDialogElement={true}` and `role='alertdialog'`. The native <dialog> HTML element is not compatible with the modal behaviour implied by the `alertdialog` role. If you want a modal, turn off `useDialogElement`. If you insist on using the native <dialog> HTML element, use a regular dialog (with `role='alert'`)."
-      )
-    }
-
-    PropTypes.checkPropTypes(
-      { [propName]: PropTypes.bool },
-      { [propName]: props[propName] },
-      propName,
-      componentName
-    )
-  },
 
   // Dialog content.
   // Anything that can be rendered: numbers, strings, elements or an array
