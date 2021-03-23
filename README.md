@@ -155,3 +155,12 @@ const App = props => {
 
 ReactDOM.render(<App />, document.querySelector('#root'))
 ```
+
+## Migrating to v6
+
+Version 6 now relies on a11y-dialog@7.0.0. See the [a11y-dialog migration guide](https://a11y-dialog.netlify.app/migrating-to-v7). Most notable changes requiring some update:
+
+- The `inner` container is no longer a thing.
+- The `appRoot` prop is no longer a thing.
+- The `dialogRoot` prop now defaults to `document.body`.
+- The `useDialogElement` prop is no longer supported (`<dialog>` is no longer supported).
