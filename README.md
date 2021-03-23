@@ -28,7 +28,7 @@ npm install --save react-a11y-dialog
 | :-- | :-- | :-- | :-- | :-- |
 | `id` | `string` | **true** | — | <details><summary>Expand</summary>The HTML `id` attribute of the dialog element, internally used by a11y-dialog to manipulate the dialog.</details> |
 | `title` | `node` | **true** | — | <details><summary>Expand</summary>The title of the dialog, mandatory in the document to provide context to assistive technology. Could be [hidden with CSS](https://kittygiraudel.com/2016/10/13/css-hide-and-seek/) (while remaining accessible).</details> |
-| `dialogRoot` | `string` | **true** | — | <details><summary>Expand</summary>The container for the dialog to be rendered into ([React portal](https://reactjs.org/docs/portals.html)’s root).</details> |
+| `dialogRoot` | `string` | false | `document.body` | <details><summary>Expand</summary>The container for the dialog to be rendered into ([React portal](https://reactjs.org/docs/portals.html)’s root).</details> |
 | `dialogRef` | `function` | false | `() => {}` | <details><summary>Expand</summary> A function called when the component has mounted, receiving the [instance of A11yDialog](https://a11y-dialog.netlify.app/usage/instantiation/#js-api) so that it can be programmatically accessed later on.</details> |
 | `titleId` | `string` | false | `${props.id}-title` | <details><summary>Expand</summary>The HTML `id` attribute of the dialog’s title element, used by assistive technologies to provide context and meaning to the dialog window.</details> |
 | `closeButtonLabel` | `string` | false | Close this dialog window | <details><summary>Expand</summary>The HTML `aria-label` attribute of the close button, used by assistive technologies to provide extra meaning to the usual cross-mark.</details> |
