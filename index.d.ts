@@ -18,7 +18,7 @@ export interface A11yDialogProps {
   closeButtonContent?: React.ReactNode
   closeButtonPosition?: 'first' | 'last' | 'none'
   dialogRoot?: string
-  classNames?: Partial<Record<?A11yDialogClassNames, string>>
+  classNames?: Partial<Record<A11yDialogClassNames, string>>
 }
 
 interface A11yDialogConfig {
