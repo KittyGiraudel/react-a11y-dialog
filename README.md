@@ -62,6 +62,9 @@ const MyCustomDialog = props => {
     // (default) or `alertdialog` to make it a modal (preventing closing on
     // click outside of ESC key).
     role: 'dialog',
+    // The required dialog title, mandatory in the document
+    // to provide context to assistive technology.
+    title: 'My dialog',
   })
 
   const dialog = ReactDOM.createPortal(
