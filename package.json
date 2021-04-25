@@ -1,6 +1,6 @@
 {
   "name": "react-a11y-dialog",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "A React component wrapper and React hook around a11y-dialog.",
   "homepage": "https://github.com/KittyGiraudel/react-a11y-dialog",
   "license": "MIT",
