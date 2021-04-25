@@ -16,7 +16,8 @@
   ],
   "author": "Kitty Giraudel (https://kittygiraudel.com)",
   "files": [
-    "dist/index.js"
+    "dist/index.js",
+    "index.d.ts"
   ],
   "scripts": {
     "prepare": "npm run build",
