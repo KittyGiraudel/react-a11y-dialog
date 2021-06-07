@@ -1,6 +1,6 @@
 {
   "name": "react-a11y-dialog",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "A React component wrapper and React hook around a11y-dialog.",
   "homepage": "https://github.com/KittyGiraudel/react-a11y-dialog",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "peer": "npm info . peerDependencies --json  | command sed 's/[\\{\\},]//g ; s/: /@/g' | xargs npm i --no-save"
   },
   "dependencies": {
-    "a11y-dialog": "^7.1.0"
+    "a11y-dialog": "^7.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.16",
