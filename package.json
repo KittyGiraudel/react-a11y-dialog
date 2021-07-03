@@ -45,5 +45,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/KittyGiraudel/react-a11y-dialog/"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
   }
 }
