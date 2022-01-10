@@ -133,6 +133,8 @@ describe('Testing MyComponent', () => {
 
 ## Example
 
+_The following example is a minimal setup of `react-a11y-dialog`. Additionally, you will need to add the required styles as per the recommendations in the `a11y-dialog` [styling docs](https://a11y-dialog.netlify.app/usage/styling)._
+
 ```jsx
 import { A11yDialog } from 'react-a11y-dialog'
 
@@ -147,7 +149,7 @@ const App = props => {
 
       <A11yDialog
         id='my-accessible-dialog'
-        dialogRef={dialog => (dialog.current = dialog)}
+        dialogRef={instance => (dialog.current = instance)}
         title='The dialog title'
       >
         <p>Some content for the dialog.</p>
