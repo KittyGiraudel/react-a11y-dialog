@@ -133,7 +133,7 @@ describe('Testing MyComponent', () => {
 
 ## Example
 
-_The following example is a minimal setup of `react-a11y-dialog`. Additionally, you will need to add the required styles as per the recommendations in the `a11y-dialog` [styling docs](https://a11y-dialog.netlify.app/usage/styling)._
+_The following example is a minimal setup of `react-a11y-dialog`. Additionally, you will need to add the required styles as per the recommendations in the `a11y-dialog` [styling docs](https://a11y-dialog.netlify.app/usage/styling). How you integrate these styles is left to your discretion and depends on the styling layer you've chosen for your project (classes, inline styles, CSS Modules, CSS-in-JS…). For all but inline styles, they will need to be included in the `classNames` object prop, and as such will end up being applied to the elements rendered by React._
 
 ```jsx
 import { A11yDialog } from 'react-a11y-dialog'
