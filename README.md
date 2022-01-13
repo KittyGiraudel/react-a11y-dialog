@@ -70,11 +70,14 @@ const MyCustomDialog = props => {
   const dialog = ReactDOM.createPortal(
     <div {...attr.container} className='dialog-container'>
       <div {...attr.overlay} className='dialog-overlay' />
-      <div {...attr.dialog} className='dialog-element'>
+
+      <div {...attr.dialog} className='dialog-content'>
         <p {...attr.title} className='dialog-title'>
           Your dialog title
         </p>
+
         <p>Your dialog content</p>
+
         <button {...attr.closeButton} className='dialog-close'>
           Close dialog
         </button>
