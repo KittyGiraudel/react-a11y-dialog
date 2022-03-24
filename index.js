@@ -41,6 +41,7 @@ export const useA11yDialog = props => {
         id: props.id,
         ref,
         role,
+        tabIndex: -1,
         'aria-modal': true,
         'aria-hidden': true,
         'aria-labelledby': titleId,
