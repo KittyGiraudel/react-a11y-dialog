@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.A11yDialog = exports.useA11yDialog = void 0;
+exports.useA11yDialog = exports.A11yDialog = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -80,6 +80,7 @@ var useA11yDialog = function useA11yDialog(props) {
       id: props.id,
       ref: ref,
       role: role,
+      tabIndex: -1,
       'aria-modal': true,
       'aria-hidden': true,
       'aria-labelledby': titleId
