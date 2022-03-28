@@ -49,7 +49,7 @@ interface A11yDialogConfig {
 
 export function useA11yDialog(
   props: A11yDialogProps
-): [A11yDialogInstance, A11yDialogConfig] {}
+): [A11yDialogInstance, A11yDialogConfig]
 
 export class A11yDialog extends React.Component<
   React.PropsWithChildren<A11yDialogProps>,
