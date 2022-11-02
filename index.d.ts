@@ -24,7 +24,7 @@ export interface A11yDialogProps {
 interface A11yDialogConfig {
   container: {
     id: string
-    ref: (node: React.ReactNode) => void
+    ref: (node: HTMLDivElement) => void
     role: string
     'aria-modal': boolean
     'aria-hidden': boolean
