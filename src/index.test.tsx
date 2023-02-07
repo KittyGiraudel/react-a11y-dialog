@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as React from 'react'
-import {A11yDialog} from './src/index'
+import {A11yDialog} from './index'
 
 import { render, configure, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
