@@ -1,12 +1,13 @@
 //@ts-nocheck
 import * as React from 'react'
-import {A11yDialog} from './index'
+import { A11yDialog } from './index'
 
 import { render, configure, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 configure({ testIdAttribute: 'id' })
 
+// See: https://github.com/facebook/react/issues/11565#issuecomment-368877149
 jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),
   createPortal: node => node,
@@ -33,7 +34,7 @@ const Test = (props: any) => {
       <A11yDialog
         {...BASE_PROPS}
         {...props}
-        dialogRef={(instance) => (dialog.current = instance)}
+        dialogRef={instance => (dialog.current = instance)}
       />
       <button
         type='button'
