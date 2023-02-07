@@ -26,7 +26,7 @@
     "prepare": "npm run build",
     "start": "rollup -c -w",
     "build": "rollup -c",
-    "test": "npm run peer && jest test.tsx",
+    "test": "npm run peer && jest",
     "peer": "npm info . peerDependencies --json  | command sed 's/[\\{\\},]//g ; s/: /@/g' | xargs npm i --no-save"
   },
   "dependencies": {
