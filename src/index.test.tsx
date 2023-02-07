@@ -29,7 +29,7 @@ const Test = (props: any) => {
   const dialog = React.useRef(null)
 
   return (
-    <div>
+    <>
       <A11yDialog
         {...BASE_PROPS}
         {...props}
@@ -42,7 +42,7 @@ const Test = (props: any) => {
       >
         Open dialog
       </button>
-    </div>
+    </>
   )
 }
 
