@@ -1,5 +1,7 @@
-import React from 'react'
-import { A11yDialog } from './'
+//@ts-nocheck
+import * as React from 'react'
+import { A11yDialog } from './index'
+
 import { render, configure, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
@@ -11,7 +13,7 @@ jest.mock('react-dom', () => ({
   createPortal: node => node,
 }))
 
-const Test = props => {
+const Test = (props: any) => {
   const BASE_PROPS = {
     id: 'test',
     title: 'Test',
