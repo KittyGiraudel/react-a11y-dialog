@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-		"baseUrl": ".",
+    "baseUrl": ".",
     "target": "esnext",
     "module": "esnext",
     "declaration": true,
@@ -9,9 +9,9 @@
     "moduleResolution": "node",
     "outDir": "dist",
     "strict": true,
-    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
-	"include": ["src/**/*"]
+  "include": ["src/**/*"],
+	"exclude": ["src/**/*.test.*"]
 }
