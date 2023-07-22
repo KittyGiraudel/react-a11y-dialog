@@ -5,13 +5,21 @@
     "module": "esnext",
     "declaration": true,
     "jsx": "react",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "moduleResolution": "node",
     "outDir": "dist",
     "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*"],
-	"exclude": ["src/**/*.test.*"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.test.*"
+  ]
 }
