@@ -12,16 +12,16 @@ const useIsMounted = () => {
 }
 
 export type ReactA11yDialogProps = {
-  role: 'dialog' | 'alertdialog'
+  role?: 'dialog' | 'alertdialog'
   id: string
-  title: string
-  dialogRef: (instance?: A11yDialogLib) => unknown
+  title: React.ReactNode
+  dialogRef?: (instance?: A11yDialogLib) => unknown
   dialogRoot?: string
   titleId?: string
   closeButtonLabel?: string
   closeButtonContent?: React.ReactNode
   closeButtonPosition?: 'first' | 'last' | 'none'
-  classNames: {
+  classNames?: {
     container?: string
     overlay?: string
     dialog?: string
@@ -91,6 +91,8 @@ export const useA11yDialog = (props: ReactA11yDialogProps) => {
 export const A11yDialog: React.FC<
   React.PropsWithChildren<ReactA11yDialogProps>
 > = props => {
+  if (!props.classNames) props.classNames = {}
+  if (!props.dialogRef) props.dialogRef = () => []
   const isMounted = useIsMounted()
   const [instance, attributes] = useA11yDialog(props)
   const { dialogRef } = props
@@ -194,12 +196,12 @@ A11yDialog.propTypes = {
 
   // Object of classes for each HTML element of the dialog element.
   // See: https://a11y-dialog.netlify.app/usage/markup
-  classNames: PropTypes.exact({
-    container: PropTypes.string,
-    overlay: PropTypes.string,
-    dialog: PropTypes.string,
-    title: PropTypes.string,
-    closeButton: PropTypes.string,
+  classNames: PropTypes.shape({
+    container: PropTypes.string.isRequired,
+    overlay: PropTypes.string.isRequired,
+    dialog: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    closeButton: PropTypes.string.isRequired,
   }),
 
   // Dialog content.
