@@ -1,4 +1,3 @@
-//@ts-nocheck
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
@@ -12,18 +11,49 @@ const useIsMounted = () => {
   return isMounted
 }
 
+export type ReactA11yDialogProps = {
+  role?: 'dialog' | 'alertdialog'
+  id: string
+  title: React.ReactNode
+  dialogRef?: (instance?: A11yDialogLib) => unknown
+  dialogRoot?: string
+  titleId?: string
+  closeButtonLabel?: string
+  closeButtonContent?: React.ReactNode
+  closeButtonPosition?: 'first' | 'last' | 'none'
+  classNames?: {
+    container?: string
+    overlay?: string
+    dialog?: string
+    title?: string
+    closeButton?: string
+  }
+}
+type Attributes = {
+  container: React.HTMLAttributes<HTMLDivElement> & {
+    ref: React.LegacyRef<HTMLDivElement>
+  }
+  overlay: React.HTMLAttributes<HTMLDivElement>
+  dialog: React.HTMLAttributes<HTMLDivElement>
+  closeButton: React.ButtonHTMLAttributes<HTMLButtonElement>
+  title: React.HTMLAttributes<HTMLElement>
+}
+
 const useA11yDialogInstance = () => {
-  const [instance, setInstance] = React.useState(null)
-  const container = React.useCallback(node => {
+  const [instance, setInstance] = React.useState<A11yDialogLib | null>(null)
+  const container = React.useCallback((node: HTMLElement) => {
     if (node !== null) setInstance(new A11yDialogLib(node))
   }, [])
 
-  return [instance, container]
+  return [instance, container] as [
+    A11yDialogLib | null,
+    React.LegacyRef<HTMLDivElement>
+  ]
 }
 
-export const useA11yDialog = props => {
+export const useA11yDialog = (props: ReactA11yDialogProps) => {
   const [instance, ref] = useA11yDialogInstance()
-  const close = React.useCallback(() => instance.hide(), [instance])
+  const close = React.useCallback(() => instance && instance.hide(), [instance])
   const role = props.role || 'dialog'
   const isAlertDialog = role === 'alertdialog'
   const titleId = props.titleId || props.id + '-title'
@@ -55,17 +85,23 @@ export const useA11yDialog = props => {
       // See: https://twitter.com/goetsu/status/1261253532315004930
       title: { role: 'heading', 'aria-level': 1, id: titleId },
     },
-  ]
+  ] as [A11yDialogLib | null, Attributes]
 }
 
-export const A11yDialog = props => {
+export const A11yDialog: React.FC<
+  React.PropsWithChildren<ReactA11yDialogProps>
+> = props => {
+  if (!props.classNames) props.classNames = {}
+  if (!props.dialogRef) props.dialogRef = () => []
   const isMounted = useIsMounted()
   const [instance, attributes] = useA11yDialog(props)
   const { dialogRef } = props
 
   React.useEffect(() => {
     if (instance) dialogRef(instance)
-    return () => dialogRef(undefined)
+    return () => {
+      dialogRef(undefined)
+    }
   }, [dialogRef, instance])
 
   if (!isMounted) return null
@@ -102,7 +138,7 @@ export const A11yDialog = props => {
         {children}
       </div>
     </div>,
-    root
+    root as HTMLElement
   )
 }
 
@@ -160,12 +196,12 @@ A11yDialog.propTypes = {
 
   // Object of classes for each HTML element of the dialog element.
   // See: https://a11y-dialog.netlify.app/usage/markup
-  classNames: PropTypes.exact({
-    container: PropTypes.string,
-    overlay: PropTypes.string,
-    dialog: PropTypes.string,
-    title: PropTypes.string,
-    closeButton: PropTypes.string,
+  classNames: PropTypes.shape({
+    container: PropTypes.string.isRequired,
+    overlay: PropTypes.string.isRequired,
+    dialog: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    closeButton: PropTypes.string.isRequired,
   }),
 
   // Dialog content.
