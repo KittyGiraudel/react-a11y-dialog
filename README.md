@@ -6,8 +6,9 @@ Version compatibility:
 
 - For React versions **before** 16, use `react-a11y-dialog@2.0.0`.
 - For React versions **before** 16.8, use `react-a11y-dialog@4.2.0`.
+- For React 16.8 and later, use the latest version
 
-_Special thanks to Moritz Kröger (@morkro) for his kind help in making that library better._
+_Special thanks to Moritz Kröger (@morkro) and EJ Mason (@mxmason) for their kind help in making that library better._
 
 - [Install](#install)
 - [API](#api)
@@ -163,6 +164,14 @@ const App = props => {
 
 ReactDOM.render(<App />, document.querySelector('#root'))
 ```
+
+## Migrating to v7
+
+Version 7 now relies on a11y-dialog@8.0.0. It should be largely backward compatible with version 6 though.
+
+- Make sure to read the [a11y-dialog migration guide](https://a11y-dialog.netlify.app/migrating-to-v8 to adjust your a11y-dialog usage.
+- Typing has been consolidated.
+- Distribution has been improved (CJS + ESM, both normal and minified).
 
 ## Migrating to v6
 
