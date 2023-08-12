@@ -21,7 +21,12 @@ const minify = terser({
 const umdCfg = {
   format: 'umd',
   name: 'A11yDialog',
-  exports: 'default',
+  exports: 'named',
+  globals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    'prop-types': 'PropTypes',
+  },
 }
 
 export default [
@@ -30,11 +35,10 @@ export default [
     plugins: plugins,
     external: externals,
     output: [
-      { ...umdCfg, file: 'dist/react-a11y-dialog.js', exports: 'named' },
+      { ...umdCfg, file: 'dist/react-a11y-dialog.js' },
       {
         ...umdCfg,
         file: 'dist/react-a11y-dialog.min.js',
-        exports: 'named',
         plugins: [minify],
       },
     ],
