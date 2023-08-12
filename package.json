@@ -25,8 +25,7 @@
     "prepare": "npm run build",
     "start": "rollup -c -w",
     "build": "rollup -c",
-    "test": "npm run peer && jest",
-    "peer": "npm info . peerDependencies --json  | command sed 's/[\\{\\},]//g ; s/: /@/g' | xargs npm i --no-save"
+    "test": "jest"
   },
   "dependencies": {
     "a11y-dialog": "^7.5.2"
@@ -50,8 +49,8 @@
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",
-    "react": ">=16.0.0",
-    "react-dom": ">=16.0.0"
+    "react": "^16.8.0 || ^17 || ^18",
+    "react-dom": "^16.8.0 || ^17 || ^18"
   },
   "repository": {
     "type": "git",
