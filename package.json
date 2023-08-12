@@ -6,8 +6,11 @@
   "homepage": "https://github.com/KittyGiraudel/react-a11y-dialog",
   "license": "MIT",
   "main": "dist/react-a11y-dialog.js",
-  "module": "dist/a11y-dialog.esm.js",
-  "types": "dist/a11y-dialog.d.ts",
+  "module": "dist/react-a11y-dialog.esm.js",
+  "types": "dist/react-a11y-dialog.d.ts",
+  "files": [
+    "dist/*"
+  ],
   "keywords": [
     "modal",
     "dialog",
@@ -18,9 +21,6 @@
     "component"
   ],
   "author": "Kitty Giraudel (https://kittygiraudel.com)",
-  "files": [
-    "dist/*"
-  ],
   "scripts": {
     "prepare": "npm run build",
     "start": "rollup -c -w",
@@ -35,6 +35,7 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@rollup/plugin-commonjs": "^25.0.4",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.0.0",

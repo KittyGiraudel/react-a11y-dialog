@@ -1,14 +1,17 @@
 import { createRequire } from 'node:module'
 import terser from '@rollup/plugin-terser'
+import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 
+const min = filename => filename.replace('.js', '.min.js')
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
-const externals = ['react', 'react-dom', 'prop-types']
+const externals = [...Object.keys(pkg.peerDependencies)]
 
 const plugins = [
-  nodeResolve({ skip: externals }),
+  nodeResolve(),
+  commonjs(),
   typescript({ tsconfig: './tsconfig.json' }),
 ]
 
@@ -25,8 +28,11 @@ const umdCfg = {
   globals: {
     react: 'React',
     'react-dom': 'ReactDOM',
-    'prop-types': 'PropTypes',
   },
+}
+const esmCfg = {
+  format: 'esm',
+  exports: 'named',
 }
 
 export default [
@@ -35,12 +41,8 @@ export default [
     plugins: plugins,
     external: externals,
     output: [
-      { ...umdCfg, file: 'dist/react-a11y-dialog.js' },
-      {
-        ...umdCfg,
-        file: 'dist/react-a11y-dialog.min.js',
-        plugins: [minify],
-      },
+      { ...umdCfg, file: pkg.main },
+      { ...umdCfg, file: min(pkg.main), plugins: [minify] },
     ],
   },
   {
@@ -48,17 +50,8 @@ export default [
     plugins: plugins,
     external: externals,
     output: [
-      {
-        file: 'dist/react-a11y-dialog.esm.js',
-        format: 'esm',
-        exports: 'named',
-      },
-      {
-        file: 'dist/react-a11y-dialog.esm.min.js',
-        format: 'esm',
-        exports: 'named',
-        plugins: [minify],
-      },
+      { ...esmCfg, file: pkg.module },
+      { ...esmCfg, file: min(pkg.module), plugins: [minify] },
     ],
   },
 ]
