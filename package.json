@@ -29,7 +29,7 @@
     "peer": "npm info . peerDependencies --json  | command sed 's/[\\{\\},]//g ; s/: /@/g' | xargs npm i --no-save"
   },
   "dependencies": {
-    "a11y-dialog": "^7.5.2"
+    "a11y-dialog": "^8.0.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
