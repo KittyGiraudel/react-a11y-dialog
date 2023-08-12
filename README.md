@@ -169,7 +169,7 @@ ReactDOM.render(<App />, document.querySelector('#root'))
 
 Version 7 now relies on a11y-dialog@8.0.0. It should be largely backward compatible with version 6 though.
 
-- Make sure to read the [a11y-dialog migration guide](https://a11y-dialog.netlify.app/migrating-to-v8 to adjust your a11y-dialog usage.
+- Make sure to read the [a11y-dialog migration guide](https://a11y-dialog.netlify.app/migrating-to-v8) to adjust your a11y-dialog usage.
 - Typing has been consolidated.
 - Distribution has been improved (CJS + ESM, both normal and minified).
 
