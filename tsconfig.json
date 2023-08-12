@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationDir": ".",
     "target": "esnext",
     "module": "esnext",
-    "declaration": true,
+    "moduleResolution": "node",
+    "strict": true,
     "jsx": "react",
     "lib": [
       "esnext",
       "dom"
     ],
-    "moduleResolution": "node",
-    "outDir": "dist",
-    "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true

@@ -5,10 +5,9 @@
   "description": "A React component wrapper and React hook around a11y-dialog.",
   "homepage": "https://github.com/KittyGiraudel/react-a11y-dialog",
   "license": "MIT",
-  "main": "dist/index.js",
-  "exports": {
-    "import": "./dist/index.js"
-  },
+  "main": "dist/react-a11y-dialog.js",
+  "module": "dist/a11y-dialog.esm.js",
+  "types": "dist/a11y-dialog.d.ts",
   "keywords": [
     "modal",
     "dialog",
@@ -37,6 +36,7 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
