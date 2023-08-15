@@ -172,6 +172,7 @@ Version 7 now relies on a11y-dialog@8.0.0. It should be largely backward compati
 - Make sure to read the [a11y-dialog migration guide](https://a11y-dialog.netlify.app/migrating-to-v8) to adjust your a11y-dialog usage.
 - Typing has been consolidated.
 - Distribution has been improved (CJS + ESM, both normal and minified).
+- The `A11yDialogInstance` type is re-exported from `a11y-dialog` for convenience.
 
 ## Migrating to v6
 
