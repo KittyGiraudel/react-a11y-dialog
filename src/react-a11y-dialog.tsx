@@ -88,8 +88,8 @@ export const useA11yDialog = (props: ReactA11yDialogProps) => {
   ] as [A11yDialogLib | null, Attributes]
 }
 
-// Re-export the `a11y-dialog` instance type for convenient typing of useRef/dialogRef.
-export type A11yDialogInstance = A11yDialogLib
+// Re-export the `a11y-dialog` type for convenient typing of useRef/dialogRef.
+export type A11yDialog = A11yDialogLib
 
 export const A11yDialog: React.FC<
   React.PropsWithChildren<ReactA11yDialogProps>
