@@ -27,8 +27,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "a11y-dialog": "^8.0.1",
-    "prop-types": "^15.8.1"
+    "a11y-dialog": "^8.0.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",

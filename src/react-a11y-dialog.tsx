@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 import A11yDialogLib from 'a11y-dialog'
 
 // Re-export the `A11yDialogInstance` type for convenient typing of
@@ -16,15 +15,65 @@ const useIsMounted = () => {
 }
 
 export type ReactA11yDialogProps = {
+  /**
+   * The `role` attribute of the dialog element, either `dialog` (default) or
+   * `alertdialog` to make it a modal (preventing closing on click outside of
+   * ESC key).
+   */
   role?: 'dialog' | 'alertdialog'
+  /**
+   * The HTML `id` attribute of the dialog element, internally used by
+   * a11y-dialog to manipulate the dialog.
+   */
   id: string
+  /**
+   * The title of the dialog, mandatory in the document to provide context to
+   * assistive technology. Could be hidden (while remaining accessible) with
+   * CSS though.
+   */
   title: React.ReactNode
+  /**
+   * A ref callback called when the component has mounted, receiving the instance
+   * of A11yDialog so that it can be programmatically accessed later on.
+   * 
+   * @example
+   * const dialogRef = React.useRef();
+   * // ...
+   * dialogRef={(instance) => (dialogRef.current = instance)}
+   */
   dialogRef?: (instance?: A11yDialogLib) => unknown
+  /**
+   * Container for the portal's content to be rendered into;
+   * this needs to be an existing valid DOM node and default sto the body element.
+   */
   dialogRoot?: string
+  /**
+   * The HTML `id` attribute of the dialog’s title element, used by assistive
+   * technologies to provide context and meaning to the dialog window.
+   * 
+   * Falls back to the `${props.id}-title` if not provided.
+   */
   titleId?: string
+  /**
+   * The HTML `aria-label` attribute of the close button, used by assistive
+   * technologies to provide extra meaning to the usual cross-mark.
+   * 
+   * Defaults to a generic English explanation.
+   */
   closeButtonLabel?: string
+  /**
+   * The string that is the innerHTML of the close button.
+   */
   closeButtonContent?: React.ReactNode
+  /**
+   * Whether the close button should be rendered as first/last children or not at all.
+   */
   closeButtonPosition?: 'first' | 'last' | 'none'
+  /**
+   * Object of classes for each HTML element of the dialog element.
+   * 
+   * @see https://a11y-dialog.netlify.app/usage/markup
+   */
   classNames?: {
     container?: string
     overlay?: string
@@ -32,6 +81,13 @@ export type ReactA11yDialogProps = {
     title?: string
     closeButton?: string
   }
+  /**
+   * Dialog content.
+   * 
+   * Anything that can be rendered: numbers, strings, elements or an array
+   * (or fragment) containing these types.
+   */
+  children: React.ReactNode;
 }
 type Attributes = {
   container: React.HTMLAttributes<HTMLDivElement> & {
@@ -55,12 +111,14 @@ const useA11yDialogInstance = () => {
   ]
 }
 
-export const useA11yDialog = (props: ReactA11yDialogProps) => {
+type UseA11yDialogProps = Pick<ReactA11yDialogProps, 'role' | 'id' | 'titleId'>;
+
+export const useA11yDialog = (props: UseA11yDialogProps) => {
+  const { role = 'dialog', id, titleId = `${id}-title` } = props;
+
   const [instance, ref] = useA11yDialogInstance()
   const close = React.useCallback(() => instance && instance.hide(), [instance])
-  const role = props.role || 'dialog'
   const isAlertDialog = role === 'alertdialog'
-  const titleId = props.titleId || props.id + '-title'
 
   // Destroy the `a11y-dialog` instance when unmounting the component.
   React.useEffect(() => {
@@ -73,7 +131,7 @@ export const useA11yDialog = (props: ReactA11yDialogProps) => {
     instance,
     {
       container: {
-        id: props.id,
+        id,
         ref,
         role,
         tabIndex: -1,
@@ -92,14 +150,23 @@ export const useA11yDialog = (props: ReactA11yDialogProps) => {
   ] as [A11yDialogLib | null, Attributes]
 }
 
-export const A11yDialog: React.FC<
-  React.PropsWithChildren<ReactA11yDialogProps>
-> = props => {
-  if (!props.classNames) props.classNames = {}
-  if (!props.dialogRef) props.dialogRef = () => []
+export const A11yDialog: React.FC<ReactA11yDialogProps> = props => {
+  const {
+    role = 'dialog',
+    id,
+    titleId = `${id}-title`,
+    closeButtonLabel = 'Close this dialog window',
+    closeButtonContent = '\u00D7',
+    closeButtonPosition = 'first',
+    classNames = {},
+    dialogRef = () => { },
+    dialogRoot,
+    title,
+    children
+  } = props;
+
   const isMounted = useIsMounted()
-  const [instance, attributes] = useA11yDialog(props)
-  const { dialogRef } = props
+  const [instance, attributes] = useA11yDialog({ role, id, titleId })
 
   React.useEffect(() => {
     if (instance) dialogRef(instance)
@@ -110,106 +177,33 @@ export const A11yDialog: React.FC<
 
   if (!isMounted) return null
 
-  const root = props.dialogRoot
-    ? document.querySelector(props.dialogRoot)
+  const root = dialogRoot
+    ? document.querySelector(dialogRoot)
     : document.body
-  const title = (
-    <p {...attributes.title} className={props.classNames.title} key='title'>
-      {props.title}
-    </p>
-  )
+
   const button = (
     <button
       {...attributes.closeButton}
-      className={props.classNames.closeButton}
-      aria-label={props.closeButtonLabel}
+      className={classNames.closeButton}
+      aria-label={closeButtonLabel}
       key='button'
     >
-      {props.closeButtonContent}
+      {closeButtonContent}
     </button>
   )
-  const children = [
-    props.closeButtonPosition === 'first' && button,
-    title,
-    props.children,
-    props.closeButtonPosition === 'last' && button,
-  ].filter(Boolean)
 
   return ReactDOM.createPortal(
-    <div {...attributes.container} className={props.classNames.container}>
-      <div {...attributes.overlay} className={props.classNames.overlay} />
-      <div {...attributes.dialog} className={props.classNames.dialog}>
+    <div {...attributes.container} className={classNames.container}>
+      <div {...attributes.overlay} className={classNames.overlay} />
+      <div {...attributes.dialog} className={classNames.dialog}>
+        {closeButtonPosition === 'first' && button}
+        <p {...attributes.title} className={classNames.title} key='title'>
+          {title}
+        </p>
         {children}
+        {closeButtonPosition === 'last' && button}
       </div>
     </div>,
     root as HTMLElement
   )
-}
-
-A11yDialog.defaultProps = {
-  role: 'dialog',
-  closeButtonLabel: 'Close this dialog window',
-  closeButtonContent: '\u00D7',
-  closeButtonPosition: 'first',
-  classNames: {},
-  dialogRef: () => void 0,
-  // Default properties cannot be based on other properties, so the default
-  // value for the `titleId` prop is defined in the `render(..)` method.
-}
-
-A11yDialog.propTypes = {
-  // The `role` attribute of the dialog element, either `dialog` (default) or
-  // `alertdialog` to make it a modal (preventing closing on click outside of
-  // ESC key).
-  role: PropTypes.oneOf(['dialog', 'alertdialog']),
-
-  // The HTML `id` attribute of the dialog element, internally used by
-  // a11y-dialog to manipulate the dialog.
-  id: PropTypes.string.isRequired,
-
-  // The title of the dialog, mandatory in the document to provide context to
-  // assistive technology. Could be hidden (while remaining accessible) with
-  // CSS though.
-  title: PropTypes.node.isRequired,
-
-  // A function called when the component has mounted, receiving the instance
-  // of A11yDialog so that it can be programmatically accessed later on.
-  // E.g.: dialogRef={(dialog) => (this.dialog = dialog)}
-  dialogRef: PropTypes.func,
-
-  // The HTML `id` attribute of the dialog’s title element, used by assistive
-  // technologies to provide context and meaning to the dialog window. Falls
-  // back to the `${this.props.id}-title` if not provided.
-  titleId: PropTypes.string,
-
-  // The HTML `aria-label` attribute of the close button, used by assistive
-  // technologies to provide extra meaning to the usual cross-mark. Defaults
-  // to a generic English explanation.
-  closeButtonLabel: PropTypes.string,
-
-  // The string that is the innerHTML of the close button.
-  closeButtonContent: PropTypes.node,
-
-  // Whether the close button should be rendered as first/last children or not at all.
-  closeButtonPosition: PropTypes.oneOf(['first', 'last', 'none']),
-
-  // React 16 requires a container for the portal’s content to be rendered
-  // into; this needs to be an existing valid DOM node and defaults to the body
-  // element.
-  dialogRoot: PropTypes.string,
-
-  // Object of classes for each HTML element of the dialog element.
-  // See: https://a11y-dialog.netlify.app/usage/markup
-  classNames: PropTypes.shape({
-    container: PropTypes.string.isRequired,
-    overlay: PropTypes.string.isRequired,
-    dialog: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    closeButton: PropTypes.string.isRequired,
-  }),
-
-  // Dialog content.
-  // Anything that can be rendered: numbers, strings, elements or an array
-  // (or fragment) containing these types.
-  children: PropTypes.node,
 }
