@@ -7,7 +7,7 @@ import typescript from '@rollup/plugin-typescript'
 const min = filename => filename.replace('.js', '.min.js')
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
-const externals = [...Object.keys(pkg.peerDependencies)]
+const externals = [/node_modules/]
 
 const plugins = [
   nodeResolve(),
