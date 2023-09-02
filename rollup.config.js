@@ -1,3 +1,4 @@
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import { createRequire } from 'node:module'
 import terser from '@rollup/plugin-terser'
 import commonjs from '@rollup/plugin-commonjs'
@@ -7,9 +8,9 @@ import typescript from '@rollup/plugin-typescript'
 const min = filename => filename.replace('.js', '.min.js')
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
-const externals = [/node_modules/]
 
 const plugins = [
+  peerDepsExternal(),
   nodeResolve(),
   commonjs(),
   typescript({ tsconfig: './tsconfig.json' }),
@@ -21,14 +22,10 @@ const minify = terser({
   },
 })
 
-const umdCfg = {
-  format: 'umd',
+const cjsCfg = {
+  format: 'cjs',
   name: 'A11yDialog',
   exports: 'named',
-  globals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-  },
 }
 const esmCfg = {
   format: 'esm',
@@ -39,16 +36,14 @@ export default [
   {
     input: 'src/react-a11y-dialog.tsx',
     plugins: plugins,
-    external: externals,
     output: [
-      { ...umdCfg, file: pkg.main },
-      { ...umdCfg, file: min(pkg.main), plugins: [minify] },
+      { ...cjsCfg, file: pkg.main },
+      { ...cjsCfg, file: min(pkg.main), plugins: [minify] },
     ],
   },
   {
     input: 'src/react-a11y-dialog.tsx',
     plugins: plugins,
-    external: externals,
     output: [
       { ...esmCfg, file: pkg.module },
       { ...esmCfg, file: min(pkg.module), plugins: [minify] },
