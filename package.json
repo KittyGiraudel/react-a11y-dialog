@@ -1,12 +1,26 @@
 {
   "name": "react-a11y-dialog",
+  "type": "module",
   "version": "7.2.0",
   "description": "A React component wrapper and React hook around a11y-dialog.",
   "homepage": "https://github.com/KittyGiraudel/react-a11y-dialog",
   "license": "MIT",
-  "main": "dist/react-a11y-dialog.js",
-  "module": "dist/react-a11y-dialog.esm.js",
+  "main": "dist/react-a11y-dialog.cjs",
+  "module": "dist/react-a11y-dialog.js",
   "types": "dist/react-a11y-dialog.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/react-a11y-dialog.d.ts",
+      "require": {
+        "development": "./dist/react-a11y-dialog.cjs",
+        "default": "./dist/react-a11y-dialog.min.cjs"
+      },
+      "import": {
+        "development": "./dist/react-a11y-dialog.js",
+        "default": "./dist/react-a11y-dialog.min.js"
+      }
+    }
+  },
   "files": [
     "dist/*"
   ],
