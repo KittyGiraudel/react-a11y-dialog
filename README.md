@@ -8,7 +8,7 @@ Version compatibility:
 - For React versions **before** 16.8, use `react-a11y-dialog@4.2.0`.
 - For React 16.8 and later, use the latest version
 
-_Special thanks to Moritz Kröger (@morkro) and EJ Mason (@mxmason) for their kind help in making that library better._
+_Special thanks to Moritz Kröger (@morkro), Mayank (@mayank99) and EJ Mason (@mxmason) for their kind help in making that library better._
 
 - [Install](#install)
 - [API](#api)
