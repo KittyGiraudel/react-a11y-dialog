@@ -1,6 +1,6 @@
 # React A11yDialog
 
-react-a11y-dialog is a thin React component for [a11y-dialog](https://github.com/KittyGiraudel/a11y-dialog) relying on [React portals](https://reactjs.org/docs/portals.html) to ease the use of accessible dialog windows in React applications.
+react-a11y-dialog provides a thin (~600b) React component and hook for [a11y-dialog](https://github.com/KittyGiraudel/a11y-dialog) relying on [React portals](https://reactjs.org/docs/portals.html) to ease the use of accessible dialog windows in React applications.
 
 Version compatibility:
 
