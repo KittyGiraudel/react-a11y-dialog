@@ -24,7 +24,8 @@
     "prepare": "npm run build",
     "start": "rollup -c -w",
     "build": "rollup -c",
-    "test": "jest"
+    "test": "jest",
+    "size": "./size.sh"
   },
   "dependencies": {
     "a11y-dialog": "^8.0.1"
