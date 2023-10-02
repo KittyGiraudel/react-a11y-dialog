@@ -5,7 +5,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 
-const min = filename => filename.replace('.js', '.min.js')
+const min = filename => filename.replace(/.(c?js)/, '.min.$1')
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
 
