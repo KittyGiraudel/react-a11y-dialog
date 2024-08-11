@@ -13,7 +13,7 @@
   "linter": { "enabled": true, "rules": { "recommended": true } },
   "javascript": {
     "formatter": {
-      "jsxQuoteStyle": "single",
+      "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",
       "trailingCommas": "es5",
       "semicolons": "asNeeded",
