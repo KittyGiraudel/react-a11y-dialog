@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { A11yDialog } from './react-a11y-dialog'
 
-import { render, configure, screen, fireEvent } from '@testing-library/react'
+import { configure, fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 configure({ testIdAttribute: 'id' })
@@ -13,7 +13,7 @@ jest.mock('react-dom', () => ({
   createPortal: node => node,
 }))
 
-const Test = (props: any) => {
+const Test: React.FC<A11yDialogProps> = props => {
   const BASE_PROPS = {
     id: 'test',
     title: 'Test',
@@ -34,13 +34,11 @@ const Test = (props: any) => {
       <A11yDialog
         {...BASE_PROPS}
         {...props}
-        dialogRef={instance => (dialog.current = instance)}
+        dialogRef={instance => {
+          dialog.current = instance
+        }}
       />
-      <button
-        type='button'
-        onClick={() => dialog.current && dialog.current.show()}
-        id='opener'
-      >
+      <button type='button' onClick={() => dialog.current?.show()} id='opener'>
         Open dialog
       </button>
     </>
