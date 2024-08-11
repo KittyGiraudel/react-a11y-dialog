@@ -1,6 +1,6 @@
+import A11yDialogLib from 'a11y-dialog'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import A11yDialogLib from 'a11y-dialog'
 
 // Re-export the `A11yDialogInstance` type for convenient typing of
 // useRef/dialogRef.
@@ -35,7 +35,7 @@ export type ReactA11yDialogProps = {
   /**
    * A ref callback called when the component has mounted, receiving the instance
    * of A11yDialog so that it can be programmatically accessed later on.
-   * 
+   *
    * @example
    * const dialogRef = React.useRef();
    * // ...
@@ -50,14 +50,14 @@ export type ReactA11yDialogProps = {
   /**
    * The HTML `id` attribute of the dialog’s title element, used by assistive
    * technologies to provide context and meaning to the dialog window.
-   * 
+   *
    * Falls back to the `${props.id}-title` if not provided.
    */
   titleId?: string
   /**
    * The HTML `aria-label` attribute of the close button, used by assistive
    * technologies to provide extra meaning to the usual cross-mark.
-   * 
+   *
    * Defaults to a generic English explanation.
    */
   closeButtonLabel?: string
@@ -71,7 +71,7 @@ export type ReactA11yDialogProps = {
   closeButtonPosition?: 'first' | 'last' | 'none'
   /**
    * Object of classes for each HTML element of the dialog element.
-   * 
+   *
    * @see https://a11y-dialog.netlify.app/usage/markup
    */
   classNames?: {
@@ -83,11 +83,11 @@ export type ReactA11yDialogProps = {
   }
   /**
    * Dialog content.
-   * 
+   *
    * Anything that can be rendered: numbers, strings, elements or an array
    * (or fragment) containing these types.
    */
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 type Attributes = {
   container: React.HTMLAttributes<HTMLDivElement> & {
@@ -107,17 +107,17 @@ const useA11yDialogInstance = () => {
 
   return [instance, container] as [
     A11yDialogLib | null,
-    React.LegacyRef<HTMLDivElement>
+    React.LegacyRef<HTMLDivElement>,
   ]
 }
 
-type UseA11yDialogProps = Pick<ReactA11yDialogProps, 'role' | 'id' | 'titleId'>;
+type UseA11yDialogProps = Pick<ReactA11yDialogProps, 'role' | 'id' | 'titleId'>
 
 export const useA11yDialog = (props: UseA11yDialogProps) => {
-  const { role = 'dialog', id, titleId = `${id}-title` } = props;
+  const { role = 'dialog', id, titleId = `${id}-title` } = props
 
   const [instance, ref] = useA11yDialogInstance()
-  const close = React.useCallback(() => instance && instance.hide(), [instance])
+  const close = React.useCallback(() => instance?.hide(), [instance])
   const isAlertDialog = role === 'alertdialog'
 
   // Destroy the `a11y-dialog` instance when unmounting the component.
@@ -159,11 +159,11 @@ export const A11yDialog: React.FC<ReactA11yDialogProps> = props => {
     closeButtonContent = '\u00D7',
     closeButtonPosition = 'first',
     classNames = {},
-    dialogRef = () => { },
+    dialogRef = () => {},
     dialogRoot,
     title,
-    children
-  } = props;
+    children,
+  } = props
 
   const isMounted = useIsMounted()
   const [instance, attributes] = useA11yDialog({ role, id, titleId })
@@ -177,9 +177,7 @@ export const A11yDialog: React.FC<ReactA11yDialogProps> = props => {
 
   if (!isMounted) return null
 
-  const root = dialogRoot
-    ? document.querySelector(dialogRoot)
-    : document.body
+  const root = dialogRoot ? document.querySelector(dialogRoot) : document.body
 
   const button = (
     <button
