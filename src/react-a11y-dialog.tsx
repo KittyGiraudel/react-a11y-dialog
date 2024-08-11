@@ -46,7 +46,7 @@ export type ReactA11yDialogProps = {
    * Container for the portal's content to be rendered into;
    * this needs to be an existing valid DOM node and default sto the body element.
    */
-  dialogRoot?: string
+  dialogRoot?: Element | string
   /**
    * The HTML `id` attribute of the dialog’s title element, used by assistive
    * technologies to provide context and meaning to the dialog window.
@@ -150,6 +150,19 @@ export const useA11yDialog = (props: UseA11yDialogProps) => {
   ] as [A11yDialogLib | null, Attributes]
 }
 
+const getDialogRootNode = (dialogRoot: ReactA11yDialogProps['dialogRoot']) => {
+  if (dialogRoot instanceof Element) {
+    return dialogRoot
+  }
+
+  if (typeof dialogRoot === 'string') {
+    const node = document.querySelector<Element>(dialogRoot)
+    if (node) return node
+  }
+
+  return document.body
+}
+
 export const A11yDialog: React.FC<ReactA11yDialogProps> = props => {
   const {
     role = 'dialog',
@@ -177,14 +190,14 @@ export const A11yDialog: React.FC<ReactA11yDialogProps> = props => {
 
   if (!isMounted) return null
 
-  const root = dialogRoot ? document.querySelector(dialogRoot) : document.body
+  const rootNode = getDialogRootNode(dialogRoot)
 
   const button = (
     <button
       {...attributes.closeButton}
       className={classNames.closeButton}
       aria-label={closeButtonLabel}
-      key='button'
+      key="button"
     >
       {closeButtonContent}
     </button>
@@ -195,13 +208,13 @@ export const A11yDialog: React.FC<ReactA11yDialogProps> = props => {
       <div {...attributes.overlay} className={classNames.overlay} />
       <div {...attributes.dialog} className={classNames.dialog}>
         {closeButtonPosition === 'first' && button}
-        <p {...attributes.title} className={classNames.title} key='title'>
+        <p {...attributes.title} className={classNames.title}>
           {title}
         </p>
         {children}
         {closeButtonPosition === 'last' && button}
       </div>
     </div>,
-    root as HTMLElement
+    rootNode
   )
 }
