@@ -1,7 +1,7 @@
 {
   "name": "react-a11y-dialog",
   "type": "module",
-  "version": "7.4.0",
+  "version": "7.4.1",
   "description": "A React component wrapper and React hook around a11y-dialog.",
   "homepage": "https://github.com/KittyGiraudel/react-a11y-dialog",
   "license": "MIT",
@@ -66,8 +66,8 @@
     "typescript": "^5.1.6"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17 || ^18",
-    "react-dom": "^16.8.0 || ^17 || ^18"
+    "react": "^16.8.0 || ^17 || ^18 || ^19",
+    "react-dom": "^16.8.0 || ^17 || ^18 || ^19"
   },
   "repository": {
     "type": "git",
